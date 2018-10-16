@@ -10,6 +10,7 @@ namespace MediaLibrary.Models.Audios
     {
         public int AudioFormatID { get; set; }
         [Required]
+        [Display(Name = "Formátum neve")]
         public string AudioFormatName { get; set; }
     }
 }

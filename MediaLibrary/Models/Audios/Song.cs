@@ -10,7 +10,10 @@ namespace MediaLibrary.Models.Audios
     {
         public int SongID { get; set; }
         [Required]
+        [Display(Name = "Zeneszám címe")]
         public string SongTitle { get; set; }
+        [Display(Name = "Szöveg")]
+        [DataType(DataType.MultilineText)]
         public string SongLiryc { get; set; }
         public ICollection<PerformerSong> PerformerSongs { get; set; }
 

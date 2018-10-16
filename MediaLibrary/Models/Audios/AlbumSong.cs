@@ -15,7 +15,9 @@ namespace MediaLibrary.Models.Audios
         public int SongID { get; set; }
         public Song Song { get; set; }
         [Required]
+        [Display(Name = "Játékidő")]
         public DateTime PlayTime { get; set; }
+        [Display(Name = "Megjegyzés")]
         public string Note { get; set; }
     }
 }

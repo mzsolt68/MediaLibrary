@@ -10,6 +10,7 @@ namespace MediaLibrary.Models.Audios
     {
         public int PerformerID { get; set; }
         [Required]
+        [Display(Name = "Előadó neve")]
         public string PerformerName { get; set; }
 
         public virtual ICollection<PerformerSong> PerformerSongs { get; set; }

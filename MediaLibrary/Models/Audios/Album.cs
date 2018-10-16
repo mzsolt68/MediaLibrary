@@ -10,7 +10,9 @@ namespace MediaLibrary.Models.Audios
     {
         public int AlbumID { get; set; }
         [Required]
+        [Display(Name = "Album címe")]
         public string AlbumTitle { get; set; }
+        [Display(Name = "Formatum")]
         public AudioFormat AlbumFormat { get; set; }
 
         public virtual ICollection<AlbumSong> AlbumSongs { get; set; }
