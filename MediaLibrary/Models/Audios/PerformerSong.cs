@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace MediaLibrary.Models.Audios
 {
-    public class Performer
+    public class PerformerSong
     {
-        public int PerformerID { get; set; }
         [Required]
-        public string PerformerName { get; set; }
-
-        public virtual ICollection<PerformerSong> PerformerSongs { get; set; }
+        public int PerformerID { get; set; }
+        public Performer Performer { get; set; }
+        [Required]
+        public int SongID { get; set; }
+        public Song Song { get; set; }
     }
 }
