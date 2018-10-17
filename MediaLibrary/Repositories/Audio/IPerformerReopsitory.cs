@@ -11,7 +11,7 @@ namespace MediaLibrary.Repositories.Audio
         void AddPerformer(Performer newPerformer);
         void DeletePerformer(Performer deletedPerformer);
         void UpdatePerformer(Performer updatedPerformer);
-        Performer GetPerformerById(int id);
+        Performer GetPerformerById(int? id);
         List<Performer> GetPerformers();
         List<Song> SongsOfPerformer(Performer performer);
     }

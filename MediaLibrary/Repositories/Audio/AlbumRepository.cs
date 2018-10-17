@@ -28,7 +28,7 @@ namespace MediaLibrary.Repositories.Audio
             _context.SaveChanges();
         }
 
-        public Album GetAlbumById(int id)
+        public Album GetAlbumById(int? id)
         {
             return _context.Albums.Where(a => a.AlbumID == id).DefaultIfEmpty(null).Single();
         }

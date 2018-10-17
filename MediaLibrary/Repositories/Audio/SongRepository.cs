@@ -50,7 +50,7 @@ namespace MediaLibrary.Repositories.Audio
             return performerlist;
         }
 
-        public Song GetSongById(int id)
+        public Song GetSongById(int? id)
         {
             return _context.Songs.Where(s => s.SongID == id).DefaultIfEmpty(null).Single();
         }

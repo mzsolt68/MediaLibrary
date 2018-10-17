@@ -65,7 +65,7 @@ namespace MediaLibrary.Services.Audio
             _songs.DeleteSong(deletedSong);
         }
 
-        public Album GetAlbumById(int id)
+        public Album GetAlbumById(int? id)
         {
             return _albums.GetAlbumById(id);
         }
@@ -80,7 +80,7 @@ namespace MediaLibrary.Services.Audio
             throw new NotImplementedException();
         }
 
-        public AudioFormat GetFormatById(int id)
+        public AudioFormat GetFormatById(int? id)
         {
             return _formats.GetFormatById(id);
         }
@@ -90,7 +90,7 @@ namespace MediaLibrary.Services.Audio
             return _formats.GetFormats();
         }
 
-        public Performer GetPerformerById(int id)
+        public Performer GetPerformerById(int? id)
         {
             return _performers.GetPerformerById(id);
         }
@@ -105,14 +105,14 @@ namespace MediaLibrary.Services.Audio
             throw new NotImplementedException();
         }
 
-        public Song GetSongById(int id)
+        public Song GetSongById(int? id)
         {
             return _songs.GetSongById(id);
         }
 
         public List<Song> GetSongs()
         {
-            throw new NotImplementedException();
+            return _songs.GetSongs();
         }
 
         public List<Song> GetSongsOfAlbum(Album album)

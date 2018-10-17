@@ -28,7 +28,7 @@ namespace MediaLibrary.Repositories.Audio
             _context.SaveChanges();
         }
 
-        public Performer GetPerformerById(int id)
+        public Performer GetPerformerById(int? id)
         {
             return _context.Performers.Where(p => p.PerformerID == id).DefaultIfEmpty(null).Single();
         }
