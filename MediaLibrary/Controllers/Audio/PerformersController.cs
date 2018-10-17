@@ -7,34 +7,33 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
+using MediaLibrary.Services.Audio;
 
 namespace MediaLibrary.Controllers.Audio
 {
     public class PerformersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IAudioService _service;
 
-        public PerformersController(ApplicationDbContext context)
+        public PerformersController(IAudioService service)
         {
-            _context = context;
+            _service = service;
         }
-
         // GET: Performers
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Performers.ToListAsync());
+            return View(_service.GetPerformers());
         }
 
         // GET: Performers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var performer = await _context.Performers
-                .FirstOrDefaultAsync(m => m.PerformerID == id);
+            var performer = _service.GetPerformerById(id);
             if (performer == null)
             {
                 return NotFound();
@@ -54,26 +53,25 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PerformerID,PerformerName")] Performer performer)
+        public IActionResult Create([Bind("PerformerID,PerformerName")] Performer performer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(performer);
-                await _context.SaveChangesAsync();
+                _service.AddPerformer(performer);
                 return RedirectToAction(nameof(Index));
             }
             return View(performer);
         }
 
         // GET: Performers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var performer = await _context.Performers.FindAsync(id);
+            var performer = _service.GetPerformerById(id);
             if (performer == null)
             {
                 return NotFound();
@@ -86,7 +84,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PerformerID,PerformerName")] Performer performer)
+        public IActionResult Edit(int id, [Bind("PerformerID,PerformerName")] Performer performer)
         {
             if (id != performer.PerformerID)
             {
@@ -97,8 +95,7 @@ namespace MediaLibrary.Controllers.Audio
             {
                 try
                 {
-                    _context.Update(performer);
-                    await _context.SaveChangesAsync();
+                    _service.UpdatePerformer(performer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +114,14 @@ namespace MediaLibrary.Controllers.Audio
         }
 
         // GET: Performers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var performer = await _context.Performers
-                .FirstOrDefaultAsync(m => m.PerformerID == id);
+            var performer = _service.GetPerformerById(id);
             if (performer == null)
             {
                 return NotFound();
@@ -137,17 +133,16 @@ namespace MediaLibrary.Controllers.Audio
         // POST: Performers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var performer = await _context.Performers.FindAsync(id);
-            _context.Performers.Remove(performer);
-            await _context.SaveChangesAsync();
+            var performer = _service.GetPerformerById(id);
+            _service.DeletePerformer(performer);
             return RedirectToAction(nameof(Index));
         }
 
         private bool PerformerExists(int id)
         {
-            return _context.Performers.Any(e => e.PerformerID == id);
+            return _service.GetPerformerById(id) != null;
         }
     }
 }
