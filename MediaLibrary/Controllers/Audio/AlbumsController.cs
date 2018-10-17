@@ -7,34 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
+using MediaLibrary.Services.Audio;
 
 namespace MediaLibrary.Controllers.Audio
 {
     public class AlbumsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IAudioService _service;
 
-        public AlbumsController(ApplicationDbContext context)
+        public AlbumsController(IAudioService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Albums
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Albums.ToListAsync());
+            return View(_service.GetAlbums());
         }
 
         // GET: Albums/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var album = await _context.Albums
-                .FirstOrDefaultAsync(m => m.AlbumID == id);
+            var album = _service.GetAlbumById(id);
             if (album == null)
             {
                 return NotFound();
@@ -54,26 +54,25 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlbumID,AlbumTitle")] Album album)
+        public IActionResult Create([Bind("AlbumID,AlbumTitle")] Album album)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(album);
-                await _context.SaveChangesAsync();
+                _service.AddAlbum(album);
                 return RedirectToAction(nameof(Index));
             }
             return View(album);
         }
 
         // GET: Albums/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var album = await _context.Albums.FindAsync(id);
+            var album = _service.GetAlbumById(id);
             if (album == null)
             {
                 return NotFound();
@@ -86,7 +85,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlbumID,AlbumTitle")] Album album)
+        public IActionResult Edit(int id, [Bind("AlbumID,AlbumTitle")] Album album)
         {
             if (id != album.AlbumID)
             {
@@ -97,8 +96,7 @@ namespace MediaLibrary.Controllers.Audio
             {
                 try
                 {
-                    _context.Update(album);
-                    await _context.SaveChangesAsync();
+                    _service.UpdateAlbum(album);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +115,14 @@ namespace MediaLibrary.Controllers.Audio
         }
 
         // GET: Albums/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var album = await _context.Albums
-                .FirstOrDefaultAsync(m => m.AlbumID == id);
+            var album = _service.GetAlbumById(id);
             if (album == null)
             {
                 return NotFound();
@@ -137,17 +134,16 @@ namespace MediaLibrary.Controllers.Audio
         // POST: Albums/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var album = await _context.Albums.FindAsync(id);
-            _context.Albums.Remove(album);
-            await _context.SaveChangesAsync();
+            var album = _service.GetAlbumById(id);
+            _service.DeleteAlbum(album);
             return RedirectToAction(nameof(Index));
         }
 
         private bool AlbumExists(int id)
         {
-            return _context.Albums.Any(e => e.AlbumID == id);
+            return _service.GetAlbumById(id) != null;
         }
     }
 }
