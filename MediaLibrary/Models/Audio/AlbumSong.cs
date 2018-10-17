@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.Models.Audios
+namespace MediaLibrary.Models.Audio
 {
     public class AlbumSong
     {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
-using MediaLibrary.Models.Audios;
+using MediaLibrary.Models.Audio;
 
 namespace MediaLibrary.Controllers
 {
