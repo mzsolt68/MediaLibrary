@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MediaLibrary.Repositories.Audio;
+using MediaLibrary.Services.Audio;
 
 namespace MediaLibrary
 {
@@ -39,6 +41,11 @@ namespace MediaLibrary
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddTransient<IAlbumRepository, AlbumRepository>();
+            services.AddTransient<IAudioFormatRepository, AudioFormatRepository>();
+            services.AddTransient<IPerformerReopsitory, PerformerRepository>();
+            services.AddTransient<ISongRepository, SongRepository>();
+            services.AddTransient<IAudioService, AudioService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

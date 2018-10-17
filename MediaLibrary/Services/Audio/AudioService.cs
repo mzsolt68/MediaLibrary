@@ -27,52 +27,52 @@ namespace MediaLibrary.Services.Audio
 
         public void AddAlbum(Album newAlbum)
         {
-            throw new NotImplementedException();
+            _albums.AddAlbum(newAlbum);
         }
 
         public void AddFormat(AudioFormat newFormat)
         {
-            throw new NotImplementedException();
+            _formats.AddFormat(newFormat);
         }
 
         public void AddPerformer(Performer newPerformer)
         {
-            throw new NotImplementedException();
+            _performers.AddPerformer(newPerformer);
         }
 
         public void AddSong(Song newSong)
         {
-            throw new NotImplementedException();
+            _songs.AddSong(newSong);
         }
 
         public void DeleteAlbum(Album deletedAlbum)
         {
-            throw new NotImplementedException();
+            _albums.DeleteAlbum(deletedAlbum);
         }
 
         public void DeleteFormat(AudioFormat deletedFormat)
         {
-            throw new NotImplementedException();
+            _formats.DeleteFormat(deletedFormat);
         }
 
         public void DeletePerformer(Performer deletedPerformer)
         {
-            throw new NotImplementedException();
+            _performers.DeletePerformer(deletedPerformer);
         }
 
         public void DeleteSong(Song deletedSong)
         {
-            throw new NotImplementedException();
+            _songs.DeleteSong(deletedSong);
         }
 
         public Album GetAlbumById(int id)
         {
-            throw new NotImplementedException();
+            return _albums.GetAlbumById(id);
         }
 
         public List<Album> GetAlbums()
         {
-            throw new NotImplementedException();
+            return _albums.GetAlbums();
         }
 
         public List<Album> GetAlbumsOfSong(Song song)
@@ -82,22 +82,22 @@ namespace MediaLibrary.Services.Audio
 
         public AudioFormat GetFormatById(int id)
         {
-            throw new NotImplementedException();
+            return _formats.GetFormatById(id);
         }
 
         public List<AudioFormat> GetFormats()
         {
-            throw new NotImplementedException();
+            return _formats.GetFormats();
         }
 
         public Performer GetPerformerById(int id)
         {
-            throw new NotImplementedException();
+            return _performers.GetPerformerById(id);
         }
 
         public List<Performer> GetPerformers()
         {
-            throw new NotImplementedException();
+            return _performers.GetPerformers();
         }
 
         public List<Performer> GetPerformersOfSong(Song song)
@@ -107,7 +107,7 @@ namespace MediaLibrary.Services.Audio
 
         public Song GetSongById(int id)
         {
-            throw new NotImplementedException();
+            return _songs.GetSongById(id);
         }
 
         public List<Song> GetSongs()
@@ -127,22 +127,22 @@ namespace MediaLibrary.Services.Audio
 
         public void UpdateAlbum(Album updatedAlbum)
         {
-            throw new NotImplementedException();
+            _albums.UpdateAlbum(updatedAlbum);
         }
 
         public void UpdateFormat(AudioFormat updatedFormat)
         {
-            throw new NotImplementedException();
+            _formats.UpdateFormat(updatedFormat);
         }
 
         public void UpdatePerformer(Performer updatedPerformer)
         {
-            throw new NotImplementedException();
+            _performers.UpdatePerformer(updatedPerformer);
         }
 
         public void UpdateSong(Song updatedSong)
         {
-            throw new NotImplementedException();
+            _songs.UpdateSong(updatedSong);
         }
     }
 }
