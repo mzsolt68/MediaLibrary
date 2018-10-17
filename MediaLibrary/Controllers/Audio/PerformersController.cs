@@ -8,24 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
 
-namespace MediaLibrary.Controllers
+namespace MediaLibrary.Controllers.Audio
 {
-    public class AlbumsController : Controller
+    public class PerformersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AlbumsController(ApplicationDbContext context)
+        public PerformersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Albums
+        // GET: Performers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Albums.ToListAsync());
+            return View(await _context.Performers.ToListAsync());
         }
 
-        // GET: Albums/Details/5
+        // GET: Performers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MediaLibrary.Controllers
                 return NotFound();
             }
 
-            var album = await _context.Albums
-                .FirstOrDefaultAsync(m => m.AlbumID == id);
-            if (album == null)
+            var performer = await _context.Performers
+                .FirstOrDefaultAsync(m => m.PerformerID == id);
+            if (performer == null)
             {
                 return NotFound();
             }
 
-            return View(album);
+            return View(performer);
         }
 
-        // GET: Albums/Create
+        // GET: Performers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Albums/Create
+        // POST: Performers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AlbumID,AlbumTitle")] Album album)
+        public async Task<IActionResult> Create([Bind("PerformerID,PerformerName")] Performer performer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(album);
+                _context.Add(performer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(album);
+            return View(performer);
         }
 
-        // GET: Albums/Edit/5
+        // GET: Performers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MediaLibrary.Controllers
                 return NotFound();
             }
 
-            var album = await _context.Albums.FindAsync(id);
-            if (album == null)
+            var performer = await _context.Performers.FindAsync(id);
+            if (performer == null)
             {
                 return NotFound();
             }
-            return View(album);
+            return View(performer);
         }
 
-        // POST: Albums/Edit/5
+        // POST: Performers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AlbumID,AlbumTitle")] Album album)
+        public async Task<IActionResult> Edit(int id, [Bind("PerformerID,PerformerName")] Performer performer)
         {
-            if (id != album.AlbumID)
+            if (id != performer.PerformerID)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MediaLibrary.Controllers
             {
                 try
                 {
-                    _context.Update(album);
+                    _context.Update(performer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AlbumExists(album.AlbumID))
+                    if (!PerformerExists(performer.PerformerID))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MediaLibrary.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(album);
+            return View(performer);
         }
 
-        // GET: Albums/Delete/5
+        // GET: Performers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MediaLibrary.Controllers
                 return NotFound();
             }
 
-            var album = await _context.Albums
-                .FirstOrDefaultAsync(m => m.AlbumID == id);
-            if (album == null)
+            var performer = await _context.Performers
+                .FirstOrDefaultAsync(m => m.PerformerID == id);
+            if (performer == null)
             {
                 return NotFound();
             }
 
-            return View(album);
+            return View(performer);
         }
 
-        // POST: Albums/Delete/5
+        // POST: Performers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var album = await _context.Albums.FindAsync(id);
-            _context.Albums.Remove(album);
+            var performer = await _context.Performers.FindAsync(id);
+            _context.Performers.Remove(performer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AlbumExists(int id)
+        private bool PerformerExists(int id)
         {
-            return _context.Albums.Any(e => e.AlbumID == id);
+            return _context.Performers.Any(e => e.PerformerID == id);
         }
     }
 }

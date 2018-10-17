@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
 
-namespace MediaLibrary.Controllers
+namespace MediaLibrary.Controllers.Audio
 {
     public class SongsController : Controller
     {
