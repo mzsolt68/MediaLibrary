@@ -11,7 +11,7 @@ namespace MediaLibrary.Repositories.Audio
         void AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
-        AudioFormat GetFormatById(int id);
+        AudioFormat GetFormatById(int? id);
         List<AudioFormat> GetFormats();
     }
 }

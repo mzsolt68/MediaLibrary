@@ -28,7 +28,7 @@ namespace MediaLibrary.Repositories.Audio
             _context.SaveChanges();
         }
 
-        public AudioFormat GetFormatById(int id)
+        public AudioFormat GetFormatById(int? id)
         {
             return _context.AudioFormats.Where(af => af.AudioFormatID == id).DefaultIfEmpty(null).Single();
         }
