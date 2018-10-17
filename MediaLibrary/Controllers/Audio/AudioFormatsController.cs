@@ -7,34 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
+using MediaLibrary.Services.Audio;
 
 namespace MediaLibrary.Controllers.Audio
 {
     public class AudioFormatsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IAudioService _service;
 
-        public AudioFormatsController(ApplicationDbContext context)
+        public AudioFormatsController(IAudioService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: AudioFormats
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.AudioFormats.ToListAsync());
+            return View(_service.GetFormats());
         }
 
         // GET: AudioFormats/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var audioFormat = await _context.AudioFormats
-                .FirstOrDefaultAsync(m => m.AudioFormatID == id);
+            var audioFormat = _service.GetFormatById(id);
             if (audioFormat == null)
             {
                 return NotFound();
@@ -54,26 +54,25 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AudioFormatID,AudioFormatName")] AudioFormat audioFormat)
+        public IActionResult Create([Bind("AudioFormatID,AudioFormatName")] AudioFormat audioFormat)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(audioFormat);
-                await _context.SaveChangesAsync();
+                _service.AddFormat(audioFormat);
                 return RedirectToAction(nameof(Index));
             }
             return View(audioFormat);
         }
 
         // GET: AudioFormats/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var audioFormat = await _context.AudioFormats.FindAsync(id);
+            var audioFormat = _service.GetFormatById(id);
             if (audioFormat == null)
             {
                 return NotFound();
@@ -86,7 +85,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AudioFormatID,AudioFormatName")] AudioFormat audioFormat)
+        public IActionResult Edit(int id, [Bind("AudioFormatID,AudioFormatName")] AudioFormat audioFormat)
         {
             if (id != audioFormat.AudioFormatID)
             {
@@ -97,8 +96,7 @@ namespace MediaLibrary.Controllers.Audio
             {
                 try
                 {
-                    _context.Update(audioFormat);
-                    await _context.SaveChangesAsync();
+                    _service.UpdateFormat(audioFormat);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +115,14 @@ namespace MediaLibrary.Controllers.Audio
         }
 
         // GET: AudioFormats/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var audioFormat = await _context.AudioFormats
-                .FirstOrDefaultAsync(m => m.AudioFormatID == id);
+            var audioFormat = _service.GetFormatById(id);
             if (audioFormat == null)
             {
                 return NotFound();
@@ -137,17 +134,16 @@ namespace MediaLibrary.Controllers.Audio
         // POST: AudioFormats/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var audioFormat = await _context.AudioFormats.FindAsync(id);
-            _context.AudioFormats.Remove(audioFormat);
-            await _context.SaveChangesAsync();
+            var audioFormat = _service.GetFormatById(id);
+            _service.DeleteFormat(audioFormat);
             return RedirectToAction(nameof(Index));
         }
 
         private bool AudioFormatExists(int id)
         {
-            return _context.AudioFormats.Any(e => e.AudioFormatID == id);
+            return _service.GetFormatById(id) != null;
         }
     }
 }
