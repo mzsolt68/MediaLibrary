@@ -118,17 +118,12 @@ namespace MediaLibrary.Services.Audio
 
         public ICollection<AlbumSong> GetSongsOfAlbum(Album album)
         {
-            ICollection<AlbumSong> list = _albums.GetSongsOfAlbum(album);
-            foreach (var item in list)
-            {
-                item.Song.PerformerSongs = _context.PerformerSongs.Include(x => x.Performer).Where(ps => ps.Song == item.Song).ToList();
-            }
-            return list;
+            return _albums.GetSongsOfAlbum(album);
         }
 
-        public ICollection<Song> SongsOfPerformer(Performer performer)
+        public ICollection<PerformerSong> SongsOfPerformer(Performer performer)
         {
-            throw new NotImplementedException();
+            return _performers.SongsOfPerformer(performer);
         }
 
         public void UpdateAlbum(Album updatedAlbum)

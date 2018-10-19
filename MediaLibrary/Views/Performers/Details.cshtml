@@ -1,24 +1,45 @@
-﻿@model MediaLibrary.Models.Audio.Performer
+﻿@model MediaLibrary.ViewModels.Audio.PerformerDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Részletek</h2>
 
 <div>
-    <h4>Performer</h4>
+    <h4>Előadó</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.PerformerName)
+            @Html.DisplayNameFor(model => model.Performer.PerformerName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PerformerName)
+            @Html.DisplayFor(model => model.Performer.PerformerName)
         </dd>
     </dl>
+    <hr />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td>Zeneszám címe</td>
+                <td>Album</td>
+            </tr>
+        </thead>
+        @foreach(var item in Model.Songs)
+        {
+            string album = "";
+            foreach (var alb in item.Song.AlbumSongs)
+            {
+                album = alb.Album.AlbumTitle;
+            }
+            <tr>
+                <td>@item.Song.SongTitle</td>
+                <td>@album</td>
+            </tr>
+        }
+    </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.PerformerID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Performer.PerformerID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

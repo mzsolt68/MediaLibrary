@@ -13,6 +13,6 @@ namespace MediaLibrary.Repositories.Audio
         void UpdatePerformer(Performer updatedPerformer);
         Performer GetPerformerById(int? id);
         ICollection<Performer> GetPerformers();
-        ICollection<Song> SongsOfPerformer(Performer performer);
+        ICollection<PerformerSong> SongsOfPerformer(Performer performer);
     }
 }

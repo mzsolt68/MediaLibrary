@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
 using MediaLibrary.Services.Audio;
+using MediaLibrary.ViewModels.Audio;
 
 namespace MediaLibrary.Controllers.Audio
 {
@@ -32,14 +33,15 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-
+            var model = new PerformerDetailsViewModel();
             var performer = _service.GetPerformerById(id);
             if (performer == null)
             {
                 return NotFound();
             }
-
-            return View(performer);
+            model.Performer = performer;
+            model.Songs = _service.SongsOfPerformer(performer);
+            return View(model);
         }
 
         // GET: Performers/Create
