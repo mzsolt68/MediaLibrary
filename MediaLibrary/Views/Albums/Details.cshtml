@@ -1,4 +1,4 @@
-﻿@model MediaLibrary.Models.Audio.Album
+﻿@model MediaLibrary.ViewModels.Audio.AlbumDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,14 +11,35 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.AlbumTitle)
+            @Html.DisplayNameFor(model => model.Album.AlbumTitle)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.AlbumTitle)
+            @Html.DisplayFor(model => model.Album.AlbumTitle)
         </dd>
     </dl>
+    <hr />
+    <table class="table table-bordered">
+        <thead>
+        <td>Zeneszám címe</td>
+        <td>Előadó</td>
+        <td>Játékidő</td>
+        </thead>
+        @foreach (var song in Model.Details)
+        {
+            string performer = "";
+            foreach (var perf in song.Song.PerformerSongs)
+            {
+                performer = perf.Performer.PerformerName;
+            }
+            <tr>
+                <td>@song.Song.SongTitle</td>
+                <td>@performer</td>
+                <td>@song.PlayTime.ToShortTimeString()</td>
+            </tr>
+        }
+    </table>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.AlbumID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Album.AlbumID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
