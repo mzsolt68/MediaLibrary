@@ -41,7 +41,12 @@ namespace MediaLibrary.Repositories.Audio
 
         public ICollection<AlbumSong> GetSongsOfAlbum(Album album)
         {
-            return _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs).Where(als => als.Album == album).ToList();
+            var aslist = _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs).Where(als => als.Album == album).ToList();
+            foreach (var item in aslist)
+            {
+                item.Song.PerformerSongs = _context.PerformerSongs.Include(x => x.Performer).Where(ps => ps.Song == item.Song).ToList();
+            }
+            return aslist;
         }
 
         public void UpdateAlbum(Album updatedAlbum)

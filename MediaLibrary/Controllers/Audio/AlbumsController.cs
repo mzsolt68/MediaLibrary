@@ -35,8 +35,13 @@ namespace MediaLibrary.Controllers.Audio
                 return NotFound();
             }
             var model = new AlbumDetailsViewModel();
-            model.Album = _service.GetAlbumById(id);
-            model.Details = _service.GetSongsOfAlbum(model.Album);
+            var album = _service.GetAlbumById(id);
+            if(album == null)
+            {
+                return NotFound();
+            }
+            model.Album = album;
+            model.Details = _service.GetSongsOfAlbum(album);
             return View(model);
         }
 
