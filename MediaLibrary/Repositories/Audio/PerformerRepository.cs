@@ -33,15 +33,15 @@ namespace MediaLibrary.Repositories.Audio
             return _context.Performers.Where(p => p.PerformerID == id).DefaultIfEmpty(null).Single();
         }
 
-        public List<Performer> GetPerformers()
+        public ICollection<Performer> GetPerformers()
         {
             return _context.Performers.ToList();
         }
 
-        public List<Song> SongsOfPerformer(Performer performer)
+        public ICollection<Song> SongsOfPerformer(Performer performer)
         {
             var pslist = _context.PerformerSongs.Where(ps => ps.Performer == performer);
-            List<Song> songlist = new List<Song>();
+            ICollection<Song> songlist = new List<Song>();
             foreach (var item in pslist)
             {
                 songlist.Add(item.Song);

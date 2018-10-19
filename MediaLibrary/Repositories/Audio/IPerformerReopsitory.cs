@@ -12,7 +12,7 @@ namespace MediaLibrary.Repositories.Audio
         void DeletePerformer(Performer deletedPerformer);
         void UpdatePerformer(Performer updatedPerformer);
         Performer GetPerformerById(int? id);
-        List<Performer> GetPerformers();
-        List<Song> SongsOfPerformer(Performer performer);
+        ICollection<Performer> GetPerformers();
+        ICollection<Song> SongsOfPerformer(Performer performer);
     }
 }

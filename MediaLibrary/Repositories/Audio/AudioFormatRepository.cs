@@ -33,7 +33,7 @@ namespace MediaLibrary.Repositories.Audio
             return _context.AudioFormats.Where(af => af.AudioFormatID == id).DefaultIfEmpty(null).Single();
         }
 
-        public List<AudioFormat> GetFormats()
+        public ICollection<AudioFormat> GetFormats()
         {
             return _context.AudioFormats.ToList();
         }

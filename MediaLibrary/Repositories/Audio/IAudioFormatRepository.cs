@@ -12,6 +12,6 @@ namespace MediaLibrary.Repositories.Audio
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
         AudioFormat GetFormatById(int? id);
-        List<AudioFormat> GetFormats();
+        ICollection<AudioFormat> GetFormats();
     }
 }

@@ -12,7 +12,7 @@ namespace MediaLibrary.Repositories.Audio
         void DeleteAlbum(Album deletedAlbum);
         void UpdateAlbum(Album updatedAlbum);
         Album GetAlbumById(int? id);
-        List<Album> GetAlbums();
-        List<Song> GetSongsOfAlbum(Album album);
+        ICollection<Album> GetAlbums();
+        ICollection<AlbumSong> GetSongsOfAlbum(Album album);
     }
 }

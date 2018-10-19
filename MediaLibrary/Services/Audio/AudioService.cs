@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
 using MediaLibrary.Repositories.Audio;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Services.Audio
 {
@@ -70,12 +71,12 @@ namespace MediaLibrary.Services.Audio
             return _albums.GetAlbumById(id);
         }
 
-        public List<Album> GetAlbums()
+        public ICollection<Album> GetAlbums()
         {
             return _albums.GetAlbums();
         }
 
-        public List<Album> GetAlbumsOfSong(Song song)
+        public ICollection<Album> GetAlbumsOfSong(Song song)
         {
             throw new NotImplementedException();
         }
@@ -85,7 +86,7 @@ namespace MediaLibrary.Services.Audio
             return _formats.GetFormatById(id);
         }
 
-        public List<AudioFormat> GetFormats()
+        public ICollection<AudioFormat> GetFormats()
         {
             return _formats.GetFormats();
         }
@@ -95,14 +96,14 @@ namespace MediaLibrary.Services.Audio
             return _performers.GetPerformerById(id);
         }
 
-        public List<Performer> GetPerformers()
+        public ICollection<Performer> GetPerformers()
         {
             return _performers.GetPerformers();
         }
 
-        public List<Performer> GetPerformersOfSong(Song song)
+        public ICollection<Performer> GetPerformersOfSong(Song song)
         {
-            throw new NotImplementedException();
+            return _songs.GetPerformersOfSong(song);
         }
 
         public Song GetSongById(int? id)
@@ -110,17 +111,22 @@ namespace MediaLibrary.Services.Audio
             return _songs.GetSongById(id);
         }
 
-        public List<Song> GetSongs()
+        public ICollection<Song> GetSongs()
         {
             return _songs.GetSongs();
         }
 
-        public List<Song> GetSongsOfAlbum(Album album)
+        public ICollection<AlbumSong> GetSongsOfAlbum(Album album)
         {
-            throw new NotImplementedException();
+            ICollection<AlbumSong> list = _albums.GetSongsOfAlbum(album);
+            foreach (var item in list)
+            {
+                item.Song.PerformerSongs = _context.PerformerSongs.Include(x => x.Performer).Where(ps => ps.Song == item.Song).ToList();
+            }
+            return list;
         }
 
-        public List<Song> SongsOfPerformer(Performer performer)
+        public ICollection<Song> SongsOfPerformer(Performer performer)
         {
             throw new NotImplementedException();
         }

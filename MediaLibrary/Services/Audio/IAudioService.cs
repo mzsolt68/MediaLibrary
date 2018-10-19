@@ -12,28 +12,28 @@ namespace MediaLibrary.Services.Audio
         void DeleteAlbum(Album deletedAlbum);
         void UpdateAlbum(Album updatedAlbum);
         Album GetAlbumById(int? id);
-        List<Album> GetAlbums();
-        List<Song> GetSongsOfAlbum(Album album);
+        ICollection<Album> GetAlbums();
+        ICollection<AlbumSong> GetSongsOfAlbum(Album album);
 
         void AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
         AudioFormat GetFormatById(int? id);
-        List<AudioFormat> GetFormats();
+        ICollection<AudioFormat> GetFormats();
 
         void AddPerformer(Performer newPerformer);
         void DeletePerformer(Performer deletedPerformer);
         void UpdatePerformer(Performer updatedPerformer);
         Performer GetPerformerById(int? id);
-        List<Performer> GetPerformers();
-        List<Song> SongsOfPerformer(Performer performer);
+        ICollection<Performer> GetPerformers();
+        ICollection<Song> SongsOfPerformer(Performer performer);
 
         void AddSong(Song newSong);
         void DeleteSong(Song deletedSong);
         void UpdateSong(Song updatedSong);
         Song GetSongById(int? id);
-        List<Song> GetSongs();
-        List<Album> GetAlbumsOfSong(Song song);
-        List<Performer> GetPerformersOfSong(Song song);
+        ICollection<Song> GetSongs();
+        ICollection<Album> GetAlbumsOfSong(Song song);
+        ICollection<Performer> GetPerformersOfSong(Song song);
     }
 }

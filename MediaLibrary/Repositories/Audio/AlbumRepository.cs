@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Repositories.Audio
 {
@@ -33,20 +34,14 @@ namespace MediaLibrary.Repositories.Audio
             return _context.Albums.Where(a => a.AlbumID == id).DefaultIfEmpty(null).Single();
         }
 
-        public List<Album> GetAlbums()
+        public ICollection<Album> GetAlbums()
         {
             return _context.Albums.ToList();
         }
 
-        public List<Song> GetSongsOfAlbum(Album album)
+        public ICollection<AlbumSong> GetSongsOfAlbum(Album album)
         {
-            var als = _context.AlbumSongs.Where(al => al.Album == album);
-            List<Song> songlist = new List<Song>();
-            foreach (var entry in als)
-            {
-                songlist.Add(entry.Song);
-            }
-            return songlist;
+            return _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs).Where(als => als.Album == album).ToList();
         }
 
         public void UpdateAlbum(Album updatedAlbum)

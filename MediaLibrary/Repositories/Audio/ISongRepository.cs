@@ -12,8 +12,8 @@ namespace MediaLibrary.Repositories.Audio
         void DeleteSong(Song deletedSong);
         void UpdateSong(Song updatedSong);
         Song GetSongById(int? id);
-        List<Song> GetSongs();
-        List<Album> GetAlbumsOfSong(Song song);
-        List<Performer> GetPerformersOfSong(Song song);
+        ICollection<Song> GetSongs();
+        ICollection<Album> GetAlbumsOfSong(Song song);
+        ICollection<Performer> GetPerformersOfSong(Song song);
     }
 }
