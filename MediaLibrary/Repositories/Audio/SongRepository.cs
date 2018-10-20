@@ -58,7 +58,12 @@ namespace MediaLibrary.Repositories.Audio
 
         public ICollection<Song> GetSongs()
         {
-            return _context.Songs.ToList();
+            var songlist = _context.Songs.ToList(); ;
+            foreach (var item in songlist)
+            {
+                item.PerformerSongs = _context.PerformerSongs.Include(ps => ps.Performer).Where(x => x.SongID == item.SongID).ToList();
+            }
+            return songlist;
         }
 
         public void UpdateSong(Song updatedSong)
