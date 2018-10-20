@@ -55,11 +55,15 @@ namespace MediaLibrary.Data
                 new AudioFormat { AudioFormatID = 6, AudioFormatName = "OGG" }
                 );
             builder.Entity<Performer>().HasData(
-                new Performer { PerformerID = 1, PerformerName = "Boney M"}
+                new Performer { PerformerID = 1, PerformerName = "Boney M"},
+                new Performer { PerformerID = 2, PerformerName = "Jamie Winchester" },
+                new Performer { PerformerID = 3, PerformerName = "Hrutka Róbert" },
+                new Performer { PerformerID = 4, PerformerName = "Bery" },
+                new Performer { PerformerID = 5, PerformerName = "Váczi Eszter" }
                 );
             
             builder.Entity<Album>().HasData(
-                new { AlbumID = 1, AlbumTitle = "Boney M Gold", AlbumFormatAudioFormatID = 1}
+                new { AlbumID = 1, AlbumTitle = "Boney M Gold", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1}
                 );
             builder.Entity<Song>().HasData(
                 new Song { SongID = 1, SongTitle = "Rivers of Babylon"},
@@ -81,7 +85,9 @@ namespace MediaLibrary.Data
                 new Song { SongID = 17, SongTitle = "Baby Do You Wanna Bump" },
                 new Song { SongID = 18, SongTitle = "Kalimba De Luna" },
                 new Song { SongID = 19, SongTitle = "Happy Song" },
-                new Song { SongID = 20, SongTitle = "Megamix" }
+                new Song { SongID = 20, SongTitle = "Megamix" },
+                new Song { SongID = 21, SongTitle = "It's Your Life" },
+                new Song { SongID = 22, SongTitle = "Egyedül" }
                 );
             builder.Entity<PerformerSong>().HasData(
                 new PerformerSong { PerformerID = 1, SongID = 1},
@@ -103,29 +109,33 @@ namespace MediaLibrary.Data
                 new PerformerSong { PerformerID = 1, SongID = 17 },
                 new PerformerSong { PerformerID = 1, SongID = 18 },
                 new PerformerSong { PerformerID = 1, SongID = 19 },
-                new PerformerSong { PerformerID = 1, SongID = 20 }
+                new PerformerSong { PerformerID = 1, SongID = 20 },
+                new PerformerSong { PerformerID = 2, SongID = 21 },
+                new PerformerSong { PerformerID = 3, SongID = 21 },
+                new PerformerSong { PerformerID = 4, SongID = 22 },
+                new PerformerSong { PerformerID = 5, SongID = 22 }
                 );
             builder.Entity<AlbumSong>().HasData(
-                new AlbumSong { AlbumID = 1, SongID = 1, PlayTime = Convert.ToDateTime("4:15")},
-                new AlbumSong { AlbumID = 1, SongID = 2, PlayTime = Convert.ToDateTime("3:26") },
-                new AlbumSong { AlbumID = 1, SongID = 3, PlayTime = Convert.ToDateTime("3:56") },
-                new AlbumSong { AlbumID = 1, SongID = 4, PlayTime = Convert.ToDateTime("4:00") },
-                new AlbumSong { AlbumID = 1, SongID = 5, PlayTime = Convert.ToDateTime("4:24") },
-                new AlbumSong { AlbumID = 1, SongID = 6, PlayTime = Convert.ToDateTime("4:05") },
-                new AlbumSong { AlbumID = 1, SongID = 7, PlayTime = Convert.ToDateTime("3:55") },
-                new AlbumSong { AlbumID = 1, SongID = 8, PlayTime = Convert.ToDateTime("3:16") },
-                new AlbumSong { AlbumID = 1, SongID = 9, PlayTime = Convert.ToDateTime("3:25") },
-                new AlbumSong { AlbumID = 1, SongID = 10, PlayTime = Convert.ToDateTime("4:20") },
-                new AlbumSong { AlbumID = 1, SongID = 11, PlayTime = Convert.ToDateTime("4:01") },
-                new AlbumSong { AlbumID = 1, SongID = 12, PlayTime = Convert.ToDateTime("2:30") },
-                new AlbumSong { AlbumID = 1, SongID = 13, PlayTime = Convert.ToDateTime("4:24") },
-                new AlbumSong { AlbumID = 1, SongID = 14, PlayTime = Convert.ToDateTime("3:49") },
-                new AlbumSong { AlbumID = 1, SongID = 15, PlayTime = Convert.ToDateTime("2:50") },
-                new AlbumSong { AlbumID = 1, SongID = 16, PlayTime = Convert.ToDateTime("3:58") },
-                new AlbumSong { AlbumID = 1, SongID = 17, PlayTime = Convert.ToDateTime("2:25") },
-                new AlbumSong { AlbumID = 1, SongID = 18, PlayTime = Convert.ToDateTime("4:11") },
-                new AlbumSong { AlbumID = 1, SongID = 19, PlayTime = Convert.ToDateTime("3:56") },
-                new AlbumSong { AlbumID = 1, SongID = 20, PlayTime = Convert.ToDateTime("3:51") }
+                new AlbumSong { AlbumID = 1, SongID = 1, PlayTime = Convert.ToDateTime("4:15"), Disc = 1},
+                new AlbumSong { AlbumID = 1, SongID = 2, PlayTime = Convert.ToDateTime("3:26"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 3, PlayTime = Convert.ToDateTime("3:56"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 4, PlayTime = Convert.ToDateTime("4:00"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 5, PlayTime = Convert.ToDateTime("4:24"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 6, PlayTime = Convert.ToDateTime("4:05"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 7, PlayTime = Convert.ToDateTime("3:55"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 8, PlayTime = Convert.ToDateTime("3:16"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 9, PlayTime = Convert.ToDateTime("3:25"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 10, PlayTime = Convert.ToDateTime("4:20"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 11, PlayTime = Convert.ToDateTime("4:01"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 12, PlayTime = Convert.ToDateTime("2:30"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 13, PlayTime = Convert.ToDateTime("4:24"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 14, PlayTime = Convert.ToDateTime("3:49"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 15, PlayTime = Convert.ToDateTime("2:50"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 16, PlayTime = Convert.ToDateTime("3:58"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 17, PlayTime = Convert.ToDateTime("2:25"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 18, PlayTime = Convert.ToDateTime("4:11"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 19, PlayTime = Convert.ToDateTime("3:56"), Disc = 1 },
+                new AlbumSong { AlbumID = 1, SongID = 20, PlayTime = Convert.ToDateTime("3:51"), Disc = 1 }
                 );
         }
     }

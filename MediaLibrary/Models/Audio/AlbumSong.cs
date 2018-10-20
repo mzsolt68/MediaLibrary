@@ -17,6 +17,8 @@ namespace MediaLibrary.Models.Audio
         [Required]
         [Display(Name = "Játékidő")]
         public DateTime PlayTime { get; set; }
+        [Display(Name = "Lemez")]
+        public Byte Disc { get; set; }
         [Display(Name = "Megjegyzés")]
         public string Note { get; set; }
     }

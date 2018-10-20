@@ -14,6 +14,8 @@ namespace MediaLibrary.Models.Audio
         public string AlbumTitle { get; set; }
         [Display(Name = "Formatum")]
         public AudioFormat AlbumFormat { get; set; }
+        [Display(Name = "Lemezek száma")]
+        public Byte NrOfDiscs { get; set; }
 
         public virtual ICollection<AlbumSong> AlbumSongs { get; set; }
 
