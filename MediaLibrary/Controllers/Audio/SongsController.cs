@@ -7,34 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
+using MediaLibrary.Services.Audio;
 
 namespace MediaLibrary.Controllers.Audio
 {
     public class SongsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IAudioService _service;
 
-        public SongsController(ApplicationDbContext context)
+        public SongsController(IAudioService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Songs
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Songs.ToListAsync());
+            return View(_service.GetSongs());
         }
 
         // GET: Songs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var song = await _context.Songs
-                .FirstOrDefaultAsync(m => m.SongID == id);
+            var song = _service.GetSongById(id);
             if (song == null)
             {
                 return NotFound();
@@ -54,26 +54,25 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SongID,SongTitle,SongLiryc")] Song song)
+        public IActionResult Create([Bind("SongID,SongTitle,SongLiryc")] Song song)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(song);
-                await _context.SaveChangesAsync();
+                _service.AddSong(song);
                 return RedirectToAction(nameof(Index));
             }
             return View(song);
         }
 
         // GET: Songs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var song = await _context.Songs.FindAsync(id);
+            var song = _service.GetSongById(id);
             if (song == null)
             {
                 return NotFound();
@@ -86,7 +85,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SongID,SongTitle,SongLiryc")] Song song)
+        public IActionResult Edit(int id, [Bind("SongID,SongTitle,SongLiryc")] Song song)
         {
             if (id != song.SongID)
             {
@@ -97,8 +96,7 @@ namespace MediaLibrary.Controllers.Audio
             {
                 try
                 {
-                    _context.Update(song);
-                    await _context.SaveChangesAsync();
+                    _service.UpdateSong(song);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -117,15 +115,14 @@ namespace MediaLibrary.Controllers.Audio
         }
 
         // GET: Songs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var song = await _context.Songs
-                .FirstOrDefaultAsync(m => m.SongID == id);
+            var song = _service.GetSongById(id);
             if (song == null)
             {
                 return NotFound();
@@ -137,17 +134,16 @@ namespace MediaLibrary.Controllers.Audio
         // POST: Songs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var song = await _context.Songs.FindAsync(id);
-            _context.Songs.Remove(song);
-            await _context.SaveChangesAsync();
+            var song = _service.GetSongById(id);
+            _service.DeleteSong(song);
             return RedirectToAction(nameof(Index));
         }
 
         private bool SongExists(int id)
         {
-            return _context.Songs.Any(e => e.SongID == id);
+            return _service.GetSongById(id) != null;
         }
     }
 }
