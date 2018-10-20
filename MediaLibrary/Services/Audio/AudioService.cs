@@ -78,7 +78,7 @@ namespace MediaLibrary.Services.Audio
 
         public ICollection<Album> GetAlbumsOfSong(Song song)
         {
-            throw new NotImplementedException();
+            return _songs.GetAlbumsOfSong(song);
         }
 
         public AudioFormat GetFormatById(int? id)
