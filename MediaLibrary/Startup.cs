@@ -74,7 +74,7 @@ namespace MediaLibrary
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=AudioHome}/{action=Index}/{id?}");
             });
         }
     }
