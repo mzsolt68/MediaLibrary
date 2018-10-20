@@ -9,14 +9,14 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-condensed">
     <thead>
         <tr>
-            <th>
+            <th style="text-align:center">
                 @Html.DisplayNameFor(model => model.SongTitle)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SongLiryc)
+            <th style="text-align:center">
+                @Html.DisplayName("Előadó(k)")
             </th>
             <th></th>
         </tr>
@@ -24,13 +24,16 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td style="vertical-align:middle">
                 @Html.DisplayFor(modelItem => item.SongTitle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SongLiryc)
+                @foreach(var ps in item.PerformerSongs)
+                {
+                    @Html.DisplayName($"{ps.Performer.PerformerName}")<br /> 
+                }
             </td>
-            <td>
+            <td style="vertical-align:middle">
                 <a asp-action="Edit" asp-route-id="@item.SongID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.SongID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.SongID">Delete</a>
