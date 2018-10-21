@@ -31,7 +31,7 @@ namespace MediaLibrary.Repositories.Audio
 
         public Album GetAlbumById(int? id)
         {
-            return _context.Albums.Where(a => a.AlbumID == id).DefaultIfEmpty(null).Single();
+            return _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).DefaultIfEmpty(null).Single();
         }
 
         public ICollection<Album> GetAlbums()

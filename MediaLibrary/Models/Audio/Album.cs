@@ -12,7 +12,7 @@ namespace MediaLibrary.Models.Audio
         [Required]
         [Display(Name = "Album címe")]
         public string AlbumTitle { get; set; }
-        [Display(Name = "Formatum")]
+        [Display(Name = "Formátum")]
         public AudioFormat AlbumFormat { get; set; }
         [Display(Name = "Lemezek száma")]
         public Byte NrOfDiscs { get; set; }
