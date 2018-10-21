@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
 using MediaLibrary.Repositories.Audio;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Services.Audio
@@ -89,6 +90,20 @@ namespace MediaLibrary.Services.Audio
         public ICollection<AudioFormat> GetFormats()
         {
             return _formats.GetFormats();
+        }
+
+        public IEnumerable<SelectListItem> GetFormatsToViews()
+        {
+            List<SelectListItem> formats = _context.AudioFormats.AsNoTracking()
+                .OrderBy(af => af.AudioFormatName)
+                .Select(f =>
+                new SelectListItem
+                {
+                    Value = f.AudioFormatID.ToString(),
+                    Text = f.AudioFormatName
+                }).ToList();
+            formats.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz formátumot ---" });
+            return new SelectList(formats, "Value", "Text");
         }
 
         public Performer GetPerformerById(int? id)

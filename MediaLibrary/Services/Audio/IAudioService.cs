@@ -1,4 +1,5 @@
 ﻿using MediaLibrary.Models.Audio;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace MediaLibrary.Services.Audio
         void UpdateFormat(AudioFormat updatedFormat);
         AudioFormat GetFormatById(int? id);
         ICollection<AudioFormat> GetFormats();
+        IEnumerable<SelectListItem> GetFormatsToViews();
 
         void AddPerformer(Performer newPerformer);
         void DeletePerformer(Performer deletedPerformer);
