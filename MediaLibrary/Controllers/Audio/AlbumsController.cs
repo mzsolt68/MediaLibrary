@@ -48,7 +48,9 @@ namespace MediaLibrary.Controllers.Audio
         // GET: Albums/Create
         public IActionResult Create()
         {
-            return View();
+            Album album = new Album();
+            AlbumEditViewModel vm = CreateViewModel(album);
+            return View(vm);
         }
 
         // POST: Albums/Create
@@ -56,10 +58,11 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("AlbumID,AlbumTitle")] Album album)
+        public IActionResult Create(int AudioFormatID, [Bind("AlbumID,AlbumTitle,NrOfDiscs")] Album album)
         {
             if (ModelState.IsValid)
             {
+                album.AlbumFormat = _service.GetFormatById(AudioFormatID);
                 _service.AddAlbum(album);
                 return RedirectToAction(nameof(Index));
             }
@@ -79,7 +82,8 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            return View(album);
+            AlbumEditViewModel vm = CreateViewModel(album);
+            return View(vm);
         }
 
         // POST: Albums/Edit/5
@@ -87,7 +91,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("AlbumID,AlbumTitle")] Album album)
+        public IActionResult Edit(int id, int AudioFormatID, [Bind("AlbumID,AlbumTitle,NrOfDiscs")] Album album)
         {
             if (id != album.AlbumID)
             {
@@ -98,6 +102,7 @@ namespace MediaLibrary.Controllers.Audio
             {
                 try
                 {
+                    album.AlbumFormat = _service.GetFormatById(AudioFormatID);
                     _service.UpdateAlbum(album);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -147,5 +152,18 @@ namespace MediaLibrary.Controllers.Audio
         {
             return _service.GetAlbumById(id) != null;
         }
+
+        private AlbumEditViewModel CreateViewModel(Album album)
+        {
+            var vm = new AlbumEditViewModel();
+            vm.Album = album;
+            vm.AudioFormats = _service.GetFormatsToViews();
+            if (album.AlbumFormat != null)
+            {
+                vm.AudioFormatID = album.AlbumFormat.AudioFormatID;
+            }
+            return vm;
+        }
+
     }
 }

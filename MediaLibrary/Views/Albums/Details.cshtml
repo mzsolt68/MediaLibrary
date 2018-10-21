@@ -16,14 +16,27 @@
         <dd>
             @Html.DisplayFor(model => model.Album.AlbumTitle)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Album.AlbumFormat)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.AlbumFormat.AudioFormatName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Album.NrOfDiscs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Album.NrOfDiscs)
+        </dd>
     </dl>
     <hr />
     <table class="table table-condensed">
         <thead>
             <tr>
-                <th>Zeneszám címe</th>
-                <th>Előadó</th>
-                <th>Játékidő</th>
+                <th class="col-xs-4" style="text-align:center">Zeneszám címe</th>
+                <th class="col-xs-2" style="text-align:center">Előadó</th>
+                <th class="col-xs-1" style="text-align:center">Játékidő</th>
+                <th class="col-xs-1" style="text-align:center">Lemez</th>
             </tr>
         </thead>
         @foreach (var song in Model.Details)
@@ -34,9 +47,10 @@
                 performer = perf.Performer.PerformerName;
             }
             <tr>
-                <td>@song.Song.SongTitle</td>
-                <td>@performer</td>
-                <td>@song.PlayTime.ToShortTimeString()</td>
+                <td style="text-align:center">@song.Song.SongTitle</td>
+                <td style="text-align:center">@performer</td>
+                <td style="text-align:center">@song.PlayTime.ToShortTimeString()</td>
+                <td style="text-align:center">@song.Disc</td>
             </tr>
         }
     </table>
