@@ -1,36 +1,42 @@
-﻿@model MediaLibrary.Models.Audio.Song
+﻿@model MediaLibrary.ViewModels.Audio.SongEditViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>Hozzáadás</h2>
 
-<h4>Song</h4>
+<h4>Dal</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="SongTitle" class="control-label"></label>
-                <input asp-for="SongTitle" class="form-control" />
-                <span asp-validation-for="SongTitle" class="text-danger"></span>
+                <label asp-for="Performers" class="control-label"></label>
+                @Html.DropDownListFor(x => Model.Song.PerformerSongs[0].PerformerID, new SelectList(Model.PerformerList, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "PerformerID" })
+                <span asp-validation-for="Song.SongTitle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Song.SongTitle" class="control-label"></label>
+                <input asp-for="Song.SongTitle" class="form-control" />
+                <span asp-validation-for="Song.SongTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SongLiryc" class="control-label"></label>
-                <textarea asp-for="SongLiryc" class="form-control"></textarea>
-                <span asp-validation-for="SongLiryc" class="text-danger"></span>
+                <label asp-for="Song.SongLiryc" class="control-label"></label>
+                <textarea asp-for="Song.SongLiryc" class="form-control"></textarea>
+                <span asp-validation-for="Song.SongLiryc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Hozzáadás" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Vissza a listához</a>
 </div>
 
 @section Scripts {

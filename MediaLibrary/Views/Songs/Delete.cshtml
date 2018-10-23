@@ -4,9 +4,9 @@
     ViewData["Title"] = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Törlés</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Biztosan törölni akarja ezt a dalt?</h3>
 <div>
     <h4>Song</h4>
     <hr />
@@ -27,7 +27,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="SongID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Törlés" class="btn btn-default" /> |
+        <a asp-action="Index">Vissza a listához</a>
     </form>
 </div>

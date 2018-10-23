@@ -50,7 +50,9 @@ namespace MediaLibrary.Controllers.Audio
         // GET: Songs/Create
         public IActionResult Create()
         {
-            return View();
+            var song = new Song();
+            SongEditViewModel vm = CreateModel(song);
+            return View(vm);
         }
 
         // POST: Songs/Create
@@ -58,14 +60,15 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("SongID,SongTitle,SongLiryc")] Song song)
+        //public IActionResult Create([Bind("SongID,SongTitle,SongLiryc")] Song song)
+        public IActionResult Create([Bind("Song, Performers")] SongEditViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _service.AddSong(song);
+                _service.AddSong(vm.Song);
                 return RedirectToAction(nameof(Index));
             }
-            return View(song);
+            return View(vm);
         }
 
         // GET: Songs/Edit/5
@@ -90,7 +93,6 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-//        public IActionResult Edit(int id, [Bind("SongID,SongTitle,SongLiryc")] Song song, List<Performer> performers)
         public IActionResult Edit(int id, [Bind("Song, Performers")] SongEditViewModel vm)
         {
             if (id != vm.Song.SongID)

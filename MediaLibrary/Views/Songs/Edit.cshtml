@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Szerkesztés</h2>
 
-<h4>Song</h4>
+<h4>Dal</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,13 +15,12 @@
             <input type="hidden" asp-for="Song.SongID" />
             <div class="form-group">
                 <label asp-for="Performers" class="control-label"></label>
-                @*<input asp-for="Song.SongTitle" class="form-control" />
-                <span asp-validation-for="Song.SongTitle" class="text-danger"></span>*@
                 <br />
                 @for (int i = 0; i < Model.Song.PerformerSongs.Count; i++)
                 {
-                    @Html.DropDownListFor(x => Model.Song.PerformerSongs[i].PerformerID, new SelectList(Model.PerformerList, "Value", "Text"), htmlAttributes: new { @class = "Form-control", id = "PerformerID" })
-                    <br />
+                <div>
+                    @Html.DropDownListFor(x => Model.Song.PerformerSongs[i].PerformerID, new SelectList(Model.PerformerList, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "PerformerID" })
+                </div>
                 }
             </div>
             <div class="form-group">
@@ -35,14 +34,14 @@
                 <span asp-validation-for="Song.SongLiryc" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Mentés" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Vissza a listához</a>
 </div>
 
 @section Scripts {
