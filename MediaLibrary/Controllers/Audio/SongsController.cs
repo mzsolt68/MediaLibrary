@@ -60,7 +60,6 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public IActionResult Create([Bind("SongID,SongTitle,SongLiryc")] Song song)
         public IActionResult Create([Bind("Song, Performers")] SongEditViewModel vm)
         {
             if (ModelState.IsValid)
