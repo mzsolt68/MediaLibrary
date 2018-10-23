@@ -121,6 +121,20 @@ namespace MediaLibrary.Services.Audio
             return _songs.GetPerformersOfSong(song);
         }
 
+        public IEnumerable<SelectListItem> GetPerformersToViews()
+        {
+            List<SelectListItem> performers = _context.Performers.AsNoTracking()
+                .OrderBy(perf => perf.PerformerName)
+                .Select(p =>
+                new SelectListItem
+                {
+                    Value = p.PerformerID.ToString(),
+                    Text = p.PerformerName
+                }).ToList();
+            performers.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz előadót ---" });
+            return new SelectList(performers, "Value", "Text");
+        }
+
         public Song GetSongById(int? id)
         {
             return _songs.GetSongById(id);

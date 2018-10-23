@@ -15,7 +15,8 @@ namespace MediaLibrary.Models.Audio
         [Display(Name = "Szöveg")]
         [DataType(DataType.MultilineText)]
         public string SongLiryc { get; set; }
-        public ICollection<PerformerSong> PerformerSongs { get; set; }
+
+        public virtual List<PerformerSong> PerformerSongs { get; set; }
 
         public virtual ICollection<AlbumSong> AlbumSongs { get; set; }
 

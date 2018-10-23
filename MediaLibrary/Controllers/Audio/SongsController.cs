@@ -81,7 +81,8 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            return View(song);
+            SongEditViewModel vm = CreateModel(song);
+            return View(vm);
         }
 
         // POST: Songs/Edit/5
@@ -89,22 +90,27 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("SongID,SongTitle,SongLiryc")] Song song)
+//        public IActionResult Edit(int id, [Bind("SongID,SongTitle,SongLiryc")] Song song, List<Performer> performers)
+        public IActionResult Edit(int id, [Bind("Song, Performers")] SongEditViewModel vm)
         {
-            if (id != song.SongID)
+            if (id != vm.Song.SongID)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
+                foreach (var item in vm.Song.PerformerSongs)
+                {
+                    item.SongID = id;
+                }
                 try
                 {
-                    _service.UpdateSong(song);
+                    _service.UpdateSong(vm.Song);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SongExists(song.SongID))
+                    if (!SongExists(vm.Song.SongID))
                     {
                         return NotFound();
                     }
@@ -115,7 +121,7 @@ namespace MediaLibrary.Controllers.Audio
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(song);
+            return View(vm);
         }
 
         // GET: Songs/Delete/5
@@ -148,6 +154,18 @@ namespace MediaLibrary.Controllers.Audio
         private bool SongExists(int id)
         {
             return _service.GetSongById(id) != null;
+        }
+
+        private SongEditViewModel CreateModel(Song song)
+        {
+            SongEditViewModel vm = new SongEditViewModel();
+            vm.Song = song;
+            vm.PerformerList = _service.GetPerformersToViews();
+            if(song != null)
+            {
+                vm.Performers = _service.GetPerformersOfSong(song).ToList();
+            }
+            return vm;
         }
     }
 }

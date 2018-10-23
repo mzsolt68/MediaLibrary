@@ -1,4 +1,4 @@
-﻿@model MediaLibrary.Models.Audio.Song
+﻿@model MediaLibrary.ViewModels.Audio.SongEditViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,16 +12,27 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SongID" />
+            <input type="hidden" asp-for="Song.SongID" />
             <div class="form-group">
-                <label asp-for="SongTitle" class="control-label"></label>
-                <input asp-for="SongTitle" class="form-control" />
-                <span asp-validation-for="SongTitle" class="text-danger"></span>
+                <label asp-for="Performers" class="control-label"></label>
+                @*<input asp-for="Song.SongTitle" class="form-control" />
+                <span asp-validation-for="Song.SongTitle" class="text-danger"></span>*@
+                <br />
+                @for (int i = 0; i < Model.Song.PerformerSongs.Count; i++)
+                {
+                    @Html.DropDownListFor(x => Model.Song.PerformerSongs[i].PerformerID, new SelectList(Model.PerformerList, "Value", "Text"), htmlAttributes: new { @class = "Form-control", id = "PerformerID" })
+                    <br />
+                }
             </div>
             <div class="form-group">
-                <label asp-for="SongLiryc" class="control-label"></label>
-                <textarea asp-for="SongLiryc" class="form-control"></textarea>
-                <span asp-validation-for="SongLiryc" class="text-danger"></span>
+                <label asp-for="Song.SongTitle" class="control-label"></label>
+                <input asp-for="Song.SongTitle" class="form-control" />
+                <span asp-validation-for="Song.SongTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Song.SongLiryc" class="control-label"></label>
+                <textarea asp-for="Song.SongLiryc" class="form-control"></textarea>
+                <span asp-validation-for="Song.SongLiryc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

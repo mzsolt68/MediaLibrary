@@ -42,7 +42,7 @@ namespace MediaLibrary.Repositories.Audio
 
         public ICollection<Performer> GetPerformersOfSong(Song song)
         {
-            var perfsongs = _context.PerformerSongs.Include(p => p.Performer).Where(ps => ps.Song == song);
+            var perfsongs = _context.PerformerSongs.Include(p => p.Performer).Where(ps => ps.Song == song).ToList(); ;
             ICollection<Performer> performerlist = new List<Performer>();
             foreach (var item in perfsongs)
             {
@@ -68,7 +68,27 @@ namespace MediaLibrary.Repositories.Audio
 
         public void UpdateSong(Song updatedSong)
         {
-            _context.Songs.Update(updatedSong);
+            var song = GetSongById(updatedSong.SongID);
+            var perforig = _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToList();
+            var perfupd = updatedSong.PerformerSongs;
+            foreach (var item in perforig)
+            {
+                if (!perfupd.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                {
+                    _context.PerformerSongs.Remove(item);
+                }
+            }
+            foreach (var item in perfupd)
+            {
+                if(!perforig.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                {
+                    //item.SongID = song.SongID;
+                    _context.PerformerSongs.Add(item);
+                }
+            }
+            song.SongTitle = updatedSong.SongTitle;
+            song.SongLiryc = updatedSong.SongLiryc;
+            _context.Songs.Update(song);
             _context.SaveChanges();
         }
     }

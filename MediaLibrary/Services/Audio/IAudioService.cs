@@ -29,6 +29,7 @@ namespace MediaLibrary.Services.Audio
         Performer GetPerformerById(int? id);
         ICollection<Performer> GetPerformers();
         ICollection<PerformerSong> SongsOfPerformer(Performer performer);
+        IEnumerable<SelectListItem> GetPerformersToViews();
 
         void AddSong(Song newSong);
         void DeleteSong(Song deletedSong);
