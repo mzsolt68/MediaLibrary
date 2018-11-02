@@ -1,0 +1,13 @@
+﻿@model SelectList
+
+<div class="panel-heading">
+    <h3 class="panel-title">Választható előadók</h3>
+</div>
+<div class="row panel-body">
+    <div class="col-md-8">
+        <select class="form-control" id="SelectedPerformer" asp-items="Model"></select>
+    </div>
+    <div class="col-md-1">
+        <button type="button" id="AddPerformer" class="btn btn-default">Hozzáadás</button>
+    </div>
+</div>
