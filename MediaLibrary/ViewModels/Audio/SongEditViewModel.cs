@@ -12,8 +12,13 @@ namespace MediaLibrary.ViewModels.Audio
     {
         public Song Song { get; set; }
         [Display(Name = "Előadók")]
-        public List<Performer> Performers { get; set; }
+        public List<SongPerformerViewModel> Performers { get; set; }
         public int SelectedPerformerID { get; set; }
         public IEnumerable<SelectListItem> PerformerList { get; set; }
+
+        public SongEditViewModel()
+        {
+            Performers = new List<SongPerformerViewModel>();
+        }
     }
 }

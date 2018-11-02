@@ -1,0 +1,11 @@
+﻿@model MediaLibrary.ViewModels.Audio.SongPerformerViewModel
+
+    <div class="row PerformerRow">
+        <input type="hidden" asp-for="Performer.PerformerID" />
+        <div class="col-md-8">
+            <input class="form-control" readonly asp-for="Performer.PerformerName" />
+        </div>
+        <div class="col-md-1 DeletePerformer" id="@Model.Performer.PerformerID">
+            <button type="button" class="btn btn-danger" id="DeletePerformer">Törlés</button>
+        </div>
+    </div>

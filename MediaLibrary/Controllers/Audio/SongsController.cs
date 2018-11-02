@@ -15,6 +15,7 @@ namespace MediaLibrary.Controllers.Audio
     public class SongsController : Controller
     {
         private readonly IAudioService _service;
+        private SongEditViewModel _editViewModel;
 
         public SongsController(IAudioService service)
         {
@@ -51,8 +52,12 @@ namespace MediaLibrary.Controllers.Audio
         public IActionResult Create()
         {
             var song = new Song();
-            SongEditViewModel vm = CreateModel(song);
-            return View(vm);
+            if (_editViewModel != null)
+            {
+                _editViewModel = null;
+            }
+            _editViewModel = CreateEditViewModel(song);
+            return View(_editViewModel);
         }
 
         // POST: Songs/Create
@@ -83,8 +88,12 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            SongEditViewModel vm = CreateModel(song);
-            return View(vm);
+            if(_editViewModel != null)
+            {
+                _editViewModel = null;
+            }
+            _editViewModel = CreateEditViewModel(song);
+            return View(_editViewModel);
         }
 
         // POST: Songs/Edit/5
@@ -157,16 +166,32 @@ namespace MediaLibrary.Controllers.Audio
             return _service.GetSongById(id) != null;
         }
 
-        private SongEditViewModel CreateModel(Song song)
+        private SongEditViewModel CreateEditViewModel(Song song)
         {
             SongEditViewModel vm = new SongEditViewModel();
             vm.Song = song;
             vm.PerformerList = _service.GetPerformersToViews();
             if(song != null)
             {
-                vm.Performers = _service.GetPerformersOfSong(song).ToList();
+                var performers = _service.GetPerformersOfSong(song).ToList();
+                foreach (var item in performers)
+                {
+                    vm.Performers.Add(new SongPerformerViewModel { Performer = item });
+                }
             }
             return vm;
+        }
+
+        [HttpPost]
+        public IActionResult AddPerformer(int id)
+        {
+            var performer = _service.GetPerformerById(id);
+            if (performer != null)
+            {
+                SongPerformerViewModel vm = new SongPerformerViewModel { Performer = performer };
+                return PartialView("Audio/PerformerListPartial", vm);
+            }
+            return NotFound();
         }
     }
 }
