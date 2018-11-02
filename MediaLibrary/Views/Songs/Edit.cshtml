@@ -9,19 +9,34 @@
 <h4>Dal</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="panel panel-default col-md-4">
+        <div class="panel-heading">
+            <h3 class="panel-title">Választható előadók</h3>
+        </div>
+        <div class="row panel-body">
+            <div class="col-md-8">
+                <select class="form-control" id="SelectedPerformer" asp-for="SelectedPerformerID" asp-items="Model.PerformerList"></select>
+            </div>
+            <div class="col-md-1">
+                <button type="button" id="AddPerformer" class="btn btn-default">Hozzáadás</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="panel panel-default col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Song.SongID" />
             <div class="form-group">
                 <label asp-for="Performers" class="control-label"></label>
                 <br />
-                @for (int i = 0; i < Model.Song.PerformerSongs.Count; i++)
-                {
-                <div>
-                    @Html.DropDownListFor(x => Model.Song.PerformerSongs[i].PerformerID, new SelectList(Model.PerformerList, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "PerformerID" })
+                <div id="songperformers">
+                    @for (int i = 0; i < Model.Performers.Count; i++)
+                    {
+                        Html.RenderPartial("Audio/PerformerListPartial", Model.Performers[i]);
+                    }
                 </div>
-                }
             </div>
             <div class="form-group">
                 <label asp-for="Song.SongTitle" class="control-label"></label>
