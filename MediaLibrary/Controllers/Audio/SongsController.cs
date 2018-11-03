@@ -69,7 +69,7 @@ namespace MediaLibrary.Controllers.Audio
         {
             if (ModelState.IsValid)
             {
-                _service.AddSong(vm.Song);
+                _service.AddSong(vm.Song, vm.Performers);
                 return RedirectToAction(nameof(Index));
             }
             return View(vm);
@@ -110,13 +110,9 @@ namespace MediaLibrary.Controllers.Audio
 
             if (ModelState.IsValid)
             {
-                foreach (var item in vm.Song.PerformerSongs)
-                {
-                    item.SongID = id;
-                }
                 try
                 {
-                    _service.UpdateSong(vm.Song);
+                    _service.UpdateSong(vm.Song, vm.Performers);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

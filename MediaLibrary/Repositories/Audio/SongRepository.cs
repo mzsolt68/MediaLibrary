@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
+using MediaLibrary.ViewModels.Audio;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Repositories.Audio
@@ -17,9 +18,20 @@ namespace MediaLibrary.Repositories.Audio
             _context = context;
         }
 
-        public void AddSong(Song newSong)
+        public void AddSong(Song newSong, List<SongPerformerViewModel> performers)
         {
             _context.Songs.Add(newSong);
+            _context.SaveChanges();
+            foreach (var item in performers)
+            {
+                if (item != null)
+                {
+                    _context.PerformerSongs.Add(
+                        new PerformerSong
+                        { SongID = newSong.SongID, PerformerID = item.Performer.PerformerID}
+                        );
+                }
+            }
             _context.SaveChanges();
         }
 
@@ -66,11 +78,18 @@ namespace MediaLibrary.Repositories.Audio
             return songlist;
         }
 
-        public void UpdateSong(Song updatedSong)
+        public void UpdateSong(Song updatedSong, List<SongPerformerViewModel> performers)
         {
             var song = GetSongById(updatedSong.SongID);
             var perforig = _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToList();
-            var perfupd = updatedSong.PerformerSongs;
+            ICollection<Performer> perfupd = new List<Performer>();
+            foreach (var item in performers)
+            {
+                if (item != null)
+                {
+                    perfupd.Add(item.Performer);
+                }
+            }
             foreach (var item in perforig)
             {
                 if (!perfupd.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
@@ -82,8 +101,10 @@ namespace MediaLibrary.Repositories.Audio
             {
                 if(!perforig.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
                 {
-                    //item.SongID = song.SongID;
-                    _context.PerformerSongs.Add(item);
+                    _context.PerformerSongs.Add(
+                        new PerformerSong
+                        { PerformerID = item.PerformerID, SongID = updatedSong.SongID}
+                        );
                 }
             }
             song.SongTitle = updatedSong.SongTitle;

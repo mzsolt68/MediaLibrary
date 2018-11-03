@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediaLibrary.Data;
 using MediaLibrary.Models.Audio;
 using MediaLibrary.Repositories.Audio;
+using MediaLibrary.ViewModels.Audio;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,9 +43,9 @@ namespace MediaLibrary.Services.Audio
             _performers.AddPerformer(newPerformer);
         }
 
-        public void AddSong(Song newSong)
+        public void AddSong(Song newSong, List<SongPerformerViewModel> performers)
         {
-            _songs.AddSong(newSong);
+            _songs.AddSong(newSong, performers);
         }
 
         public void DeleteAlbum(Album deletedAlbum)
@@ -170,9 +171,9 @@ namespace MediaLibrary.Services.Audio
             _performers.UpdatePerformer(updatedPerformer);
         }
 
-        public void UpdateSong(Song updatedSong)
+        public void UpdateSong(Song updatedSong, List<SongPerformerViewModel> performers)
         {
-            _songs.UpdateSong(updatedSong);
+            _songs.UpdateSong(updatedSong, performers);
         }
     }
 }
