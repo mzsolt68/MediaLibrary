@@ -1,5 +1,8 @@
 ﻿@model MediaLibrary.ViewModels.Audio.SongPerformerViewModel
+@using HtmlHelpers.BeginCollectionItemCore
 
+@using (Html.BeginCollectionItem("Performers"))
+{
     <div class="row PerformerRow">
         <input type="hidden" asp-for="Performer.PerformerID" />
         <div class="col-md-8">
@@ -9,3 +12,4 @@
             <button type="button" class="btn btn-danger" id="DeletePerformer">Törlés</button>
         </div>
     </div>
+}
