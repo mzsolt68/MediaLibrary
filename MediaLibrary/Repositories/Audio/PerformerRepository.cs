@@ -36,7 +36,7 @@ namespace MediaLibrary.Repositories.Audio
 
         public ICollection<Performer> GetPerformers()
         {
-            return _context.Performers.ToList();
+            return _context.Performers.OrderBy(p => p.PerformerName).ToList();
         }
 
         public ICollection<PerformerSong> SongsOfPerformer(Performer performer)
