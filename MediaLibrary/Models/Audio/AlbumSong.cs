@@ -15,6 +15,8 @@ namespace MediaLibrary.Models.Audio
         public int SongID { get; set; }
         public Song Song { get; set; }
         [Required]
+        public int TrackNr { get; set; }
+        [Required]
         [Display(Name = "Játékidő")]
         public DateTime PlayTime { get; set; }
         [Display(Name = "Lemez")]

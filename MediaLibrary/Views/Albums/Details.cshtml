@@ -33,6 +33,7 @@
     <table class="table table-condensed">
         <thead>
             <tr>
+                <th class="col-xs-1" style="text-align:center">Sorszám</th>
                 <th class="col-xs-4" style="text-align:center">Zeneszám címe</th>
                 <th class="col-xs-2" style="text-align:center">Előadó</th>
                 <th class="col-xs-1" style="text-align:center">Játékidő</th>
@@ -42,6 +43,7 @@
         @foreach (var song in Model.Details)
         {
             <tr>
+                <td style="text-align:center">@song.TrackNr</td>
                 <td style="text-align:center">@song.Song.SongTitle</td>
                 <td style="text-align:center">
                     @foreach (var perf in song.Song.PerformerSongs)
