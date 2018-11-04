@@ -16,6 +16,7 @@ namespace MediaLibrary.Controllers.Audio
     {
         private readonly IAudioService _service;
         private SongEditViewModel _editViewModel;
+        private SongDetailsViewModel _detailViewModel;
 
         public SongsController(IAudioService service)
         {
@@ -36,16 +37,17 @@ namespace MediaLibrary.Controllers.Audio
                 return NotFound();
             }
 
-            var vm = new SongDetailsViewModel();
             var song = _service.GetSongById(id);
             if (song == null)
             {
                 return NotFound();
             }
-            vm.Song = song;
-            vm.AlbumsOfSong = _service.GetAlbumsOfSong(song);
-            vm.PerformersOfSong = _service.GetPerformersOfSong(song);
-            return View(vm);
+            if(_detailViewModel != null)
+            {
+                _detailViewModel = null;
+            }
+            _detailViewModel = CreateDetailsViewModel(song);
+            return View(_detailViewModel);
         }
 
         // GET: Songs/Create
@@ -143,8 +145,12 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-
-            return View(song);
+            if(_detailViewModel != null)
+            {
+                _detailViewModel = null;
+            }
+            _detailViewModel = CreateDetailsViewModel(song);
+            return View(_detailViewModel);
         }
 
         // POST: Songs/Delete/5
@@ -174,6 +180,18 @@ namespace MediaLibrary.Controllers.Audio
                 {
                     vm.Performers.Add(new SongPerformerViewModel { Performer = item });
                 }
+            }
+            return vm;
+        }
+
+        private SongDetailsViewModel CreateDetailsViewModel(Song song)
+        {
+            var vm = new SongDetailsViewModel();
+            if (song != null)
+            {
+                vm.Song = song;
+                vm.AlbumsOfSong = _service.GetAlbumsOfSong(song);
+                vm.PerformersOfSong = _service.GetPerformersOfSong(song);
             }
             return vm;
         }
