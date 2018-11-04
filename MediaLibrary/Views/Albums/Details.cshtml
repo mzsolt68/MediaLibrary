@@ -41,14 +41,14 @@
         </thead>
         @foreach (var song in Model.Details)
         {
-            string performer = "";
-            foreach (var perf in song.Song.PerformerSongs)
-            {
-                performer = perf.Performer.PerformerName;
-            }
             <tr>
                 <td style="text-align:center">@song.Song.SongTitle</td>
-                <td style="text-align:center">@performer</td>
+                <td style="text-align:center">
+                    @foreach (var perf in song.Song.PerformerSongs)
+                    {
+                        @Html.DisplayName($"{perf.Performer.PerformerName}")<br />
+                    }
+                </td>
                 <td style="text-align:center">@song.PlayTime.ToShortTimeString()</td>
                 <td style="text-align:center">@song.Disc</td>
             </tr>
