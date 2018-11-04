@@ -63,7 +63,10 @@ namespace MediaLibrary.Data
                 );
             
             builder.Entity<Album>().HasData(
-                new { AlbumID = 1, AlbumTitle = "Boney M Gold", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1}
+                new { AlbumID = 1, AlbumTitle = "Boney M Gold", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1},
+                new { AlbumID = 2, AlbumTitle = "Bravissimo 8", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 },
+                new { AlbumID = 3, AlbumTitle = "Bravissimo 6", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 },
+                new { AlbumID = 4, AlbumTitle = "Vegyes", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 }
                 );
             builder.Entity<Song>().HasData(
                 new Song { SongID = 1, SongTitle = "Rivers of Babylon"},
@@ -135,7 +138,10 @@ namespace MediaLibrary.Data
                 new AlbumSong { AlbumID = 1, SongID = 17, PlayTime = Convert.ToDateTime("2:25"), Disc = 1 },
                 new AlbumSong { AlbumID = 1, SongID = 18, PlayTime = Convert.ToDateTime("4:11"), Disc = 1 },
                 new AlbumSong { AlbumID = 1, SongID = 19, PlayTime = Convert.ToDateTime("3:56"), Disc = 1 },
-                new AlbumSong { AlbumID = 1, SongID = 20, PlayTime = Convert.ToDateTime("3:51"), Disc = 1 }
+                new AlbumSong { AlbumID = 1, SongID = 20, PlayTime = Convert.ToDateTime("3:51"), Disc = 1 },
+                new AlbumSong { AlbumID = 2, SongID = 21, PlayTime = Convert.ToDateTime("3:52"), Disc = 1 },
+                new AlbumSong { AlbumID = 2, SongID = 22, PlayTime = Convert.ToDateTime("3:45"), Disc = 1 },
+                new AlbumSong { AlbumID = 4, SongID = 22, PlayTime = Convert.ToDateTime("3:45"), Disc = 1 }
                 );
         }
     }
