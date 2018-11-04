@@ -7,40 +7,7 @@
 <h2>Részletek</h2>
 
 <div>
-    <h4>Dal</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Song.SongTitle)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Song.SongTitle)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Song.SongLiryc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Song.SongLiryc)
-        </dd>
-        <dt>
-            @Html.DisplayName("Előadó(k):")
-        </dt>
-        @foreach(var perf in Model.PerformersOfSong)
-        {
-            <dd>
-                @perf.PerformerName
-            </dd>
-        }
-        <dt>
-            @Html.DisplayName("Album(ok):")
-        </dt>
-        @foreach(var alb in Model.AlbumsOfSong)
-        {
-            <dd>
-                @alb.AlbumTitle (@alb.AlbumFormat.AudioFormatName)
-            </dd>
-        }
-    </dl>
+    @{ await Html.RenderPartialAsync("Audio/SongDetailsPartial", Model);}
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Song.SongID">Szerkesztés</a> |

@@ -1,4 +1,4 @@
-﻿@model MediaLibrary.Models.Audio.Song
+﻿@model MediaLibrary.ViewModels.Audio.SongDetailsViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,25 +8,9 @@
 
 <h3>Biztosan törölni akarja ezt a dalt?</h3>
 <div>
-    <h4>Song</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.SongTitle)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SongTitle)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SongLiryc)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SongLiryc)
-        </dd>
-    </dl>
-    
+    @{ await Html.RenderPartialAsync("Audio/SongDetailsPartial", Model);}
     <form asp-action="Delete">
-        <input type="hidden" asp-for="SongID" />
+        <input type="hidden" asp-for="Song.SongID" />
         <input type="submit" value="Törlés" class="btn btn-default" /> |
         <a asp-action="Index">Vissza a listához</a>
     </form>
