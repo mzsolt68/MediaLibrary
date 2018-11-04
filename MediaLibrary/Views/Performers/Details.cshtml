@@ -21,20 +21,20 @@
     <table class="table table-condensed">
         <thead>
             <tr>
-                <td>Zeneszám címe</td>
-                <td>Album</td>
+                <th class="col-xs-4" style="text-align:center">Zeneszám címe</th>
+                <th class="col-xs-2" style="text-align:center">Album</th>
             </tr>
         </thead>
         @foreach(var item in Model.Songs)
         {
-            string album = "";
-            foreach (var alb in item.Song.AlbumSongs)
-            {
-                album = alb.Album.AlbumTitle;
-            }
             <tr>
-                <td>@item.Song.SongTitle</td>
-                <td>@album</td>
+                <td style="text-align:center">@item.Song.SongTitle</td>
+                <td style="text-align:center">
+                    @foreach (var alb in item.Song.AlbumSongs)
+                    {
+                        @Html.DisplayName($"{alb.Album.AlbumTitle}")<br />
+                    }
+                </td>
             </tr>
         }
     </table>
