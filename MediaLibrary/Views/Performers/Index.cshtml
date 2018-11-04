@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Új előadó hozzáadása</a>
 </p>
 <table class="table table-condensed">
     <thead>
@@ -25,9 +25,9 @@
                 @Html.DisplayFor(modelItem => item.PerformerName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PerformerID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PerformerID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PerformerID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.PerformerID">Szerkesztés</a> |
+                <a asp-action="Details" asp-route-id="@item.PerformerID">Részletek</a> |
+                <a asp-action="Delete" asp-route-id="@item.PerformerID">Törlés</a>
             </td>
         </tr>
 }
