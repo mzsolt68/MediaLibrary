@@ -7,7 +7,7 @@
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Új album hozzáadása</a>
 </p>
 <table class="table table-condensed">
     <thead>
@@ -37,9 +37,9 @@
                 @item.AlbumSongs.Count()
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AlbumID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AlbumID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AlbumID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.AlbumID">Szerkesztés</a> |
+                <a asp-action="Details" asp-route-id="@item.AlbumID">Részletek</a> |
+                <a asp-action="Delete" asp-route-id="@item.AlbumID">Törlés</a>
             </td>
         </tr>
 }
