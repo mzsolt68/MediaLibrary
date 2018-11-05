@@ -15,6 +15,8 @@ namespace MediaLibrary.Controllers.Audio
     public class AlbumsController : Controller
     {
         private readonly IAudioService _service;
+        private AlbumDetailsViewModel _detailsViewModel;
+        private AlbumEditViewModel _editViewModel;
 
         public AlbumsController(IAudioService service)
         {
@@ -34,22 +36,24 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            var model = new AlbumDetailsViewModel();
             var album = _service.GetAlbumById(id);
             if(album == null)
             {
                 return NotFound();
             }
-            model.Album = album;
-            model.Details = _service.GetSongsOfAlbum(album);
-            return View(model);
+            if(_detailsViewModel != null)
+            {
+                _detailsViewModel = null;
+            }
+            _detailsViewModel = CreateDetailsViewModel(album); 
+            return View(_detailsViewModel);
         }
 
         // GET: Albums/Create
         public IActionResult Create()
         {
             Album album = new Album();
-            AlbumEditViewModel vm = CreateViewModel(album);
+            AlbumEditViewModel vm = CreateEditViewModel(album);
             return View(vm);
         }
 
@@ -82,7 +86,7 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            AlbumEditViewModel vm = CreateViewModel(album);
+            AlbumEditViewModel vm = CreateEditViewModel(album);
             return View(vm);
         }
 
@@ -134,8 +138,12 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-
-            return View(album);
+            if (_detailsViewModel != null)
+            {
+                _detailsViewModel = null;
+            }
+            _detailsViewModel = CreateDetailsViewModel(album);
+            return View(_detailsViewModel);
         }
 
         // POST: Albums/Delete/5
@@ -153,7 +161,7 @@ namespace MediaLibrary.Controllers.Audio
             return _service.GetAlbumById(id) != null;
         }
 
-        private AlbumEditViewModel CreateViewModel(Album album)
+        private AlbumEditViewModel CreateEditViewModel(Album album)
         {
             var vm = new AlbumEditViewModel();
             vm.Album = album;
@@ -165,5 +173,15 @@ namespace MediaLibrary.Controllers.Audio
             return vm;
         }
 
+        private AlbumDetailsViewModel CreateDetailsViewModel(Album album)
+        {
+            var model = new AlbumDetailsViewModel();
+            if(album != null)
+            {
+                model.Album = album;
+                model.Details = _service.GetSongsOfAlbum(album);
+            }
+            return model;
+        }
     }
 }
