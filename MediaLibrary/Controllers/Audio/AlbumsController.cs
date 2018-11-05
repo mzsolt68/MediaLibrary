@@ -53,8 +53,12 @@ namespace MediaLibrary.Controllers.Audio
         public IActionResult Create()
         {
             Album album = new Album();
-            AlbumEditViewModel vm = CreateEditViewModel(album);
-            return View(vm);
+            if(_editViewModel != null)
+            {
+                _editViewModel = null;
+            }
+            _editViewModel = CreateEditViewModel(album);
+            return View(_editViewModel);
         }
 
         // POST: Albums/Create
@@ -86,8 +90,12 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            AlbumEditViewModel vm = CreateEditViewModel(album);
-            return View(vm);
+            if (_editViewModel != null)
+            {
+                _editViewModel = null;
+            }
+            _editViewModel = CreateEditViewModel(album);
+            return View(_editViewModel);
         }
 
         // POST: Albums/Edit/5
