@@ -11,7 +11,7 @@
     @{ await Html.RenderPartialAsync("Audio/SongDetailsPartial", Model);}
     <form asp-action="Delete">
         <input type="hidden" asp-for="Song.SongID" />
-        <input type="submit" value="Törlés" class="btn btn-default" /> |
+        <input type="submit" value="Törlés" class="btn btn-danger" /> |
         <a asp-action="Index">Vissza a listához</a>
     </form>
 </div>
