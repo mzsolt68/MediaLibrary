@@ -12,5 +12,11 @@ namespace MediaLibrary.ViewModels.Audio
         public Album Album { get; set; }
         public int AudioFormatID { get; set; }
         public IEnumerable<SelectListItem> AudioFormats { get; set; }
+        public List<AlbumSongViewModel> Songs { get; set; }
+
+        public AlbumEditViewModel()
+        {
+            Songs = new List<AlbumSongViewModel>();
+        }
     }
 }

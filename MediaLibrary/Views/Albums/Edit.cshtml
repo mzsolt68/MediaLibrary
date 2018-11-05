@@ -13,6 +13,24 @@
         <form asp-action="Edit">
             <input type="hidden" asp-for="Album.AlbumID" />
             @{ await Html.RenderPartialAsync("Audio/AlbumEditPartial", Model);}
+            <div id="AlbumSongs">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th class="col-xs-1" style="text-align:center">Sorszám</th>
+                            <th class="col-xs-4" style="text-align:center">Zeneszám címe</th>
+                            <th class="col-xs-2" style="text-align:center">Előadó</th>
+                            <th class="col-xs-1" style="text-align:center">Játékidő</th>
+                            <th class="col-xs-1" style="text-align:center">Lemez</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.Songs)
+                    {
+                        await Html.RenderPartialAsync("Audio/SongListPartial", item);
+                    }
+                </table>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Mentés" class="btn btn-default" />
             </div>
