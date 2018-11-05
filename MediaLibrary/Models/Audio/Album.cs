@@ -17,6 +17,7 @@ namespace MediaLibrary.Models.Audio
         [Display(Name = "Lemezek száma")]
         public Byte NrOfDiscs { get; set; }
 
+        [Display(Name = "Dalok")]
         public virtual ICollection<AlbumSong> AlbumSongs { get; set; }
 
     }

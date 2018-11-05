@@ -41,7 +41,7 @@ namespace MediaLibrary.Repositories.Audio
 
         public ICollection<Album> GetAlbums()
         {
-            return _context.Albums.OrderBy(a => a.AlbumTitle).ToList();
+            return _context.Albums.Include(x => x.AlbumSongs).OrderBy(a => a.AlbumTitle).ToList();
         }
 
         public ICollection<AlbumSong> GetSongsOfAlbum(Album album)

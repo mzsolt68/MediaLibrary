@@ -12,8 +12,14 @@
 <table class="table table-condensed">
     <thead>
         <tr>
-            <th>
+            <th class="col-xs-3" style="text-align:center">
                 @Html.DisplayNameFor(model => model.AlbumTitle)
+            </th>
+            <th class="col-xs-2" style="text-align:center">
+                @Html.DisplayNameFor(model => model.NrOfDiscs)
+            </th>
+            <th class="col-xs-1" style="text-align:center">
+                @Html.DisplayNameFor(model => model.AlbumSongs)
             </th>
             <th></th>
         </tr>
@@ -21,8 +27,14 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+            <td style="text-align:center">
                 @Html.DisplayFor(modelItem => item.AlbumTitle)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.NrOfDiscs)
+            </td>
+            <td style="text-align:center">
+                @item.AlbumSongs.Count()
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AlbumID">Edit</a> |
