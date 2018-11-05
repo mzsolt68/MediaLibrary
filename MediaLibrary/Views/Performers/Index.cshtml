@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.PerformerName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerformerSongs)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -23,6 +26,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.PerformerName)
+            </td>
+            <td>
+                @item.PerformerSongs.Count()
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PerformerID">Szerkesztés</a> |

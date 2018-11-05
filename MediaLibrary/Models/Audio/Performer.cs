@@ -13,6 +13,7 @@ namespace MediaLibrary.Models.Audio
         [Display(Name = "Előadó neve")]
         public string PerformerName { get; set; }
 
+        [Display(Name = "Dalok")]
         public virtual ICollection<PerformerSong> PerformerSongs { get; set; }
     }
 }
