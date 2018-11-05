@@ -15,6 +15,7 @@ namespace MediaLibrary.Controllers.Audio
     public class PerformersController : Controller
     {
         private readonly IAudioService _service;
+        private PerformerDetailsViewModel _detailsViewModel;
 
         public PerformersController(IAudioService service)
         {
@@ -33,15 +34,12 @@ namespace MediaLibrary.Controllers.Audio
             {
                 return NotFound();
             }
-            var model = new PerformerDetailsViewModel();
             var performer = _service.GetPerformerById(id);
             if (performer == null)
             {
                 return NotFound();
             }
-            model.Performer = performer;
-            model.Songs = _service.SongsOfPerformer(performer);
-            return View(model);
+            return View(CreateDetailsViewModel(performer));
         }
 
         // GET: Performers/Create
@@ -129,7 +127,7 @@ namespace MediaLibrary.Controllers.Audio
                 return NotFound();
             }
 
-            return View(performer);
+            return View(CreateDetailsViewModel(performer));
         }
 
         // POST: Performers/Delete/5
@@ -145,6 +143,17 @@ namespace MediaLibrary.Controllers.Audio
         private bool PerformerExists(int id)
         {
             return _service.GetPerformerById(id) != null;
+        }
+
+        private PerformerDetailsViewModel CreateDetailsViewModel(Performer performer)
+        {
+            var model = new PerformerDetailsViewModel();
+            if (performer != null)
+            {
+                model.Performer = performer;
+                model.Songs = _service.SongsOfPerformer(performer);
+            }
+            return model;
         }
     }
 }
