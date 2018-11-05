@@ -16,7 +16,6 @@ namespace MediaLibrary.Services.Audio
         Album GetAlbumById(int? id);
         ICollection<Album> GetAlbums();
         ICollection<AlbumSong> GetSongsOfAlbum(Album album);
-
         void AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
@@ -39,5 +38,9 @@ namespace MediaLibrary.Services.Audio
         ICollection<Song> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
         ICollection<Performer> GetPerformersOfSong(Song song);
+
+        int GetAlbumCount();
+        int GetPerformerCount();
+        int GetSongCount();
     }
 }

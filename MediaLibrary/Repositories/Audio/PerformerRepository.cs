@@ -34,6 +34,11 @@ namespace MediaLibrary.Repositories.Audio
             return _context.Performers.Where(p => p.PerformerID == id).DefaultIfEmpty(null).Single();
         }
 
+        public int GetPerformerCount()
+        {
+            return _context.Performers.Count();
+        }
+
         public ICollection<Performer> GetPerformers()
         {
             return _context.Performers.Include(x => x.PerformerSongs).OrderBy(p => p.PerformerName).ToList();

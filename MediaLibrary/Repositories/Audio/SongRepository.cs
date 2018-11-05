@@ -68,6 +68,11 @@ namespace MediaLibrary.Repositories.Audio
             return _context.Songs.Where(s => s.SongID == id).DefaultIfEmpty(null).Single();
         }
 
+        public int GetSongCount()
+        {
+            return _context.Songs.Count();
+        }
+
         public ICollection<Song> GetSongs()
         {
             var songlist = _context.Songs.ToList(); ;

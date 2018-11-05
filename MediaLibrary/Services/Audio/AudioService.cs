@@ -175,5 +175,20 @@ namespace MediaLibrary.Services.Audio
         {
             _songs.UpdateSong(updatedSong, performers);
         }
+
+        public int GetAlbumCount()
+        {
+            return _albums.GetAlbumCount();
+        }
+
+        public int GetPerformerCount()
+        {
+            return _performers.GetPerformerCount();
+        }
+
+        public int GetSongCount()
+        {
+            return _songs.GetSongCount();
+        }
     }
 }

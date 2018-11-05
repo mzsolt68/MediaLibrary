@@ -14,5 +14,6 @@ namespace MediaLibrary.Repositories.Audio
         Album GetAlbumById(int? id);
         ICollection<Album> GetAlbums();
         ICollection<AlbumSong> GetSongsOfAlbum(Album album);
+        int GetAlbumCount();
     }
 }

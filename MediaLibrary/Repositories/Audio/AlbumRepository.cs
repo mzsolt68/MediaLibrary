@@ -34,6 +34,11 @@ namespace MediaLibrary.Repositories.Audio
             return _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).DefaultIfEmpty(null).Single();
         }
 
+        public int GetAlbumCount()
+        {
+            return _context.Albums.Count();
+        }
+
         public ICollection<Album> GetAlbums()
         {
             return _context.Albums.OrderBy(a => a.AlbumTitle).ToList();
