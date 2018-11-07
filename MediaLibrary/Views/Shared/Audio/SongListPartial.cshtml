@@ -4,9 +4,9 @@
 @using (Html.BeginCollectionItem("Songs"))
 {
 <tr class="row SongRow">
-    <td>
+    @*<td style="text-align:center">
         <input type="hidden" asp-for="SongOfAlbum.SongID" />
-    </td>
+    </td>*@
     <td style="text-align:center">
         @Model.SongOfAlbum.TrackNr
     </td>
@@ -24,6 +24,9 @@
     </td>
     <td style="text-align:center">
         @Model.SongOfAlbum.Disc
+    </td>
+    <td class="DeleteAlbumSong">
+        <button type="button" class="btn btn-danger" id="DeleteAlbumSong">Törlés</button>
     </td>
 </tr>
 }
