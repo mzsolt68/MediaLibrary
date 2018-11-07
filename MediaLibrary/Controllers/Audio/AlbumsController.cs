@@ -172,11 +172,19 @@ namespace MediaLibrary.Controllers.Audio
         private AlbumEditViewModel CreateEditViewModel(Album album)
         {
             var vm = new AlbumEditViewModel();
-            vm.Album = album;
-            vm.AudioFormats = _service.GetFormatsToViews();
-            if (album.AlbumFormat != null)
+            if (album != null)
             {
-                vm.AudioFormatID = album.AlbumFormat.AudioFormatID;
+                vm.Album = album;
+                vm.AudioFormats = _service.GetFormatsToViews();
+                if (album.AlbumFormat != null)
+                {
+                    vm.AudioFormatID = album.AlbumFormat.AudioFormatID;
+                }
+                var songs = _service.GetSongsOfAlbum(album);
+                foreach (var item in songs)
+                {
+                    vm.Songs.Add(new AlbumSongViewModel { SongOfAlbum = item });
+                }
             }
             return vm;
         }
