@@ -7,26 +7,26 @@
     @*<td style="text-align:center">
         <input type="hidden" asp-for="SongOfAlbum.SongID" />
     </td>*@
-    <td style="text-align:center">
+    <td style="vertical-align:middle; text-align:center">
         @Model.SongOfAlbum.TrackNr
     </td>
-    <td style="text-align:center">
+    <td style="vertical-align:middle; text-align:center">
         @Model.SongOfAlbum.Song.SongTitle
     </td>
-    <td style="text-align:center">
+    <td style="vertical-align:middle; text-align:center">
         @foreach(var item in Model.SongOfAlbum.Song.PerformerSongs)
         {
             @Html.DisplayName($"{item.Performer.PerformerName}")<br />
         }
     </td>
-    <td style="text-align:center">
+    <td style="vertical-align:middle; text-align:center">
         @Model.SongOfAlbum.PlayTime.ToShortTimeString()
     </td>
-    <td style="text-align:center">
+    <td style="vertical-align:middle; text-align:center">
         @Model.SongOfAlbum.Disc
     </td>
-    <td class="DeleteAlbumSong">
-        <button type="button" class="btn btn-danger" id="DeleteAlbumSong">Törlés</button>
+    <td class="DeleteAlbumSong" style="vertical-align:middle">
+        <button type="button" class="btn btn-danger btn-xs" id="DeleteAlbumSong">Törlés</button>
     </td>
 </tr>
 }
