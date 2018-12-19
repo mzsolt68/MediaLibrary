@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20181020173344_test.cs" />
     <Compile Remove="Data\Migrations\20181020173344_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181219163305_Add Genre and Language to Song.cs" />
+    <Compile Remove="Data\Migrations\20181219163305_Add Genre and Language to Song.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

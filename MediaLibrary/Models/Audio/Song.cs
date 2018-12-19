@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediaLibrary.Models.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,10 @@ namespace MediaLibrary.Models.Audio
         [Display(Name = "Szöveg")]
         [DataType(DataType.MultilineText)]
         public string SongLiryc { get; set; }
+        [Display(Name = "Műfaj")]
+        public Genre Genre { get; set; }
+        [Display(Name = "Nyelv")]
+        public Language Language { get; set; }
 
         public virtual List<PerformerSong> PerformerSongs { get; set; }
 
