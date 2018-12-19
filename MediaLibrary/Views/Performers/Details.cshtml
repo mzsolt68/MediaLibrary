@@ -8,7 +8,7 @@
 
 @{await Html.RenderPartialAsync("Audio/PerformerDetailsPartial", Model);}
 
-<div>
+<div class="row">
     <a asp-action="Szerkesztés" asp-route-id="@Model.Performer.PerformerID">Szerkesztés</a> |
     <a asp-action="Index">Vissza a listához</a>
 </div>

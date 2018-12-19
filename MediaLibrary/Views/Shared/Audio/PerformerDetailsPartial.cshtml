@@ -1,6 +1,6 @@
 ﻿@model MediaLibrary.ViewModels.Audio.PerformerDetailsViewModel
 
-<div>
+<div class="row">
     <h4>Előadó</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -12,24 +12,26 @@
         </dd>
     </dl>
     <hr />
-    <table class="table table-condensed">
-        <thead>
-            <tr>
-                <th class="col-xs-4" style="text-align:center">Zeneszám címe</th>
-                <th class="col-xs-2" style="text-align:center">Album</th>
-            </tr>
-        </thead>
-        @foreach (var item in Model.Songs)
-        {
-            <tr>
-                <td style="text-align:center">@item.Song.SongTitle</td>
-                <td style="text-align:center">
-                    @foreach (var alb in item.Song.AlbumSongs)
-                    {
-                        @Html.DisplayName($"{alb.Album.AlbumTitle}")<br />
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="col-xs-8">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th class="col-xs-4" style="text-align:center">Zeneszám címe</th>
+                    <th class="col-xs-2" style="text-align:center">Album</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.Songs)
+            {
+                <tr>
+                    <td style="vertical-align:middle; text-align:center">@item.Song.SongTitle</td>
+                    <td style="vertical-align:middle; text-align:center">
+                        @foreach (var alb in item.Song.AlbumSongs)
+                        {
+                            @Html.DisplayName($"{alb.Album.AlbumTitle}")<br />
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
