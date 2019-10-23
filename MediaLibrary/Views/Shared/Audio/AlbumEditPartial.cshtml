@@ -15,6 +15,9 @@
         <label asp-for="Album.AlbumFormat" class="control-label"></label>
         @Html.DropDownListFor(x => Model.AudioFormatID, new SelectList(Model.AudioFormats, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "AudioFoarmatID" })
     </div>
+    <div class="form-group">
+        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#newSongModal">Új zeneszám hozzáadása</a>
+    </div>
 </div>
 <div id="AlbumSongs">
     <table class="table table-condensed">
@@ -34,4 +37,21 @@
             await Html.RenderPartialAsync("Audio/SongListPartial", item);
         }
     </table>
+</div>
+<div class="modal fade" id="newSongModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Zeneszám választás</h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success">Hozzáadás</button>
+                <button class="btn btn-default" data-dismiss="modal">Mégsem</button>
+            </div>
+        </div>
+    </div>
 </div>
