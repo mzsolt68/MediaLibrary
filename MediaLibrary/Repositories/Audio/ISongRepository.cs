@@ -1,4 +1,4 @@
-﻿using MediaLibrary.Models.Audio;
+﻿using MediaEntities.Models.Audio;
 using MediaLibrary.ViewModels.Audio;
 using System;
 using System.Collections.Generic;

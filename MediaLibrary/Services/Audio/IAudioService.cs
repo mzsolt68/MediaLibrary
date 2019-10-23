@@ -1,4 +1,4 @@
-﻿using MediaLibrary.Models.Audio;
+﻿using MediaEntities.Models.Audio;
 using MediaLibrary.ViewModels.Audio;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;

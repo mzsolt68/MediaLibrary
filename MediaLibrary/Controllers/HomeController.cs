@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MediaLibrary.Models;
+using MediaEntities.Models;
 
 namespace MediaLibrary.Controllers
 {

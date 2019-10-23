@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MediaLibrary.Data;
+using MediaEntities.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MediaLibrary.Repositories.Audio;
 using MediaLibrary.Services.Audio;
+using Microsoft.Extensions.Hosting;
 
 namespace MediaLibrary
 {
@@ -36,6 +37,11 @@ namespace MediaLibrary
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<MvcOptions>(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -47,16 +53,16 @@ namespace MediaLibrary
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<IAudioService, AudioService>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
