@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MediaLibrary.Models.Common;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,16 +10,22 @@ namespace MediaLibrary.Models.Books
     public class Book
     {
         public int BookID { get; set; }
+        [Required]
+        [Display(Name = "Könyv címe")]
         public string BookTitle { get; set; }
-        public ICollection<Author> Authors { get; set; }
+        [Display(Name = "Kiadás")]
         public string Edition { get; set; }
+        [Display(Name = "Kiadó")]
         public Publisher Publisher { get; set; }
+        [Display(Name = "Kiadás éve")]
         public string PublishYear { get; set; }
+        [Display(Name = "ISBN")]
         public string ISBN { get; set; }
-        /*Ide kell még egy property a formátumnak
-         * el kell dönteni, hogy gyűjtemény legyen
-         * és egy könyv példányhoz csatoljuk valamennyit,
-         * vagy minden meglévő formátumhoz létrehozunk egy
-         * könyv példányt */
+        [Display(Name = "Nyelv")]
+        public Language Language { get; set; }
+
+        public ICollection<Author> Authors { get; set; }
+        public ICollection<BookFormat> Formats { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
 }
