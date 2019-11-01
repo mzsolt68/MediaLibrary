@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaEntities.Models.Books
+namespace MediaLibrary.Entities.Models.Books
 {
     public class Publisher
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MediaEntities.Data.Migrations
+namespace MediaLibrary.Entities.Data.Migrations
 {
     public partial class AddtracknumberpropertytoAlbumSongtable : Migration
     {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MediaEntities.Data;
-using MediaEntities.Models.Audio;
+using MediaLibrary.Entities.Data;
+using MediaLibrary.Entities.Models.Audio;
 
 namespace MediaLibrary.Repositories.Audio
 {

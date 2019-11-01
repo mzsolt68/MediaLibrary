@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaEntities.Models.Common
+namespace MediaLibrary.Entities.Models.Common
 {
     public class Genre
     {

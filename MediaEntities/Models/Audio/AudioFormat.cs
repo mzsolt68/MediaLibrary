@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaEntities.Models.Audio
+namespace MediaLibrary.Entities.Models.Audio
 {
     public class AudioFormat
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MediaEntities.Models.Audio;
-using MediaEntities.Models.Common;
+using MediaLibrary.Entities.Models.Audio;
+using MediaLibrary.Entities.Models.Common;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace MediaEntities.Data
+namespace MediaLibrary.Entities.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

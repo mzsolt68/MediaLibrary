@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MediaEntities.Data;
-using MediaEntities.Models.Audio;
+using MediaLibrary.Entities.Data;
+using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Services.Audio;
 
 namespace MediaLibrary.Controllers.Audio

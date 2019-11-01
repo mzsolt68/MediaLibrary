@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MediaEntities.Models.Audio;
+using MediaLibrary.Entities.Models.Audio;
 using Microsoft.EntityFrameworkCore;
 
-namespace MediaEntities.Data
+namespace MediaLibrary.Entities.Data
 {
     public static class FillAudioTestData
     {

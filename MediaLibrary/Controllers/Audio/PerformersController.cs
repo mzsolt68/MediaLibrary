@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MediaEntities.Data;
-using MediaEntities.Models.Audio;
+using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Services.Audio;
 using MediaLibrary.ViewModels.Audio;
 
