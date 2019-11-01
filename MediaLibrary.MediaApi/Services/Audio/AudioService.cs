@@ -1,0 +1,195 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MediaLibrary.Entities.Data;
+using MediaLibrary.Entities.Models.Audio;
+using MediaLibrary.MediaApi.Interfaces;
+using MediaLibrary.MediaApi.Repositories.Audio;
+using MediaLibrary.Entities.Dto.Audio;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+
+namespace MediaLibrary.MediaApi.Services.Audio
+{
+    public class AudioService : IAudioService
+    {
+        private ApplicationDbContext _context;
+        private IAlbumRepository _albums;
+        private IAudioFormatRepository _formats;
+        private IPerformerReopsitory _performers;
+        private ISongRepository _songs;
+
+        public AudioService(ApplicationDbContext context)
+        {
+            _context = context;
+            _albums = new AlbumRepository(_context);
+            _formats = new AudioFormatRepository(_context);
+            _performers = new PerformerRepository(_context);
+            _songs = new SongRepository(_context);
+        }
+
+        public void AddAlbum(Album newAlbum)
+        {
+            _albums.AddAlbum(newAlbum);
+        }
+
+        public void AddFormat(AudioFormat newFormat)
+        {
+            _formats.AddFormat(newFormat);
+        }
+
+        public void AddPerformer(Performer newPerformer)
+        {
+            _performers.AddPerformer(newPerformer);
+        }
+
+        public void AddSong(Song newSong, List<SongPerformerDto> performers)
+        {
+            _songs.AddSong(newSong, performers);
+        }
+
+        public void DeleteAlbum(Album deletedAlbum)
+        {
+            _albums.DeleteAlbum(deletedAlbum);
+        }
+
+        public void DeleteFormat(AudioFormat deletedFormat)
+        {
+            _formats.DeleteFormat(deletedFormat);
+        }
+
+        public void DeletePerformer(Performer deletedPerformer)
+        {
+            _performers.DeletePerformer(deletedPerformer);
+        }
+
+        public void DeleteSong(Song deletedSong)
+        {
+            _songs.DeleteSong(deletedSong);
+        }
+
+        public async Task<Album> GetAlbumById(int? id)
+        {
+            return await _albums.GetAlbumById(id);
+        }
+
+        public async Task<ICollection<Album>> GetAlbums()
+        {
+            return await _albums.GetAlbums();
+        }
+
+        public ICollection<Album> GetAlbumsOfSong(Song song)
+        {
+            return _songs.GetAlbumsOfSong(song);
+        }
+
+        public AudioFormat GetFormatById(int? id)
+        {
+            return _formats.GetFormatById(id);
+        }
+
+        public ICollection<AudioFormat> GetFormats()
+        {
+            return _formats.GetFormats();
+        }
+
+        public IEnumerable<SelectListItem> GetFormatsToViews()
+        {
+            List<SelectListItem> formats = _context.AudioFormats.AsNoTracking()
+                .OrderBy(af => af.AudioFormatName)
+                .Select(f =>
+                new SelectListItem
+                {
+                    Value = f.AudioFormatID.ToString(),
+                    Text = f.AudioFormatName
+                }).ToList();
+            formats.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz formátumot ---" });
+            return new SelectList(formats, "Value", "Text");
+        }
+
+        public Performer GetPerformerById(int? id)
+        {
+            return _performers.GetPerformerById(id);
+        }
+
+        public ICollection<Performer> GetPerformers()
+        {
+            return _performers.GetPerformers();
+        }
+
+        public ICollection<Performer> GetPerformersOfSong(Song song)
+        {
+            return _songs.GetPerformersOfSong(song);
+        }
+
+        public IEnumerable<SelectListItem> GetPerformersToViews()
+        {
+            List<SelectListItem> performers = _context.Performers.AsNoTracking()
+                .OrderBy(perf => perf.PerformerName)
+                .Select(p =>
+                new SelectListItem
+                {
+                    Value = p.PerformerID.ToString(),
+                    Text = p.PerformerName
+                }).ToList();
+            performers.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz előadót ---" });
+            return new SelectList(performers, "Value", "Text");
+        }
+
+        public Song GetSongById(int? id)
+        {
+            return _songs.GetSongById(id);
+        }
+
+        public ICollection<Song> GetSongs()
+        {
+            return _songs.GetSongs();
+        }
+
+        public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
+        {
+            return await _albums.GetSongsOfAlbum(album);
+        }
+
+        public ICollection<PerformerSong> SongsOfPerformer(Performer performer)
+        {
+            return _performers.SongsOfPerformer(performer);
+        }
+
+        public void UpdateAlbum(Album updatedAlbum)
+        {
+            _albums.UpdateAlbum(updatedAlbum);
+        }
+
+        public void UpdateFormat(AudioFormat updatedFormat)
+        {
+            _formats.UpdateFormat(updatedFormat);
+        }
+
+        public void UpdatePerformer(Performer updatedPerformer)
+        {
+            _performers.UpdatePerformer(updatedPerformer);
+        }
+
+        public void UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
+        {
+            _songs.UpdateSong(updatedSong, performers);
+        }
+
+        public async Task<int> GetAlbumCount()
+        {
+            return await _albums.GetAlbumCount();
+        }
+
+        public int GetPerformerCount()
+        {
+            return _performers.GetPerformerCount();
+        }
+
+        public int GetSongCount()
+        {
+            return _songs.GetSongCount();
+        }
+    }
+}
