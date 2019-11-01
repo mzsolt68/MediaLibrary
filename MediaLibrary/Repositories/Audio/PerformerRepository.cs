@@ -31,7 +31,7 @@ namespace MediaLibrary.Repositories.Audio
 
         public Performer GetPerformerById(int? id)
         {
-            return _context.Performers.Where(p => p.PerformerID == id).DefaultIfEmpty(null).Single();
+            return _context.Performers.Where(p => p.PerformerID == id).SingleOrDefault();
         }
 
         public int GetPerformerCount()

@@ -30,7 +30,7 @@ namespace MediaLibrary.Repositories.Audio
 
         public AudioFormat GetFormatById(int? id)
         {
-            return _context.AudioFormats.Where(af => af.AudioFormatID == id).DefaultIfEmpty(null).Single();
+            return _context.AudioFormats.Where(af => af.AudioFormatID == id).SingleOrDefault();
         }
 
         public ICollection<AudioFormat> GetFormats()
