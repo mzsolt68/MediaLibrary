@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MediaLibrary.Entities.Models.Audio
@@ -10,6 +11,7 @@ namespace MediaLibrary.Entities.Models.Audio
     {
         [Required]
         public int AlbumID { get; set; }
+        [JsonIgnore]
         public Album Album { get; set; }
         [Required]
         public int SongID { get; set; }
