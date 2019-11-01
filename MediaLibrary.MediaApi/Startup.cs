@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediaLibrary.Entities.Data;
+using MediaLibrary.MediaApi.Interfaces;
+using MediaLibrary.MediaApi.Repositories.Audio;
+using MediaLibrary.MediaApi.Services.Audio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +31,16 @@ namespace MediaLibrary.MediaApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IAlbumRepository, AlbumRepository>();
+            services.AddTransient<IAudioFormatRepository, AudioFormatRepository>();
+            services.AddTransient<IPerformerReopsitory, PerformerRepository>();
+            services.AddTransient<ISongRepository, SongRepository>();
+            services.AddTransient<IAudioService, AudioService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +51,7 @@ namespace MediaLibrary.MediaApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
