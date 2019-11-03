@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,5 +21,7 @@ namespace MediaLibrary.Entities.Models.Audio
         [Display(Name = "Dalok")]
         public virtual ICollection<AlbumSong> AlbumSongs { get; set; }
 
+        [NotMapped]
+        public int NrOfSongs { get; set; }
     }
 }

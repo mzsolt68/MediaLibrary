@@ -42,7 +42,12 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<ICollection<Album>> GetAlbums()
         {
-            return await _context.Albums.Include(x => x.AlbumSongs).OrderBy(a => a.AlbumTitle).ToListAsync();
+            var albumList = await _context.Albums.OrderBy(a => a.AlbumTitle).ToListAsync();
+            foreach (var item in albumList)
+            {
+                item.NrOfSongs = await _context.AlbumSongs.Where(a => a.AlbumID == item.AlbumID).CountAsync();
+            }
+            return albumList;
         }
 
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
