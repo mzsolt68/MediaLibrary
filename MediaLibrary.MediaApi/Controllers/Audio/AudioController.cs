@@ -205,5 +205,26 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             return dto;
         }
 
+        [HttpGet("getsonglist")]
+        public async Task<ActionResult<ICollection<Song>>> GetSongList()
+        {
+            return Ok(await service.GetSongs());
+        }
+
+        [HttpGet("getsong/{id}")]
+        public async Task<ActionResult<Song>> GetSong(int? id)
+        {
+            if(id == null)
+            {
+                return null;
+            }
+            var song = await service.GetSongById(id);
+            if(song == null)
+            {
+                return null;
+            }
+            return song;
+        }
+
     }
 }

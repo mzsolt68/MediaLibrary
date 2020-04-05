@@ -137,14 +137,14 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return new SelectList(performers, "Value", "Text");
         }
 
-        public Song GetSongById(int? id)
+        public async Task<Song> GetSongById(int? id)
         {
-            return _songs.GetSongById(id);
+            return await _songs.GetSongById(id);
         }
 
-        public ICollection<Song> GetSongs()
+        public async Task<ICollection<Song>> GetSongs()
         {
-            return _songs.GetSongs();
+            return await _songs.GetSongs();
         }
 
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)

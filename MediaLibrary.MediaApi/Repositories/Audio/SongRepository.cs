@@ -64,9 +64,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return performerlist;
         }
 
-        public Song GetSongById(int? id)
+        public async Task<Song> GetSongById(int? id)
         {
-            return _context.Songs.Where(s => s.SongID == id).SingleOrDefault();
+            return await _context.Songs.Where(s => s.SongID == id).SingleOrDefaultAsync();
         }
 
         public int GetSongCount()
@@ -74,19 +74,24 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return _context.Songs.Count();
         }
 
-        public ICollection<Song> GetSongs()
+        public async Task<ICollection<Song>> GetSongs()
         {
-            var songlist = _context.Songs.ToList(); ;
+            var songlist = await _context.Songs.ToListAsync(); ;
             foreach (var item in songlist)
             {
                 item.PerformerSongs = _context.PerformerSongs.Include(ps => ps.Performer).Where(x => x.SongID == item.SongID).ToList();
+                foreach(var item2 in item.PerformerSongs)
+                {
+                    item2.Song = null;
+                    item2.Performer.PerformerSongs = null;
+                }
             }
             return songlist;
         }
 
-        public void UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
+        public async Task UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
         {
-            var song = GetSongById(updatedSong.SongID);
+            var song = await GetSongById(updatedSong.SongID);
             var perforig = _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToList();
             ICollection<Performer> perfupd = new List<Performer>();
             foreach (var item in performers)
