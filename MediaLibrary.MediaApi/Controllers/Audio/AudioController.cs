@@ -23,7 +23,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         }
 
         [HttpGet("getalbumlist")]
-        public async Task<ActionResult<ICollection<Album>>> GetAlbumList()
+        public async Task<ActionResult<ICollection<AlbumDto>>> GetAlbumList()
         {
             return Ok(await service.GetAlbums());
         }

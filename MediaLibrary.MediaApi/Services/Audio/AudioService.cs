@@ -109,9 +109,25 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        public async Task<ICollection<Album>> GetAlbums()
+        public async Task<ICollection<AlbumDto>> GetAlbums()
         {
-            return await _albums.GetAlbums();
+            List<AlbumDto> result = null;
+            var albums = await _albums.GetAlbums();
+            if(albums.Count > 0)
+            {
+                result = new List<AlbumDto>();
+                foreach(var album in albums)
+                {
+                    AlbumDto a = new AlbumDto();
+                    a.AlbumID = album.AlbumID;
+                    a.Title = album.AlbumTitle;
+                    a.Format = album.AlbumFormat.AudioFormatName;
+                    a.Nr_of_discs = album.NrOfDiscs;
+                    a.Nr_of_tracks = album.NrOfSongs;
+                    result.Add(a);
+                }
+            }
+            return result;
         }
 
         public ICollection<Album> GetAlbumsOfSong(Song song)

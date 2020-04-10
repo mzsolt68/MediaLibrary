@@ -14,7 +14,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         void DeleteAlbum(Album deletedAlbum);
         void UpdateAlbum(Album updatedAlbum);
         Task<AlbumDetailsDto> GetAlbumById(int? id);
-        Task<ICollection<Album>> GetAlbums();
+        Task<ICollection<AlbumDto>> GetAlbums();
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);
 
         void AddFormat(AudioFormat newFormat);
