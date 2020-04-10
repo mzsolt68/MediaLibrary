@@ -13,7 +13,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         void AddAlbum(Album newAlbum);
         void DeleteAlbum(Album deletedAlbum);
         void UpdateAlbum(Album updatedAlbum);
-        Task<Album> GetAlbumById(int? id);
+        Task<AlbumDetailsDto> GetAlbumById(int? id);
         Task<ICollection<Album>> GetAlbums();
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);
 

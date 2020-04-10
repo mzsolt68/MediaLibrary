@@ -52,11 +52,8 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
         {
-            var aslist = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs).OrderBy(a => a.TrackNr).Where(als => als.Album == album).ToListAsync();
-            foreach (var item in aslist)
-            {
-                item.Song.PerformerSongs = await _context.PerformerSongs.Include(x => x.Performer).Where(ps => ps.Song == item.Song).ToListAsync();
-            }
+            var aslist = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs)
+                .ThenInclude(pfs => pfs.Performer).OrderBy(a => a.TrackNr).Where(als => als.Album == album).ToListAsync();
             return aslist;
         }
 

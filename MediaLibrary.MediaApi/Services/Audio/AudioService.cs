@@ -69,9 +69,44 @@ namespace MediaLibrary.MediaApi.Services.Audio
             _songs.DeleteSong(deletedSong);
         }
 
-        public async Task<Album> GetAlbumById(int? id)
+        public async Task<AlbumDetailsDto> GetAlbumById(int? id)
         {
-            return await _albums.GetAlbumById(id);
+            AlbumDetailsDto result = null;
+            var album = await _albums.GetAlbumById(id);
+            if (album != null)
+            {
+                result = new AlbumDetailsDto();
+                result.Album = new AlbumDto();
+                result.Album.AlbumID = album.AlbumID;
+                result.Album.Title = album.AlbumTitle;
+                result.Album.Nr_of_discs = album.NrOfDiscs;
+                result.Album.Format = album.AlbumFormat.AudioFormatName;
+                result.Discs = new List<AudioDiscDto>();
+                var songlist = (await _albums.GetSongsOfAlbum(album)).GroupBy(d => d.Disc);
+                foreach (var disc in songlist)
+                {
+                    AudioDiscDto d = new AudioDiscDto();
+                    d.DiscNumber = disc.Key;
+                    d.Tracks = new List<AudioTrackDto>();
+                    foreach (var song in disc)
+                    {
+                        AudioTrackDto track = new AudioTrackDto();
+                        track.TrackNr = song.TrackNr;
+                        track.Title = song.Song.SongTitle;
+                        track.PlayTime = song.PlayTime.Hour.ToString() + ":" + song.PlayTime.Minute.ToString();
+                        track.Note = song.Note;
+                        track.Performer = new List<string>();
+                        foreach (var perfsong in song.Song.PerformerSongs)
+                        {
+                            track.Performer.Add(perfsong.Performer.PerformerName);
+                        }
+                        d.Tracks.Add(track);
+                    }
+                    result.Discs.Add(d);
+                    result.Album.Nr_of_tracks += d.Tracks.Count;
+                }
+            }
+            return result;
         }
 
         public async Task<ICollection<Album>> GetAlbums()

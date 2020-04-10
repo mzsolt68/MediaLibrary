@@ -46,12 +46,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             {
                 return null;
             }
-            if (albumDetails != null)
-            {
-                albumDetails = null;
-            }
-            albumDetails = await CreateDetailsViewModel(album);
-            return albumDetails;
+            return album;
         }
 
         // GET: Albums/Create
@@ -193,17 +188,6 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         //    }
         //    return vm;
         //}
-
-        private async Task<AlbumDetailsDto> CreateDetailsViewModel(Album album)
-        {
-            var dto = new AlbumDetailsDto();
-            if (album != null)
-            {
-                dto.Album = album;
-                dto.Details = await service.GetSongsOfAlbum(album);
-            }
-            return dto;
-        }
 
         [HttpGet("getsonglist")]
         public async Task<ActionResult<ICollection<Song>>> GetSongList()
