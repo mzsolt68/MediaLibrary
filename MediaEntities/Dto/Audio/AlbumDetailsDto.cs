@@ -8,7 +8,8 @@ namespace MediaLibrary.Entities.Dto.Audio
 {
     public class AlbumDetailsDto
     {
-        public Album Album { get; set; }
-        public ICollection<AlbumSong> Details { get; set; }
+        public AlbumDto Album { get; set; }
+
+        public ICollection<AudioDiscDto> Discs { get; set; }
     }
 }
