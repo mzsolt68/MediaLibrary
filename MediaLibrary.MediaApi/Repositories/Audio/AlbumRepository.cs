@@ -32,7 +32,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<Album> GetAlbumById(int? id)
         {
-            return await _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).SingleOrDefaultAsync();
+            return await _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).AsNoTracking().SingleOrDefaultAsync();
         }
 
         public async Task<int> GetAlbumCount()
@@ -42,7 +42,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<ICollection<Album>> GetAlbums()
         {
-            var albumList = await _context.Albums.Include(a => a.AlbumFormat).OrderBy(a => a.AlbumTitle).ToListAsync();
+            var albumList = await _context.Albums.Include(a => a.AlbumFormat).OrderBy(a => a.AlbumTitle).AsNoTracking().ToListAsync();
             foreach (var item in albumList)
             {
                 item.NrOfSongs = await _context.AlbumSongs.Where(a => a.AlbumID == item.AlbumID).CountAsync();
@@ -53,7 +53,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
         {
             var aslist = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs)
-                .ThenInclude(pfs => pfs.Performer).OrderBy(a => a.TrackNr).Where(als => als.Album == album).ToListAsync();
+                .ThenInclude(pfs => pfs.Performer).OrderBy(a => a.TrackNr).Where(als => als.Album == album).AsNoTracking().ToListAsync();
             return aslist;
         }
 
