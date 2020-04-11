@@ -35,7 +35,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         void AddSong(Song newSong, List<SongPerformerDto> performers);
         void DeleteSong(Song deletedSong);
         void UpdateSong(Song updatedSong, List<SongPerformerDto> performers);
-        Task<Song> GetSongById(int? id);
+        Task<SongDetailsDto> GetSongById(int? id);
         Task<ICollection<SongDto>> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
         ICollection<Performer> GetPerformersOfSong(Song song);

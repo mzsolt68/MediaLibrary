@@ -188,9 +188,45 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return new SelectList(performers, "Value", "Text");
         }
 
-        public async Task<Song> GetSongById(int? id)
+        public async Task<SongDetailsDto> GetSongById(int? id)
         {
-            return await _songs.GetSongById(id);
+            SongDetailsDto result = null;
+            var song = await _songs.GetSongById(id);
+            if(song != null)
+            {
+                result = new SongDetailsDto();
+                result.Song = new SongDto();
+                result.Song.SongID = song.SongID;
+                result.Song.Title = song.SongTitle;
+                result.Song.Performers = new List<PerformerDto>();
+                foreach (var perf in song.PerformerSongs)
+                {
+                    PerformerDto p = new PerformerDto();
+                    p.PerformerID = perf.Performer.PerformerID;
+                    p.Name = perf.Performer.PerformerName;
+                    result.Song.Performers.Add(p);
+                }
+                if (song.Genre != null)
+                {
+                    result.Genre = song.Genre.GenreName;
+                }
+                if (song.Language != null)
+                {
+                    result.Language = song.Language.LanguageName;
+                }
+                if (song.AlbumSongs.Count > 0)
+                {
+                    result.Albums = new List<AlbumDto>();
+                    foreach (var album in song.AlbumSongs)
+                    {
+                        AlbumDto a = new AlbumDto();
+                        a.AlbumID = album.Album.AlbumID;
+                        a.Title = album.Album.AlbumTitle;
+                        result.Albums.Add(a);
+                    }
+                }
+            }
+            return result;
         }
 
         public async Task<ICollection<SongDto>> GetSongs()

@@ -9,10 +9,12 @@ namespace MediaLibrary.Entities.Dto.Audio
 {
     public class SongDetailsDto
     {
-        public Song Song { get; set; }
+        public SongDto Song { get; set; }
+        public string Liryc { get; set; }
+        public string Genre { get; set; }
+        public string Language { get; set; }
+
         [Display(Name = "Album(ok)")]
-        public ICollection<Album> AlbumsOfSong { get; set; }
-        [Display(Name = "Előadó(k)")]
-        public ICollection<Performer> PerformersOfSong { get; set; }
+        public ICollection<AlbumDto> Albums { get; set; }
     }
 }

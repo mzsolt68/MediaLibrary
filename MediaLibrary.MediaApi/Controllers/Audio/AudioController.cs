@@ -196,7 +196,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         }
 
         [HttpGet("getsong/{id}")]
-        public async Task<ActionResult<Song>> GetSong(int? id)
+        public async Task<ActionResult<SongDetailsDto>> GetSong(int? id)
         {
             if(id == null)
             {

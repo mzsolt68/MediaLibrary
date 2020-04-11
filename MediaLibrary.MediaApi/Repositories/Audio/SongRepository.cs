@@ -66,7 +66,12 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<Song> GetSongById(int? id)
         {
-            return await _context.Songs.Where(s => s.SongID == id).SingleOrDefaultAsync();
+            var song = await _context.Songs
+                .Include(p => p.PerformerSongs).ThenInclude(ps => ps.Performer)
+                .Include(a => a.AlbumSongs).ThenInclude(als => als.Album)
+                .Include(g => g.Genre).Include(l => l.Language)
+                .Where(s => s.SongID == id).AsNoTracking().SingleOrDefaultAsync();
+            return song;
         }
 
         public int GetSongCount()
@@ -76,7 +81,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<ICollection<Song>> GetSongs()
         {
-            return await _context.Songs.Include(s => s.PerformerSongs).ThenInclude(ps => ps.Performer).AsNoTracking().ToListAsync(); ;
+            return await _context.Songs
+                .Include(s => s.PerformerSongs).ThenInclude(ps => ps.Performer)
+                .AsNoTracking().ToListAsync();
         }
 
         public async Task UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
