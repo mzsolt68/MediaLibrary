@@ -12,7 +12,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 {
     public class SongRepository : ISongRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public SongRepository(ApplicationDbContext context)
         {

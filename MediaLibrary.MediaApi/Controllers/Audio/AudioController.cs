@@ -15,7 +15,6 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
     public class AudioController : ControllerBase
     {
         private readonly IAudioService service;
-        private AlbumDetailsDto albumDetails;
 
         public AudioController(IAudioService _service)
         {

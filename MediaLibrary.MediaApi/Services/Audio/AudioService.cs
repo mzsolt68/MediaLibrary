@@ -14,11 +14,11 @@ namespace MediaLibrary.MediaApi.Services.Audio
 {
     public class AudioService : IAudioService
     {
-        private ApplicationDbContext _context;
-        private IAlbumRepository _albums;
-        private IAudioFormatRepository _formats;
-        private IPerformerReopsitory _performers;
-        private ISongRepository _songs;
+        private readonly ApplicationDbContext _context;
+        private readonly IAlbumRepository _albums;
+        private readonly IAudioFormatRepository _formats;
+        private readonly IPerformerReopsitory _performers;
+        private readonly ISongRepository _songs;
 
         public AudioService(ApplicationDbContext context)
         {
@@ -75,8 +75,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
             var album = await _albums.GetAlbumById(id);
             if (album != null)
             {
-                result = new AlbumDetailsDto();
-                result.Album = new AlbumDto();
+                result = new AlbumDetailsDto
+                {
+                    Album = new AlbumDto()
+                };
                 result.Album.AlbumID = album.AlbumID;
                 result.Album.Title = album.AlbumTitle;
                 result.Album.Nr_of_discs = album.NrOfDiscs;
@@ -85,17 +87,21 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 var songlist = (await _albums.GetSongsOfAlbum(album)).GroupBy(d => d.Disc);
                 foreach (var disc in songlist)
                 {
-                    AudioDiscDto d = new AudioDiscDto();
-                    d.DiscNumber = disc.Key;
-                    d.Tracks = new List<AudioTrackDto>();
+                    AudioDiscDto d = new AudioDiscDto
+                    {
+                        DiscNumber = disc.Key,
+                        Tracks = new List<AudioTrackDto>()
+                    };
                     foreach (var song in disc)
                     {
-                        AudioTrackDto track = new AudioTrackDto();
-                        track.TrackNr = song.TrackNr;
-                        track.Title = song.Song.SongTitle;
-                        track.PlayTime = song.PlayTime.Hour.ToString() + ":" + song.PlayTime.Minute.ToString();
-                        track.Note = song.Note;
-                        track.Performer = new List<string>();
+                        AudioTrackDto track = new AudioTrackDto
+                        {
+                            TrackNr = song.TrackNr,
+                            Title = song.Song.SongTitle,
+                            PlayTime = song.PlayTime.Hour.ToString() + ":" + song.PlayTime.Minute.ToString(),
+                            Note = song.Note,
+                            Performer = new List<string>()
+                        };
                         foreach (var perfsong in song.Song.PerformerSongs)
                         {
                             track.Performer.Add(perfsong.Performer.PerformerName);
@@ -118,12 +124,14 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 result = new List<AlbumDto>();
                 foreach(var album in albums)
                 {
-                    AlbumDto a = new AlbumDto();
-                    a.AlbumID = album.AlbumID;
-                    a.Title = album.AlbumTitle;
-                    a.Format = album.AlbumFormat.AudioFormatName;
-                    a.Nr_of_discs = album.NrOfDiscs;
-                    a.Nr_of_tracks = album.NrOfSongs;
+                    AlbumDto a = new AlbumDto
+                    {
+                        AlbumID = album.AlbumID,
+                        Title = album.AlbumTitle,
+                        Format = album.AlbumFormat.AudioFormatName,
+                        Nr_of_discs = album.NrOfDiscs,
+                        Nr_of_tracks = album.NrOfSongs
+                    };
                     result.Add(a);
                 }
             }
@@ -194,16 +202,20 @@ namespace MediaLibrary.MediaApi.Services.Audio
             var song = await _songs.GetSongById(id);
             if(song != null)
             {
-                result = new SongDetailsDto();
-                result.Song = new SongDto();
+                result = new SongDetailsDto
+                {
+                    Song = new SongDto()
+                };
                 result.Song.SongID = song.SongID;
                 result.Song.Title = song.SongTitle;
                 result.Song.Performers = new List<PerformerDto>();
                 foreach (var perf in song.PerformerSongs)
                 {
-                    PerformerDto p = new PerformerDto();
-                    p.PerformerID = perf.Performer.PerformerID;
-                    p.Name = perf.Performer.PerformerName;
+                    PerformerDto p = new PerformerDto
+                    {
+                        PerformerID = perf.Performer.PerformerID,
+                        Name = perf.Performer.PerformerName
+                    };
                     result.Song.Performers.Add(p);
                 }
                 if (song.Genre != null)
@@ -219,9 +231,11 @@ namespace MediaLibrary.MediaApi.Services.Audio
                     result.Albums = new List<AlbumDto>();
                     foreach (var album in song.AlbumSongs)
                     {
-                        AlbumDto a = new AlbumDto();
-                        a.AlbumID = album.Album.AlbumID;
-                        a.Title = album.Album.AlbumTitle;
+                        AlbumDto a = new AlbumDto
+                        {
+                            AlbumID = album.Album.AlbumID,
+                            Title = album.Album.AlbumTitle
+                        };
                         result.Albums.Add(a);
                     }
                 }
@@ -238,15 +252,19 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 result = new List<SongDto>();
                 foreach (var song in songs)
                 {
-                    SongDto s = new SongDto();
-                    s.SongID = song.SongID;
-                    s.Title = song.SongTitle;
-                    s.Performers = new List<PerformerDto>();
+                    SongDto s = new SongDto
+                    {
+                        SongID = song.SongID,
+                        Title = song.SongTitle,
+                        Performers = new List<PerformerDto>()
+                    };
                     foreach (var perf in song.PerformerSongs)
                     {
-                        PerformerDto p = new PerformerDto();
-                        p.PerformerID = perf.Performer.PerformerID;
-                        p.Name = perf.Performer.PerformerName;
+                        PerformerDto p = new PerformerDto
+                        {
+                            PerformerID = perf.Performer.PerformerID,
+                            Name = perf.Performer.PerformerName
+                        };
                         s.Performers.Add(p);
                     }
                     result.Add(s);

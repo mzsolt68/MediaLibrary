@@ -11,7 +11,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 {
     public class AlbumRepository : IAlbumRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public AlbumRepository(ApplicationDbContext context)
         {
