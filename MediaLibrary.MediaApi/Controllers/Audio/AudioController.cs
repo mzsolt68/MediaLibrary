@@ -21,6 +21,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             service = _service;
         }
 
+        #region Album
         [HttpGet("getalbumlist")]
         public async Task<ActionResult<ICollection<AlbumDto>>> GetAlbumList()
         {
@@ -167,27 +168,9 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             return await service.GetAlbumById(id) != null;
         }
+        #endregion
 
-        //private AlbumEditViewModel CreateEditViewModel(Album album)
-        //{
-        //    var vm = new AlbumEditViewModel();
-        //    if (album != null)
-        //    {
-        //        vm.Album = album;
-        //        vm.AudioFormats = _service.GetFormatsToViews();
-        //        if (album.AlbumFormat != null)
-        //        {
-        //            vm.AudioFormatID = album.AlbumFormat.AudioFormatID;
-        //        }
-        //        var songs = _service.GetSongsOfAlbum(album);
-        //        foreach (var item in songs)
-        //        {
-        //            vm.Songs.Add(new AlbumSongViewModel { SongOfAlbum = item });
-        //        }
-        //    }
-        //    return vm;
-        //}
-
+        #region Song
         [HttpGet("getsonglist")]
         public async Task<ActionResult<ICollection<SongDto>>> GetSongList()
         {
@@ -208,6 +191,14 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return song;
         }
+        #endregion
 
+        #region Performer
+        [HttpGet("getperformerlist")]
+        public async Task<ActionResult<ICollection<PerformerDto>>> GetPerformerList()
+        {
+            return Ok(await service.GetPerformers());
+        }
+        #endregion
     }
 }

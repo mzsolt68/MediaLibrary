@@ -40,9 +40,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return _context.Performers.Count();
         }
 
-        public ICollection<Performer> GetPerformers()
+        public async Task<ICollection<Performer>> GetPerformers()
         {
-            return _context.Performers.Include(x => x.PerformerSongs).OrderBy(p => p.PerformerName).ToList();
+            return await _context.Performers.AsNoTracking().ToListAsync();
         }
 
         public ICollection<PerformerSong> SongsOfPerformer(Performer performer)

@@ -172,9 +172,24 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return _performers.GetPerformerById(id);
         }
 
-        public ICollection<Performer> GetPerformers()
+        public async Task<ICollection<PerformerDto>> GetPerformers()
         {
-            return _performers.GetPerformers();
+            List<PerformerDto> result = null;
+            var performers =  await _performers.GetPerformers();
+            if(performers.Count > 0)
+            {
+                result = new List<PerformerDto>();
+                foreach (var performer in performers)
+                {
+                    PerformerDto p = new PerformerDto
+                    {
+                        PerformerID = performer.PerformerID,
+                        Name = performer.PerformerName
+                    };
+                    result.Add(p);
+                }
+            }
+            return result;
         }
 
         public ICollection<Performer> GetPerformersOfSong(Song song)

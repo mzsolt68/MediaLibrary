@@ -28,7 +28,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         void DeletePerformer(Performer deletedPerformer);
         void UpdatePerformer(Performer updatedPerformer);
         Performer GetPerformerById(int? id);
-        ICollection<Performer> GetPerformers();
+        Task<ICollection<PerformerDto>> GetPerformers();
         ICollection<PerformerSong> SongsOfPerformer(Performer performer);
         IEnumerable<SelectListItem> GetPerformersToViews();
 
