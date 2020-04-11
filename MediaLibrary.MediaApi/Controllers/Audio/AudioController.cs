@@ -191,6 +191,12 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return song;
         }
+
+        [HttpGet("getsongcount")]
+        public async Task<ActionResult<int>> GetSongCount()
+        {
+            return Ok(await service.GetSongCount());
+        }
         #endregion
 
         #region Performer
@@ -213,6 +219,12 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
                 return null;
             }
             return performer;
+        }
+
+        [HttpGet("getperformercount")]
+        public async Task<ActionResult<int>> GetPerformerCount()
+        {
+            return Ok(await service.GetPerformerCount());
         }
         #endregion
     }

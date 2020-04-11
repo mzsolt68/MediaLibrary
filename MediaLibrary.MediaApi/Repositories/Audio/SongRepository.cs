@@ -74,9 +74,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return song;
         }
 
-        public int GetSongCount()
+        public async Task<int> GetSongCount()
         {
-            return _context.Songs.Count();
+            return await _context.Songs.CountAsync();
         }
 
         public async Task<ICollection<Song>> GetSongs()

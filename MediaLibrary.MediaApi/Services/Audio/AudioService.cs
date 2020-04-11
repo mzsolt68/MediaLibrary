@@ -349,14 +349,14 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _albums.GetAlbumCount();
         }
 
-        public int GetPerformerCount()
+        public async Task<int> GetPerformerCount()
         {
-            return _performers.GetPerformerCount();
+            return await _performers.GetPerformerCount();
         }
 
-        public int GetSongCount()
+        public async Task<int> GetSongCount()
         {
-            return _songs.GetSongCount();
+            return await _songs.GetSongCount();
         }
     }
 }

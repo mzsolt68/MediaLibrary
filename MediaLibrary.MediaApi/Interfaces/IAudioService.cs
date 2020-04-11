@@ -41,7 +41,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         ICollection<Performer> GetPerformersOfSong(Song song);
 
         Task<int> GetAlbumCount();
-        int GetPerformerCount();
-        int GetSongCount();
+        Task<int> GetPerformerCount();
+        Task<int> GetSongCount();
     }
 }

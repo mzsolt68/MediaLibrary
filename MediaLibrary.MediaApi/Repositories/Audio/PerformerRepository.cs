@@ -37,9 +37,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
                 .Where(p => p.PerformerID == id).SingleOrDefaultAsync();
         }
 
-        public int GetPerformerCount()
+        public async Task<int> GetPerformerCount()
         {
-            return _context.Performers.Count();
+            return await _context.Performers.CountAsync();
         }
 
         public async Task<ICollection<Performer>> GetPerformers()
