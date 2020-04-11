@@ -33,6 +33,8 @@ namespace MediaLibrary.Entities.Data
             FillAudioTestData.FillAudioFormats(builder);
             FillAudioTestData.FillPerformers(builder);
             FillAudioTestData.FillAlbums(builder);
+            FillAudioTestData.FillGenres(builder);
+            FillAudioTestData.FillLanguages(builder);
             FillAudioTestData.FillSongs(builder);
         }
     }

@@ -13,6 +13,7 @@ namespace MediaLibrary.Entities.Models.Audio
         [Required]
         [Display(Name = "Album címe")]
         public string AlbumTitle { get; set; }
+        public int AudioFormatID { get; set; }
         [Display(Name = "Formátum")]
         public AudioFormat AlbumFormat { get; set; }
         [Display(Name = "Lemezek száma")]

@@ -113,7 +113,7 @@ namespace MediaLibrary.Repositories.Audio
                 }
             }
             song.SongTitle = updatedSong.SongTitle;
-            song.SongLiryc = updatedSong.SongLiryc;
+            song.SongLyric = updatedSong.SongLyric;
             _context.Songs.Update(song);
             _context.SaveChanges();
         }

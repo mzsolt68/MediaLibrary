@@ -15,9 +15,11 @@ namespace MediaLibrary.Entities.Models.Audio
         public string SongTitle { get; set; }
         [Display(Name = "Szöveg")]
         [DataType(DataType.MultilineText)]
-        public string SongLiryc { get; set; }
+        public string SongLyric { get; set; }
+        public int GenreID { get; set; }
         [Display(Name = "Műfaj")]
         public Genre Genre { get; set; }
+        public int LanguageID { get; set; }
         [Display(Name = "Nyelv")]
         public Language Language { get; set; }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Entities.Models.Audio;
+using MediaLibrary.Entities.Models.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Entities.Data
@@ -60,38 +61,58 @@ namespace MediaLibrary.Entities.Data
         public static void FillAlbums(ModelBuilder builder)
         {
             builder.Entity<Album>().HasData(
-                new { AlbumID = 1, AlbumTitle = "Boney M Gold", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 },
-                new { AlbumID = 2, AlbumTitle = "Bravissimo 8", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 },
-                new { AlbumID = 3, AlbumTitle = "Bravissimo 6", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 },
-                new { AlbumID = 4, AlbumTitle = "Vegyes", AlbumFormatAudioFormatID = 1, NrOfDiscs = (Byte)1 }
+                new Album { AlbumID = 1, AlbumTitle = "Boney M Gold", AudioFormatID = 1, NrOfDiscs = (Byte)1 },
+                new Album { AlbumID = 2, AlbumTitle = "Bravissimo 8", AudioFormatID = 1, NrOfDiscs = (Byte)1 },
+                new Album { AlbumID = 3, AlbumTitle = "Bravissimo 6", AudioFormatID = 1, NrOfDiscs = (Byte)1 },
+                new Album { AlbumID = 4, AlbumTitle = "Vegyes", AudioFormatID = 1, NrOfDiscs = (Byte)1 }
+                );
+        }
+
+        public static void FillGenres(ModelBuilder builder)
+        {
+            builder.Entity<Genre>().HasData(
+                new Genre { GenreID = 1, GenreName = "Disco"},
+                new Genre { GenreID = 2, GenreName = "Jazz"},
+                new Genre { GenreID = 3, GenreName = "Rock"},
+                new Genre { GenreID = 4, GenreName = "Pop"}
+                );
+        }
+
+        public static void FillLanguages(ModelBuilder builder)
+        {
+            builder.Entity<Language>().HasData(
+                new Language { LanguageID = 1, LanguageName = "angol"},
+                new Language { LanguageID = 2, LanguageName = "francia"},
+                new Language { LanguageID = 3, LanguageName = "német"},
+                new Language { LanguageID = 4, LanguageName = "magyar"}
                 );
         }
 
         public static void FillSongs(ModelBuilder builder)
         {
             builder.Entity<Song>().HasData(
-                new Song { SongID = 1, SongTitle = "Rivers of Babylon" },
-                new Song { SongID = 2, SongTitle = "Daddy Cool" },
-                new Song { SongID = 3, SongTitle = "Sunny" },
-                new Song { SongID = 4, SongTitle = "Brown Girl in the Ring" },
-                new Song { SongID = 5, SongTitle = "Rasputin" },
-                new Song { SongID = 6, SongTitle = "Ma Baker" },
-                new Song { SongID = 7, SongTitle = "Hooray! Hooray! It's A Holi-holiday" },
-                new Song { SongID = 8, SongTitle = "Painter Man" },
-                new Song { SongID = 9, SongTitle = "Belfast" },
-                new Song { SongID = 10, SongTitle = "No Woman, No Cry" },
-                new Song { SongID = 11, SongTitle = "Mary's Boy Child / Oh My Lord" },
-                new Song { SongID = 12, SongTitle = "Gotta Go Home" },
-                new Song { SongID = 13, SongTitle = "Still I'm Sad" },
-                new Song { SongID = 14, SongTitle = "Nightflight to Venus" },
-                new Song { SongID = 15, SongTitle = "Felicidad" },
-                new Song { SongID = 16, SongTitle = "El Lute" },
-                new Song { SongID = 17, SongTitle = "Baby Do You Wanna Bump" },
-                new Song { SongID = 18, SongTitle = "Kalimba De Luna" },
-                new Song { SongID = 19, SongTitle = "Happy Song" },
-                new Song { SongID = 20, SongTitle = "Megamix" },
-                new Song { SongID = 21, SongTitle = "It's Your Life" },
-                new Song { SongID = 22, SongTitle = "Egyedül" }
+                new Song { SongID = 1, SongTitle = "Rivers of Babylon", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 2, SongTitle = "Daddy Cool", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 3, SongTitle = "Sunny", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 4, SongTitle = "Brown Girl in the Ring", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 5, SongTitle = "Rasputin", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 6, SongTitle = "Ma Baker", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 7, SongTitle = "Hooray! Hooray! It's A Holi-holiday", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 8, SongTitle = "Painter Man", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 9, SongTitle = "Belfast", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 10, SongTitle = "No Woman, No Cry", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 11, SongTitle = "Mary's Boy Child / Oh My Lord", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 12, SongTitle = "Gotta Go Home", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 13, SongTitle = "Still I'm Sad", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 14, SongTitle = "Nightflight to Venus", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 15, SongTitle = "Felicidad", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 16, SongTitle = "El Lute", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 17, SongTitle = "Baby Do You Wanna Bump", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 18, SongTitle = "Kalimba De Luna", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 19, SongTitle = "Happy Song", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 20, SongTitle = "Megamix", GenreID = 1, LanguageID = 1 },
+                new Song { SongID = 21, SongTitle = "It's Your Life", GenreID = 4, LanguageID = 1 },
+                new Song { SongID = 22, SongTitle = "Egyedül", GenreID = 4, LanguageID = 4 }
                 );
             builder.Entity<PerformerSong>().HasData(
                 new PerformerSong { PerformerID = 1, SongID = 1 },
