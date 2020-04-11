@@ -193,9 +193,30 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _songs.GetSongById(id);
         }
 
-        public async Task<ICollection<Song>> GetSongs()
+        public async Task<ICollection<SongDto>> GetSongs()
         {
-            return await _songs.GetSongs();
+            ICollection<SongDto> result = null;
+            var songs = await _songs.GetSongs();
+            if(songs.Count > 0)
+            {
+                result = new List<SongDto>();
+                foreach (var song in songs)
+                {
+                    SongDto s = new SongDto();
+                    s.SongID = song.SongID;
+                    s.Title = song.SongTitle;
+                    s.Performers = new List<PerformerDto>();
+                    foreach (var perf in song.PerformerSongs)
+                    {
+                        PerformerDto p = new PerformerDto();
+                        p.PerformerID = perf.Performer.PerformerID;
+                        p.Name = perf.Performer.PerformerName;
+                        s.Performers.Add(p);
+                    }
+                    result.Add(s);
+                }
+            }
+            return result;
         }
 
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)

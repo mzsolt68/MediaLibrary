@@ -190,7 +190,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         //}
 
         [HttpGet("getsonglist")]
-        public async Task<ActionResult<ICollection<Song>>> GetSongList()
+        public async Task<ActionResult<ICollection<SongDto>>> GetSongList()
         {
             return Ok(await service.GetSongs());
         }

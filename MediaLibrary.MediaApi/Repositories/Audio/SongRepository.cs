@@ -76,17 +76,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<ICollection<Song>> GetSongs()
         {
-            var songlist = await _context.Songs.ToListAsync(); ;
-            foreach (var item in songlist)
-            {
-                item.PerformerSongs = _context.PerformerSongs.Include(ps => ps.Performer).Where(x => x.SongID == item.SongID).ToList();
-                foreach(var item2 in item.PerformerSongs)
-                {
-                    item2.Song = null;
-                    item2.Performer.PerformerSongs = null;
-                }
-            }
-            return songlist;
+            return await _context.Songs.Include(s => s.PerformerSongs).ThenInclude(ps => ps.Performer).AsNoTracking().ToListAsync(); ;
         }
 
         public async Task UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
