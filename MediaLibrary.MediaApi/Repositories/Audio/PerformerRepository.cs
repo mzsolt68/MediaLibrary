@@ -11,7 +11,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 {
     public class PerformerRepository : IPerformerReopsitory
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public PerformerRepository(ApplicationDbContext context)
         {
@@ -30,9 +30,11 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context.SaveChanges();
         }
 
-        public Performer GetPerformerById(int? id)
+        public async Task<Performer> GetPerformerById(int? id)
         {
-            return _context.Performers.Where(p => p.PerformerID == id).SingleOrDefault();
+            return await _context.Performers
+                .Include(s => s.PerformerSongs). ThenInclude(ps => ps.Song)
+                .Where(p => p.PerformerID == id).SingleOrDefaultAsync();
         }
 
         public int GetPerformerCount()

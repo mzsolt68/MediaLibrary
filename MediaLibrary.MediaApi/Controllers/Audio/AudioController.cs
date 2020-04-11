@@ -199,6 +199,21 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             return Ok(await service.GetPerformers());
         }
+
+        [HttpGet("getperformer/{id}")]
+        public async Task<ActionResult<PerformerDetailsDto>> GetPerformer(int? id)
+        {
+            if(id == null)
+            {
+                return null;
+            }
+            var performer = await service.GetPerformerById(id);
+            if(performer == null)
+            {
+                return null;
+            }
+            return performer;
+        }
         #endregion
     }
 }

@@ -119,10 +119,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
         {
             List<AlbumDto> result = null;
             var albums = await _albums.GetAlbums();
-            if(albums.Count > 0)
+            if (albums.Count > 0)
             {
                 result = new List<AlbumDto>();
-                foreach(var album in albums)
+                foreach (var album in albums)
                 {
                     AlbumDto a = new AlbumDto
                     {
@@ -167,16 +167,42 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return new SelectList(formats, "Value", "Text");
         }
 
-        public Performer GetPerformerById(int? id)
+        public async Task<PerformerDetailsDto> GetPerformerById(int? id)
         {
-            return _performers.GetPerformerById(id);
+            PerformerDetailsDto result = null;
+            var performer = await _performers.GetPerformerById(id);
+            if (performer != null)
+            {
+                result = new PerformerDetailsDto
+                {
+                    Performer = new PerformerDto
+                    {
+                        PerformerID = performer.PerformerID,
+                        Name = performer.PerformerName
+                    },
+                };
+                if(performer.PerformerSongs.Count > 0)
+                {
+                    result.Songs = new List<SongDto>();
+                    foreach (var song in performer.PerformerSongs)
+                    {
+                        SongDto s = new SongDto
+                        {
+                            SongID = song.Song.SongID,
+                            Title = song.Song.SongTitle
+                        };
+                        result.Songs.Add(s);
+                    }
+                }
+            }
+            return result;
         }
 
         public async Task<ICollection<PerformerDto>> GetPerformers()
         {
             List<PerformerDto> result = null;
-            var performers =  await _performers.GetPerformers();
-            if(performers.Count > 0)
+            var performers = await _performers.GetPerformers();
+            if (performers.Count > 0)
             {
                 result = new List<PerformerDto>();
                 foreach (var performer in performers)
@@ -215,7 +241,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
         {
             SongDetailsDto result = null;
             var song = await _songs.GetSongById(id);
-            if(song != null)
+            if (song != null)
             {
                 result = new SongDetailsDto
                 {
@@ -262,7 +288,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
         {
             ICollection<SongDto> result = null;
             var songs = await _songs.GetSongs();
-            if(songs.Count > 0)
+            if (songs.Count > 0)
             {
                 result = new List<SongDto>();
                 foreach (var song in songs)
