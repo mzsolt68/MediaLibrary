@@ -29,44 +29,15 @@ namespace MediaLibrary.MediaApi.Services.Audio
             _songs = new SongRepository(_context);
         }
 
+        #region Album
         public void AddAlbum(Album newAlbum)
         {
             _albums.AddAlbum(newAlbum);
         }
 
-        public void AddFormat(AudioFormat newFormat)
-        {
-            _formats.AddFormat(newFormat);
-        }
-
-        public void AddPerformer(Performer newPerformer)
-        {
-            _performers.AddPerformer(newPerformer);
-        }
-
-        public void AddSong(Song newSong, List<SongPerformerDto> performers)
-        {
-            _songs.AddSong(newSong, performers);
-        }
-
         public void DeleteAlbum(Album deletedAlbum)
         {
             _albums.DeleteAlbum(deletedAlbum);
-        }
-
-        public void DeleteFormat(AudioFormat deletedFormat)
-        {
-            _formats.DeleteFormat(deletedFormat);
-        }
-
-        public void DeletePerformer(Performer deletedPerformer)
-        {
-            _performers.DeletePerformer(deletedPerformer);
-        }
-
-        public void DeleteSong(Song deletedSong)
-        {
-            _songs.DeleteSong(deletedSong);
         }
 
         public async Task<AlbumDetailsDto> GetAlbumById(int? id)
@@ -143,28 +114,26 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return _songs.GetAlbumsOfSong(song);
         }
 
-        public AudioFormat GetFormatById(int? id)
+        public void UpdateAlbum(Album updatedAlbum)
         {
-            return _formats.GetFormatById(id);
+            _albums.UpdateAlbum(updatedAlbum);
         }
 
-        public ICollection<AudioFormat> GetFormats()
+        public async Task<int> GetAlbumCount()
         {
-            return _formats.GetFormats();
+            return await _albums.GetAlbumCount();
+        }
+        #endregion
+
+        #region Performer
+        public void AddPerformer(Performer newPerformer)
+        {
+            _performers.AddPerformer(newPerformer);
         }
 
-        public IEnumerable<SelectListItem> GetFormatsToViews()
+        public void DeletePerformer(Performer deletedPerformer)
         {
-            List<SelectListItem> formats = _context.AudioFormats.AsNoTracking()
-                .OrderBy(af => af.AudioFormatName)
-                .Select(f =>
-                new SelectListItem
-                {
-                    Value = f.AudioFormatID.ToString(),
-                    Text = f.AudioFormatName
-                }).ToList();
-            formats.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz formátumot ---" });
-            return new SelectList(formats, "Value", "Text");
+            _performers.DeletePerformer(deletedPerformer);
         }
 
         public async Task<PerformerDetailsDto> GetPerformerById(int? id)
@@ -181,7 +150,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
                         Name = performer.PerformerName
                     },
                 };
-                if(performer.PerformerSongs.Count > 0)
+                if (performer.PerformerSongs.Count > 0)
                 {
                     result.Songs = new List<SongDto>();
                     foreach (var song in performer.PerformerSongs)
@@ -223,6 +192,16 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return _songs.GetPerformersOfSong(song);
         }
 
+        public void UpdatePerformer(Performer updatedPerformer)
+        {
+            _performers.UpdatePerformer(updatedPerformer);
+        }
+
+        public async Task<int> GetPerformerCount()
+        {
+            return await _performers.GetPerformerCount();
+        }
+
         public IEnumerable<SelectListItem> GetPerformersToViews()
         {
             List<SelectListItem> performers = _context.Performers.AsNoTracking()
@@ -235,6 +214,18 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 }).ToList();
             performers.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz előadót ---" });
             return new SelectList(performers, "Value", "Text");
+        }
+        #endregion
+
+        #region Song
+        public void AddSong(Song newSong, List<SongPerformerDto> performers)
+        {
+            _songs.AddSong(newSong, performers);
+        }
+
+        public void DeleteSong(Song deletedSong)
+        {
+            _songs.DeleteSong(deletedSong);
         }
 
         public async Task<SongDetailsDto> GetSongById(int? id)
@@ -324,39 +315,56 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return _performers.SongsOfPerformer(performer);
         }
 
-        public void UpdateAlbum(Album updatedAlbum)
-        {
-            _albums.UpdateAlbum(updatedAlbum);
-        }
-
-        public void UpdateFormat(AudioFormat updatedFormat)
-        {
-            _formats.UpdateFormat(updatedFormat);
-        }
-
-        public void UpdatePerformer(Performer updatedPerformer)
-        {
-            _performers.UpdatePerformer(updatedPerformer);
-        }
-
         public void UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
         {
             _songs.UpdateSong(updatedSong, performers);
-        }
-
-        public async Task<int> GetAlbumCount()
-        {
-            return await _albums.GetAlbumCount();
-        }
-
-        public async Task<int> GetPerformerCount()
-        {
-            return await _performers.GetPerformerCount();
         }
 
         public async Task<int> GetSongCount()
         {
             return await _songs.GetSongCount();
         }
+        #endregion
+
+        #region Format
+        public void AddFormat(AudioFormat newFormat)
+        {
+            _formats.AddFormat(newFormat);
+        }
+
+        public void DeleteFormat(AudioFormat deletedFormat)
+        {
+            _formats.DeleteFormat(deletedFormat);
+        }
+
+        public AudioFormat GetFormatById(int? id)
+        {
+            return _formats.GetFormatById(id);
+        }
+
+        public ICollection<AudioFormat> GetFormats()
+        {
+            return _formats.GetFormats();
+        }
+
+        public IEnumerable<SelectListItem> GetFormatsToViews()
+        {
+            List<SelectListItem> formats = _context.AudioFormats.AsNoTracking()
+                .OrderBy(af => af.AudioFormatName)
+                .Select(f =>
+                new SelectListItem
+                {
+                    Value = f.AudioFormatID.ToString(),
+                    Text = f.AudioFormatName
+                }).ToList();
+            formats.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz formátumot ---" });
+            return new SelectList(formats, "Value", "Text");
+        }
+
+        public void UpdateFormat(AudioFormat updatedFormat)
+        {
+            _formats.UpdateFormat(updatedFormat);
+        }
+        #endregion
     }
 }
