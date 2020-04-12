@@ -36,10 +36,12 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context.SaveChanges();
         }
 
-        public void DeleteSong(Song deletedSong)
+        public async Task<int> DeleteSong(int? id)
         {
-            _context.Songs.Remove(deletedSong);
-            _context.SaveChanges();
+            var deleted = await _context.Songs.Where(s => s.SongID == id).SingleOrDefaultAsync();
+            _context.Songs.Remove(deleted);
+            int result = await _context.SaveChangesAsync();
+            return result;
         }
 
         public ICollection<Album> GetAlbumsOfSong(Song song)

@@ -10,7 +10,7 @@ namespace MediaLibrary.MediaApi.Interfaces
     interface ISongRepository
     {
         void AddSong(Song newSong, List<SongPerformerDto> performers);
-        void DeleteSong(Song deletedSong);
+        Task<int> DeleteSong(int? id);
         Task UpdateSong(Song updatedSong, List<SongPerformerDto> performers);
         Task<Song> GetSongById(int? id);
         Task<ICollection<Song>> GetSongs();

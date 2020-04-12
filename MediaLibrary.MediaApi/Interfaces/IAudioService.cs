@@ -33,7 +33,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         IEnumerable<SelectListItem> GetPerformersToViews();
 
         void AddSong(Song newSong, List<SongPerformerDto> performers);
-        void DeleteSong(Song deletedSong);
+        Task<int> DeleteSong(int? id);
         void UpdateSong(Song updatedSong, List<SongPerformerDto> performers);
         Task<SongDetailsDto> GetSongById(int? id);
         Task<ICollection<SongDto>> GetSongs();

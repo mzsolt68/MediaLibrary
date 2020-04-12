@@ -223,9 +223,9 @@ namespace MediaLibrary.MediaApi.Services.Audio
             _songs.AddSong(newSong, performers);
         }
 
-        public void DeleteSong(Song deletedSong)
+        public async Task<int> DeleteSong(int? id)
         {
-            _songs.DeleteSong(deletedSong);
+            return await _songs.DeleteSong(id);
         }
 
         public async Task<SongDetailsDto> GetSongById(int? id)

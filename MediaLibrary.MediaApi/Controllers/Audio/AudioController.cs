@@ -147,37 +147,6 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         //    return View(album);
         //}
 
-        // GET: Albums/Delete/5
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var album = _service.GetAlbumById(id);
-        //    if (album == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (_detailsViewModel != null)
-        //    {
-        //        _detailsViewModel = null;
-        //    }
-        //    _detailsViewModel = CreateDetailsViewModel(album);
-        //    return View(_detailsViewModel);
-        //}
-
-        // POST: Albums/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult DeleteConfirmed(int id)
-        //{
-        //    var album = _service.GetAlbumById(id);
-        //    _service.DeleteAlbum(album);
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         #endregion
 
         #region Song
@@ -192,12 +161,12 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             if(id == null)
             {
-                return null;
+                return NotFound();
             }
             var song = await service.GetSongById(id);
             if(song == null)
             {
-                return null;
+                return NotFound();
             }
             return song;
         }
@@ -206,6 +175,20 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         public async Task<ActionResult<int>> GetSongCount()
         {
             return Ok(await service.GetSongCount());
+        }
+
+        [HttpPost("deletesong/{id}")]
+        public async Task<ActionResult> DeleteSong(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            if(await service.DeleteSong(id) == 0)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
         #endregion
 
