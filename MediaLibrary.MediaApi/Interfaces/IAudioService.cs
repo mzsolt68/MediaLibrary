@@ -11,7 +11,7 @@ namespace MediaLibrary.MediaApi.Interfaces
     public interface IAudioService
     {
         void AddAlbum(Album newAlbum);
-        void DeleteAlbum(Album deletedAlbum);
+        Task<int> DeleteAlbum(int? id);
         void UpdateAlbum(Album updatedAlbum);
         Task<AlbumDetailsDto> GetAlbumById(int? id);
         Task<ICollection<AlbumDto>> GetAlbums();

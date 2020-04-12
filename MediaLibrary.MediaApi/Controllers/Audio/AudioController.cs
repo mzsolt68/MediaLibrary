@@ -39,14 +39,28 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             if (id == null)
             {
-                return null;
+                return NotFound();
             }
             var album = await service.GetAlbumById(id);
             if (album == null)
             {
-                return null;
+                return NotFound();
             }
             return album;
+        }
+
+        [HttpPost("deletealbum/{id}")]
+        public async Task<ActionResult> DeleteAlbum(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            if(await service.DeleteAlbum(id) == 0)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
 
         // GET: Albums/Create

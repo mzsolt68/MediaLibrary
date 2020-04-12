@@ -9,7 +9,7 @@ namespace MediaLibrary.MediaApi.Interfaces
     public interface IAlbumRepository
     {
         void AddAlbum(Album newAlbum);
-        void DeleteAlbum(Album deletedAlbum);
+        Task<int> DeleteAlbum(int? id);
         void UpdateAlbum(Album updatedAlbum);
         Task<Album> GetAlbumById(int? id);
         Task<ICollection<Album>> GetAlbums();

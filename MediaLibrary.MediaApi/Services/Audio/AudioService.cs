@@ -35,9 +35,9 @@ namespace MediaLibrary.MediaApi.Services.Audio
             _albums.AddAlbum(newAlbum);
         }
 
-        public void DeleteAlbum(Album deletedAlbum)
+        public async Task<int> DeleteAlbum(int? id)
         {
-            _albums.DeleteAlbum(deletedAlbum);
+            return await _albums.DeleteAlbum(id);
         }
 
         public async Task<AlbumDetailsDto> GetAlbumById(int? id)
