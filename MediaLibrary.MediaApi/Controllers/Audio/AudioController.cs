@@ -164,10 +164,6 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         //    return RedirectToAction(nameof(Index));
         //}
 
-        private async Task<bool> AlbumExists(int id)
-        {
-            return await service.GetAlbumById(id) != null;
-        }
         #endregion
 
         #region Song
