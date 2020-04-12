@@ -20,8 +20,8 @@ namespace MediaLibrary.MediaApi.Interfaces
         void AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
-        AudioFormat GetFormatById(int? id);
-        ICollection<AudioFormat> GetFormats();
+        Task<AudioFormat> GetFormatById(int? id);
+        Task<ICollection<AudioFormat>> GetFormats();
         IEnumerable<SelectListItem> GetFormatsToViews();
 
         void AddPerformer(Performer newPerformer);

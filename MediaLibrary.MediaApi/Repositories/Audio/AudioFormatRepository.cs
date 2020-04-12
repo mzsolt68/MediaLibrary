@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.MediaApi.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.MediaApi.Repositories.Audio
 {
     public class AudioFormatRepository : IAudioFormatRepository
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public AudioFormatRepository(ApplicationDbContext context)
         {
@@ -29,14 +30,14 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context.SaveChanges();
         }
 
-        public AudioFormat GetFormatById(int? id)
+        public async Task<AudioFormat> GetFormatById(int? id)
         {
-            return _context.AudioFormats.Where(af => af.AudioFormatID == id).SingleOrDefault();
+            return await _context.AudioFormats.Where(af => af.AudioFormatID == id).SingleOrDefaultAsync();
         }
 
-        public ICollection<AudioFormat> GetFormats()
+        public async Task<ICollection<AudioFormat>> GetFormats()
         {
-            return _context.AudioFormats.ToList();
+            return await _context.AudioFormats.AsNoTracking().ToListAsync();
         }
 
         public void UpdateFormat(AudioFormat updatedFormat)

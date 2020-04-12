@@ -337,14 +337,14 @@ namespace MediaLibrary.MediaApi.Services.Audio
             _formats.DeleteFormat(deletedFormat);
         }
 
-        public AudioFormat GetFormatById(int? id)
+        public async Task<AudioFormat> GetFormatById(int? id)
         {
-            return _formats.GetFormatById(id);
+            return await _formats.GetFormatById(id);
         }
 
-        public ICollection<AudioFormat> GetFormats()
+        public async Task<ICollection<AudioFormat>> GetFormats()
         {
-            return _formats.GetFormats();
+            return await _formats.GetFormats();
         }
 
         public IEnumerable<SelectListItem> GetFormatsToViews()
