@@ -14,6 +14,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         Task<Album> GetAlbumById(int? id);
         Task<ICollection<Album>> GetAlbums();
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);
+        Task<int> GetSongsOfAlbum(int id);
         Task<int> GetAlbumCount();
     }
 }

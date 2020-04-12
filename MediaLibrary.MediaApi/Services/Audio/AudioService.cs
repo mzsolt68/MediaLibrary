@@ -266,7 +266,9 @@ namespace MediaLibrary.MediaApi.Services.Audio
                         AlbumDto a = new AlbumDto
                         {
                             AlbumID = album.Album.AlbumID,
-                            Title = album.Album.AlbumTitle
+                            Title = album.Album.AlbumTitle,
+                            Nr_of_discs = album.Album.NrOfDiscs,
+                            Nr_of_tracks = await _albums.GetSongsOfAlbum(album.Album.AlbumID)
                         };
                         result.Albums.Add(a);
                     }

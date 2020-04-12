@@ -57,6 +57,11 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return aslist;
         }
 
+        public async Task<int> GetSongsOfAlbum(int id)
+        {
+            return await _context.AlbumSongs.Where(a => a.AlbumID == id).AsNoTracking().CountAsync();
+        }
+
         public void UpdateAlbum(Album updatedAlbum)
         {
             _context.Albums.Update(updatedAlbum);
