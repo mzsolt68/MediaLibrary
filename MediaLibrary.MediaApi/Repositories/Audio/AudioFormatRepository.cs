@@ -32,7 +32,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<AudioFormat> GetFormatById(int? id)
         {
-            return await _context.AudioFormats.Where(af => af.AudioFormatID == id).SingleOrDefaultAsync();
+            return await _context.AudioFormats.Where(af => af.AudioFormatID == id).AsNoTracking().SingleOrDefaultAsync();
         }
 
         public async Task<ICollection<AudioFormat>> GetFormats()
