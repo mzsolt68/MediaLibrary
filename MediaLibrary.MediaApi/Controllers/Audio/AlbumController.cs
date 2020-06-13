@@ -53,7 +53,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             if(id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
             if(await _service.DeleteAlbum(id) == 0)
             {

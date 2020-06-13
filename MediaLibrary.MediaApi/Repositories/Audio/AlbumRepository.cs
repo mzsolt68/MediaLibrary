@@ -32,9 +32,12 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
         public async Task<int> DeleteAlbum(int? id)
         {
             var deleted = await _context.Albums.Where(a => a.AlbumID == id).SingleOrDefaultAsync();
-            _context.Albums.Remove(deleted);
-            int result = await _context.SaveChangesAsync();
-            return result;
+            if (deleted != null)
+            {
+                _context.Albums.Remove(deleted);
+                return await _context.SaveChangesAsync();
+            }
+            return 0;
         }
 
         public async Task<Album> GetAlbumById(int? id)
