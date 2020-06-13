@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Interfaces
+namespace MediaLibrary.Common.Interfaces.Audio
 {
-    interface IPerformerReopsitory
+    public interface IPerformerReopsitory
     {
         void AddPerformer(Performer newPerformer);
         void DeletePerformer(Performer deletedPerformer);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Entities.Dto.Audio;
 using MediaLibrary.Entities.Models.Audio;
-using MediaLibrary.MediaApi.Interfaces;
+using MediaLibrary.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

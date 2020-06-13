@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Interfaces
+namespace MediaLibrary.Common.Interfaces.Audio
 {
-    interface ISongRepository
+    public interface ISongRepository
     {
         void AddSong(Song newSong, List<SongPerformerDto> performers);
         Task<int> DeleteSong(int? id);

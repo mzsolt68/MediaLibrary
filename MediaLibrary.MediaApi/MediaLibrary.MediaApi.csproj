@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MediaEntities\MediaLibrary.Entities.csproj" />
+    <ProjectReference Include="..\MediaLibrary.Common\MediaLibrary.Common.csproj" />
   </ItemGroup>
 
 </Project>

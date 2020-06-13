@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
-using MediaLibrary.MediaApi.Interfaces;
+using MediaLibrary.Common.Interfaces.Audio;
 using MediaLibrary.Entities.Dto.Audio;
 using Microsoft.EntityFrameworkCore;
 

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Interfaces
+namespace MediaLibrary.Common.Interfaces.Audio
 {
-    interface IAudioFormatRepository
+    public interface IAudioFormatRepository
     {
         void AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);

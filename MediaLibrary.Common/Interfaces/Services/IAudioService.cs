@@ -1,12 +1,9 @@
 ﻿using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Entities.Dto.Audio;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Interfaces
+namespace MediaLibrary.Common.Interfaces.Services
 {
     public interface IAudioService
     {
@@ -22,7 +19,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         void UpdateFormat(AudioFormat updatedFormat);
         Task<AudioFormat> GetFormatById(int? id);
         Task<ICollection<AudioFormat>> GetFormats();
-        IEnumerable<SelectListItem> GetFormatsToViews();
+        //IEnumerable<SelectListItem> GetFormatsToViews();
 
         void AddPerformer(Performer newPerformer);
         void DeletePerformer(Performer deletedPerformer);
@@ -30,7 +27,7 @@ namespace MediaLibrary.MediaApi.Interfaces
         Task<PerformerDetailsDto> GetPerformerById(int? id);
         Task<ICollection<PerformerDto>> GetPerformers();
         ICollection<PerformerSong> SongsOfPerformer(Performer performer);
-        IEnumerable<SelectListItem> GetPerformersToViews();
+        //IEnumerable<SelectListItem> GetPerformersToViews();
 
         void AddSong(Song newSong, List<SongPerformerDto> performers);
         Task<int> DeleteSong(int? id);

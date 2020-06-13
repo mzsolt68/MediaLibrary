@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Interfaces
+namespace MediaLibrary.Common.Interfaces.Audio
 {
     public interface IAlbumRepository
     {
