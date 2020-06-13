@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediaLibrary.Entities.Dto.Audio
+namespace MediaLibrary.Common.Dto.Audio
 {
     public class SongDto
     {

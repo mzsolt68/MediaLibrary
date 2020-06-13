@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Audio;
-using MediaLibrary.Entities.Dto.Audio;
+using MediaLibrary.Common.Dto.Audio;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.MediaApi.Repositories.Audio

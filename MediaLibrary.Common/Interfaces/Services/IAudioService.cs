@@ -1,5 +1,5 @@
 ﻿using MediaLibrary.Entities.Models.Audio;
-using MediaLibrary.Entities.Dto.Audio;
+using MediaLibrary.Common.Dto.Audio;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

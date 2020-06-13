@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.Entities.Dto.Audio
+namespace MediaLibrary.Common.Dto.Audio
 {
-    public class AlbumSongDto
+    public class SongPerformerDto
     {
-        public AlbumSong SongOfAlbum { get; set; }
+        public Performer Performer { get; set; }
     }
 }

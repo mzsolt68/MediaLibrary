@@ -7,7 +7,7 @@ using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Common.Interfaces.Audio;
 using MediaLibrary.MediaApi.Repositories.Audio;
-using MediaLibrary.Entities.Dto.Audio;
+using MediaLibrary.Common.Dto.Audio;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
