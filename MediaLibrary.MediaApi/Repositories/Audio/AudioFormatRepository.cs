@@ -45,10 +45,16 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return await _context.AudioFormats.AsNoTracking().ToListAsync();
         }
 
-        public void UpdateFormat(AudioFormat updatedFormat)
+        public async Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat)
         {
-            _context.AudioFormats.Update(updatedFormat);
-            _context.SaveChanges();
+            var dbFormat = await _context.AudioFormats.Where(f => f.AudioFormatID == updatedFormat.AudioFormatID).FirstOrDefaultAsync();
+            if (dbFormat != null)
+            {
+                dbFormat.AudioFormatName = updatedFormat.AudioFormatName;
+                await _context.SaveChangesAsync();
+                return updatedFormat;
+            }
+            return null;
         }
     }
 }

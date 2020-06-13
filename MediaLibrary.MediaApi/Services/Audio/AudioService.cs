@@ -381,9 +381,9 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return new SelectList(formats, "Value", "Text");
         }
 
-        public void UpdateFormat(AudioFormat updatedFormat)
+        public async Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat)
         {
-            _formats.UpdateFormat(updatedFormat);
+            return await _formats.UpdateFormat(updatedFormat);
         }
         #endregion
     }

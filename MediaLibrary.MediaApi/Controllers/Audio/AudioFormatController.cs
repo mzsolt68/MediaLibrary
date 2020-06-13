@@ -51,5 +51,16 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return Ok(result);
         }
+
+        [HttpPut("updateformat")]
+        public async Task<ActionResult<AudioFormat>> UpdateFormat([FromBody]AudioFormat format)
+        {
+            var result = await _service.UpdateFormat(format);
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
     }
 }

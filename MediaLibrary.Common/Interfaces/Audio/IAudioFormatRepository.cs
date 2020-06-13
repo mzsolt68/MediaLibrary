@@ -10,7 +10,7 @@ namespace MediaLibrary.Common.Interfaces.Audio
     {
         Task<AudioFormat> AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
-        void UpdateFormat(AudioFormat updatedFormat);
+        Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat);
         Task<AudioFormat> GetFormatById(int? id);
         Task<ICollection<AudioFormat>> GetFormats();
     }
