@@ -8,7 +8,7 @@ namespace MediaLibrary.Common.Interfaces.Audio
 {
     public interface IAudioFormatRepository
     {
-        void AddFormat(AudioFormat newFormat);
+        Task<AudioFormat> AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
         Task<AudioFormat> GetFormatById(int? id);

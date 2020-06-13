@@ -18,10 +18,15 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context = context;
         }
 
-        public void AddFormat(AudioFormat newFormat)
+        public async Task<AudioFormat> AddFormat(AudioFormat newFormat)
         {
-            _context.AudioFormats.Add(newFormat);
-            _context.SaveChanges();
+            if (!await _context.AudioFormats.Where(f => f.AudioFormatName.ToLower() == newFormat.AudioFormatName.ToLower()).AnyAsync())
+            {
+                _context.AudioFormats.Add(newFormat);
+                await _context.SaveChangesAsync();
+                return newFormat;
+            }
+            return null;
         }
 
         public void DeleteFormat(AudioFormat deletedFormat)

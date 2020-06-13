@@ -347,9 +347,9 @@ namespace MediaLibrary.MediaApi.Services.Audio
         #endregion
 
         #region Format
-        public void AddFormat(AudioFormat newFormat)
+        public async Task<AudioFormat> AddFormat(AudioFormat newFormat)
         {
-            _formats.AddFormat(newFormat);
+            return await _formats.AddFormat(newFormat);
         }
 
         public void DeleteFormat(AudioFormat deletedFormat)

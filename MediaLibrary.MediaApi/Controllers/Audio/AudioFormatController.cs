@@ -20,13 +20,13 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             _service = service;
         }
 
-        [HttpGet("getaudioformatlist")]
+        [HttpGet("getformatlist")]
         public async Task<ActionResult<ICollection<AudioFormat>>> GetAudioFormatList()
         {
             return Ok(await _service.GetFormats());
         }
 
-        [HttpGet("getaudioformat/{id}")]
+        [HttpGet("getformat/{id}")]
         public async Task<ActionResult<AudioFormat>> GetAudioFormat(int? id)
         {
             if (id == null)
@@ -41,5 +41,15 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             return audioformat;
         }
 
+        [HttpPost("addformat")]
+        public async Task<ActionResult<AudioFormat>> AddNewFormat([FromBody]AudioFormat newFormat)
+        {
+            var result = await _service.AddFormat(newFormat);
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
     }
 }

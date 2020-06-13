@@ -14,7 +14,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<ICollection<AlbumDto>> GetAlbums();
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);
 
-        void AddFormat(AudioFormat newFormat);
+        Task<AudioFormat> AddFormat(AudioFormat newFormat);
         void DeleteFormat(AudioFormat deletedFormat);
         void UpdateFormat(AudioFormat updatedFormat);
         Task<AudioFormat> GetFormatById(int? id);
