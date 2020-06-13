@@ -14,11 +14,11 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
     [ApiController]
     public class AudioController : ControllerBase
     {
-        private readonly IAudioService service;
+        private readonly IAudioService _service;
 
-        public AudioController(IAudioService _service)
+        public AudioController(IAudioService service)
         {
-            service = _service;
+            _service = service;
         }
 
         #region Album
@@ -147,49 +147,6 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         //    return View(album);
         //}
 
-        #endregion
-
-        #region Song
-        [HttpGet("getsonglist")]
-        public async Task<ActionResult<ICollection<SongDto>>> GetSongList()
-        {
-            return Ok(await service.GetSongs());
-        }
-
-        [HttpGet("getsong/{id}")]
-        public async Task<ActionResult<SongDetailsDto>> GetSong(int? id)
-        {
-            if(id == null)
-            {
-                return NotFound();
-            }
-            var song = await service.GetSongById(id);
-            if(song == null)
-            {
-                return NotFound();
-            }
-            return song;
-        }
-
-        [HttpGet("getsongcount")]
-        public async Task<ActionResult<int>> GetSongCount()
-        {
-            return Ok(await service.GetSongCount());
-        }
-
-        [HttpPost("deletesong/{id}")]
-        public async Task<ActionResult> DeleteSong(int? id)
-        {
-            if(id == null)
-            {
-                return NotFound();
-            }
-            if(await service.DeleteSong(id) == 0)
-            {
-                return NotFound();
-            }
-            return Ok();
-        }
         #endregion
 
         #region Performer
