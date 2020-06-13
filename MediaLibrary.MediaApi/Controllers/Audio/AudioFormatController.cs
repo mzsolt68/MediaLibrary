@@ -42,10 +42,10 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         }
 
         [HttpPost("addformat")]
-        public async Task<ActionResult<AudioFormat>> AddNewFormat([FromBody]AudioFormat newFormat)
+        public async Task<ActionResult<AudioFormat>> AddNewFormat([FromBody] AudioFormat newFormat)
         {
             var result = await _service.AddFormat(newFormat);
-            if(result == null)
+            if (result == null)
             {
                 return BadRequest();
             }
@@ -53,14 +53,28 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         }
 
         [HttpPut("updateformat")]
-        public async Task<ActionResult<AudioFormat>> UpdateFormat([FromBody]AudioFormat format)
+        public async Task<ActionResult<AudioFormat>> UpdateFormat([FromBody] AudioFormat format)
         {
             var result = await _service.UpdateFormat(format);
-            if(result == null)
+            if (result == null)
             {
                 return BadRequest();
             }
             return Ok(result);
+        }
+
+        [HttpDelete("deleteformat/{id}")]
+        public async Task<ActionResult> DeleteFormat(int? id)
+        {
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            if(await _service.DeleteFormat(id) == 0)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
     }
 }

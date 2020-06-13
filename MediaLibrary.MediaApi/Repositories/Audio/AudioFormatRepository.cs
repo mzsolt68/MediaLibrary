@@ -29,10 +29,15 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return null;
         }
 
-        public void DeleteFormat(AudioFormat deletedFormat)
+        public async Task<int> DeleteFormat(int? id)
         {
-            _context.AudioFormats.Remove(deletedFormat);
-            _context.SaveChanges();
+            var deleted = await _context.AudioFormats.Where(f => f.AudioFormatID == id).SingleOrDefaultAsync();
+            if (deleted != null)
+            {
+                _context.AudioFormats.Remove(deleted);
+                return await _context.SaveChangesAsync();
+            }
+            return 0;
         }
 
         public async Task<AudioFormat> GetFormatById(int? id)

@@ -352,9 +352,9 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _formats.AddFormat(newFormat);
         }
 
-        public void DeleteFormat(AudioFormat deletedFormat)
+        public async Task<int> DeleteFormat(int? id)
         {
-            _formats.DeleteFormat(deletedFormat);
+            return await _formats.DeleteFormat(id);
         }
 
         public async Task<AudioFormat> GetFormatById(int? id)
