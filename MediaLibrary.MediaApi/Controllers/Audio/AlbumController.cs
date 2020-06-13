@@ -12,26 +12,25 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AudioController : ControllerBase
+    public class AlbumController : ControllerBase
     {
         private readonly IAudioService _service;
 
-        public AudioController(IAudioService service)
+        public AlbumController(IAudioService service)
         {
             _service = service;
         }
 
-        #region Album
         [HttpGet("getalbumlist")]
         public async Task<ActionResult<ICollection<AlbumDto>>> GetAlbumList()
         {
-            return Ok(await service.GetAlbums());
+            return Ok(await _service.GetAlbums());
         }
 
         [HttpGet("getalbumcount")]
         public async Task<ActionResult<int>> GetAlbumCount()
         {
-            return Ok(await service.GetAlbumCount());
+            return Ok(await _service.GetAlbumCount());
         }
 
         [HttpGet("getalbumdetails/{id}")]
@@ -41,7 +40,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             {
                 return NotFound();
             }
-            var album = await service.GetAlbumById(id);
+            var album = await _service.GetAlbumById(id);
             if (album == null)
             {
                 return NotFound();
@@ -56,7 +55,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             {
                 return NotFound();
             }
-            if(await service.DeleteAlbum(id) == 0)
+            if(await _service.DeleteAlbum(id) == 0)
             {
                 return NotFound();
             }
@@ -147,7 +146,6 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         //    return View(album);
         //}
 
-        #endregion
 
     }
 }
