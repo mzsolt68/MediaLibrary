@@ -149,27 +149,5 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
 
         #endregion
 
-        #region Format
-        [HttpGet("getaudioformatlist")]
-        public async Task<ActionResult<ICollection<AudioFormat>>> GetAudioFormatList()
-        {
-            return Ok(await service.GetFormats());
-        }
-
-        [HttpGet("getaudioformat/{id}")]
-        public async Task<ActionResult<AudioFormat>> GetAudioFormat(int? id)
-        {
-            if(id == null)
-            {
-                return null;
-            }
-            var audioformat = await service.GetFormatById(id);
-            if(audioformat == null)
-            {
-                return null;
-            }
-            return audioformat;
-        }
-        #endregion
     }
 }
