@@ -18,10 +18,15 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context = context;
         }
 
-        public void AddAlbum(Album newAlbum)
+        public async Task<Album> AddAlbum(Album newAlbum)
         {
-            _context.Albums.Add(newAlbum);
-            _context.SaveChanges();
+            if (!await _context.Albums.Where(a => a.AlbumTitle.ToLower() == newAlbum.AlbumTitle.ToLower() && a.AudioFormatID == newAlbum.AudioFormatID).AnyAsync())
+            {
+                _context.Albums.Add(newAlbum);
+                await _context.SaveChangesAsync();
+                return newAlbum;
+            }
+            return null;
         }
 
         public async Task<int> DeleteAlbum(int? id)
@@ -34,7 +39,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<Album> GetAlbumById(int? id)
         {
-            return await _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).AsNoTracking().SingleOrDefaultAsync();
+            var result = await _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).AsNoTracking().SingleOrDefaultAsync();
+            result.NrOfSongs = await _context.AlbumSongs.Where(a => a.AlbumID == result.AlbumID).CountAsync();
+            return result;
         }
 
         public async Task<int> GetAlbumCount()

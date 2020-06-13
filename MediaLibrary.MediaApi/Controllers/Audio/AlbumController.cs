@@ -48,7 +48,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             return album;
         }
 
-        [HttpPost("deletealbum/{id}")]
+        [HttpDelete("deletealbum/{id}")]
         public async Task<ActionResult> DeleteAlbum(int? id)
         {
             if(id == null)
@@ -60,6 +60,17 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
                 return NotFound();
             }
             return Ok();
+        }
+
+        [HttpPost("addalbum")]
+        public async Task<ActionResult<AlbumDto>> AddAlbum([FromBody]AlbumDto album)
+        {
+            var result = await _service.AddAlbum(album);
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
         }
 
         // GET: Albums/Create

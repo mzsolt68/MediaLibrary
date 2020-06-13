@@ -8,7 +8,7 @@ namespace MediaLibrary.Common.Interfaces.Audio
 {
     public interface IAlbumRepository
     {
-        void AddAlbum(Album newAlbum);
+        Task<Album> AddAlbum(Album newAlbum);
         Task<int> DeleteAlbum(int? id);
         void UpdateAlbum(Album updatedAlbum);
         Task<Album> GetAlbumById(int? id);
