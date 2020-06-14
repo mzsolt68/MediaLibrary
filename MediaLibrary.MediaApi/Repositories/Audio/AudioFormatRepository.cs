@@ -29,6 +29,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return null;
         }
 
+        //TODO vizsgálni, hogy van-e album rendelve a formátumhoz
         public async Task<int> DeleteFormat(int? id)
         {
             var deleted = await _context.AudioFormats.Where(f => f.AudioFormatID == id).SingleOrDefaultAsync();

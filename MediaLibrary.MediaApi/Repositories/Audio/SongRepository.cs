@@ -29,7 +29,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
                 {
                     _context.PerformerSongs.Add(
                         new PerformerSong
-                        { SongID = newSong.SongID, PerformerID = item.Performer.PerformerID}
+                        { SongID = newSong.SongID, PerformerID = item.PerformerID}
                         );
                 }
             }
@@ -97,7 +97,8 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             {
                 if (item != null)
                 {
-                    perfupd.Add(item.Performer);
+                    //TODO javítani
+                    //perfupd.Add(item.Performer);
                 }
             }
             foreach (var item in perforig)
