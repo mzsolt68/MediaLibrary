@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MediaLibrary.MediaApi.Controllers.Audio
 {
-    [Route("api/[controller]")]
+    [Route("api/audio/[controller]")]
     [ApiController]
     public class AlbumController : ControllerBase
     {
