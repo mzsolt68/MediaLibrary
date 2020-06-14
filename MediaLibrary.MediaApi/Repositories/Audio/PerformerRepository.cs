@@ -18,16 +18,27 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context = context;
         }
 
-        public void AddPerformer(SongPerformer newPerformer)
+        public async Task<SongPerformer> AddPerformer(SongPerformer newPerformer)
         {
-            _context.SongPerformers.Add(newPerformer);
-            _context.SaveChanges();
+            if (!await _context.SongPerformers.Where(p => p.PerformerName.ToLower() == newPerformer.PerformerName.ToLower()).AnyAsync())
+            {
+                _context.SongPerformers.Add(newPerformer);
+                await _context.SaveChangesAsync();
+                return newPerformer;
+            }
+            return null;
         }
 
-        public void DeletePerformer(SongPerformer deletedPerformer)
+        //TODO vizsgálni, hogy vannak-e zenék rendelve az előadóhoz
+        public async Task<int> DeletePerformer(int? id)
         {
-            _context.SongPerformers.Remove(deletedPerformer);
-            _context.SaveChanges();
+            var deleted = await _context.SongPerformers.SingleOrDefaultAsync(p => p.PerformerID == id);
+            if (deleted != null)
+            {
+                _context.SongPerformers.Remove(deleted);
+                return await _context.SaveChangesAsync();
+            }
+            return 0;
         }
 
         public async Task<SongPerformer> GetPerformerById(int? id)
@@ -47,21 +58,16 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return await _context.SongPerformers.AsNoTracking().ToListAsync();
         }
 
-        public ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer)
+        public async Task<SongPerformer> UpdatePerformer(SongPerformer updatedPerformer)
         {
-            var pslist = _context.PerformerSongs.Include(x => x.Song).ThenInclude(sa => sa.AlbumSongs).Where(ps => ps.Performer == performer).ToList();
-            ICollection<Song> songlist = new List<Song>();
-            foreach (var item in pslist)
+            var dbPerformer = await _context.SongPerformers.SingleOrDefaultAsync(p => p.PerformerID == updatedPerformer.PerformerID);
+            if (dbPerformer != null)
             {
-                item.Song.AlbumSongs = _context.AlbumSongs.Include(als => als.Album).Where(s => s.Song == item.Song).ToList();
+                dbPerformer.PerformerName = updatedPerformer.PerformerName;
+                await _context.SaveChangesAsync();
+                return updatedPerformer;
             }
-            return pslist;
-        }
-
-        public void UpdatePerformer(SongPerformer updatedPerformer)
-        {
-            _context.SongPerformers.Update(updatedPerformer);
-            _context.SaveChanges();
+            return null;
         }
     }
 }

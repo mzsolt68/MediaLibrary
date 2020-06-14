@@ -6,6 +6,7 @@ using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MediaLibrary.MediaApi.Controllers.Audio
 {
@@ -21,9 +22,14 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         }
 
         [HttpGet("getperformerlist")]
-        public async Task<ActionResult<ICollection<PerformerDto>>> GetPerformerList()
+        public async Task<ActionResult<ICollection<SongPerformerDto>>> GetPerformerList()
         {
-            return Ok(await _service.GetPerformers());
+            var result = await _service.GetPerformers();
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         [HttpGet("getperformer/{id}")]
@@ -31,14 +37,14 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             if (id == null)
             {
-                return null;
+                return BadRequest();
             }
             var performer = await _service.GetPerformerById(id);
             if (performer == null)
             {
-                return null;
+                return NotFound();
             }
-            return performer;
+            return Ok(performer);
         }
 
         [HttpGet("getperformercount")]
@@ -47,5 +53,48 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             return Ok(await _service.GetPerformerCount());
         }
 
+        [HttpPost("addperformer")]
+        public async Task<ActionResult<SongPerformerDto>> AddPerformer([FromBody]SongPerformerDto performer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _service.AddPerformer(performer);
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
+
+        [HttpPut("updateperformer")]
+        public async Task<ActionResult<SongPerformerDto>> UpdatePerformer([FromBody]SongPerformerDto performer)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _service.UpdatePerformer(performer);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [HttpDelete("deleteperformer/{id}")]
+        public async Task<ActionResult<int>> DeletePerformer(int? id)
+        {
+            if(id == null)
+            {
+                return BadRequest();
+            }
+            if(await _service.DeletePerformer(id) == 0)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
     }
 }

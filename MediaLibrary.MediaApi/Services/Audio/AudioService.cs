@@ -144,14 +144,23 @@ namespace MediaLibrary.MediaApi.Services.Audio
         #endregion
 
         #region Performer
-        public void AddPerformer(SongPerformer newPerformer)
+        public async Task<SongPerformerDto> AddPerformer(SongPerformerDto newPerformer)
         {
-            _performers.AddPerformer(newPerformer);
+            var addedPerformer = new SongPerformer
+            {
+                PerformerName = newPerformer.Name
+            };
+            var result = await _performers.AddPerformer(addedPerformer);
+            if(result != null)
+            {
+                return ConvertPerformerToDto(result);
+            }
+            return null;
         }
 
-        public void DeletePerformer(SongPerformer deletedPerformer)
+        public async Task<int> DeletePerformer(int? id)
         {
-            _performers.DeletePerformer(deletedPerformer);
+            return await _performers.DeletePerformer(id);
         }
 
         public async Task<PerformerDetailsDto> GetPerformerById(int? id)
@@ -162,7 +171,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             {
                 result = new PerformerDetailsDto
                 {
-                    Performer = new PerformerDto
+                    Performer = new SongPerformerDto
                     {
                         PerformerID = performer.PerformerID,
                         Name = performer.PerformerName
@@ -185,16 +194,16 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        public async Task<ICollection<PerformerDto>> GetPerformers()
+        public async Task<ICollection<SongPerformerDto>> GetPerformers()
         {
-            List<PerformerDto> result = null;
+            List<SongPerformerDto> result = null;
             var performers = await _performers.GetPerformers();
             if (performers.Count > 0)
             {
-                result = new List<PerformerDto>();
+                result = new List<SongPerformerDto>();
                 foreach (var performer in performers)
                 {
-                    PerformerDto p = new PerformerDto
+                    SongPerformerDto p = new SongPerformerDto
                     {
                         PerformerID = performer.PerformerID,
                         Name = performer.PerformerName
@@ -210,9 +219,19 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return _songs.GetPerformersOfSong(song);
         }
 
-        public void UpdatePerformer(SongPerformer updatedPerformer)
+        public async Task<SongPerformerDto> UpdatePerformer(SongPerformerDto updatedPerformer)
         {
-            _performers.UpdatePerformer(updatedPerformer);
+            var tmp = new SongPerformer
+            {
+                PerformerID = updatedPerformer.PerformerID,
+                PerformerName = updatedPerformer.Name
+            };
+            var result = await _performers.UpdatePerformer(tmp);
+            if(result != null)
+            {
+                return ConvertPerformerToDto(result);
+            }
+            return null;
         }
 
         public async Task<int> GetPerformerCount()
@@ -232,6 +251,16 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 }).ToList();
             performers.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz előadót ---" });
             return new SelectList(performers, "Value", "Text");
+        }
+
+        private SongPerformerDto ConvertPerformerToDto(SongPerformer performer)
+        {
+            var result = new SongPerformerDto
+            {
+                PerformerID = performer.PerformerID,
+                Name = performer.PerformerName
+            };
+            return result;
         }
         #endregion
 
@@ -258,10 +287,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 };
                 result.Song.SongID = song.SongID;
                 result.Song.Title = song.SongTitle;
-                result.Song.Performers = new List<PerformerDto>();
+                result.Song.Performers = new List<SongPerformerDto>();
                 foreach (var perf in song.PerformerSongs)
                 {
-                    PerformerDto p = new PerformerDto
+                    SongPerformerDto p = new SongPerformerDto
                     {
                         PerformerID = perf.Performer.PerformerID,
                         Name = perf.Performer.PerformerName
@@ -308,11 +337,11 @@ namespace MediaLibrary.MediaApi.Services.Audio
                     {
                         SongID = song.SongID,
                         Title = song.SongTitle,
-                        Performers = new List<PerformerDto>()
+                        Performers = new List<SongPerformerDto>()
                     };
                     foreach (var perf in song.PerformerSongs)
                     {
-                        PerformerDto p = new PerformerDto
+                        SongPerformerDto p = new SongPerformerDto
                         {
                             PerformerID = perf.Performer.PerformerID,
                             Name = perf.Performer.PerformerName
@@ -328,11 +357,6 @@ namespace MediaLibrary.MediaApi.Services.Audio
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
         {
             return await _albums.GetSongsOfAlbum(album);
-        }
-
-        public ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer)
-        {
-            return _performers.SongsOfPerformer(performer);
         }
 
         public void UpdateSong(Song updatedSong, List<SongPerformerDto> performers)

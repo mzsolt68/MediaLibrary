@@ -9,6 +9,6 @@ namespace MediaLibrary.Common.Dto.Audio
         public int SongID { get; set; }
         public string Title { get; set; }
 
-        public ICollection<PerformerDto> Performers { get; set; }
+        public ICollection<SongPerformerDto> Performers { get; set; }
     }
 }

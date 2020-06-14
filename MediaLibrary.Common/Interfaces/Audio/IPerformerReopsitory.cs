@@ -1,4 +1,5 @@
-﻿using MediaLibrary.Entities.Models.Audio;
+﻿using MediaLibrary.Common.Dto.Audio;
+using MediaLibrary.Entities.Models.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,11 @@ namespace MediaLibrary.Common.Interfaces.Audio
 {
     public interface IPerformerReopsitory
     {
-        void AddPerformer(SongPerformer newPerformer);
-        void DeletePerformer(SongPerformer deletedPerformer);
-        void UpdatePerformer(SongPerformer updatedPerformer);
+        Task<SongPerformer> AddPerformer(SongPerformer newPerformer);
+        Task<int> DeletePerformer(int? id);
+        Task<SongPerformer> UpdatePerformer(SongPerformer updatedPerformer);
         Task<SongPerformer> GetPerformerById(int? id);
         Task<ICollection<SongPerformer>> GetPerformers();
-        ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer);
         Task<int> GetPerformerCount();
     }
 }

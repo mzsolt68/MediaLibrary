@@ -1,13 +1,12 @@
-﻿using MediaLibrary.Entities.Models.Audio;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace MediaLibrary.Common.Dto.Audio
 {
     public class SongPerformerDto
     {
-        public SongPerformer Performer { get; set; }
+        public int PerformerID { get; set; }
+        public string Name { get; set; }
     }
 }
