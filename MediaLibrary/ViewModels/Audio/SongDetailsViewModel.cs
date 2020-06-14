@@ -13,6 +13,6 @@ namespace MediaLibrary.ViewModels.Audio
         [Display(Name = "Album(ok)")]
         public ICollection<Album> AlbumsOfSong { get; set; }
         [Display(Name = "Előadó(k)")]
-        public ICollection<Performer> PerformersOfSong { get; set; }
+        public ICollection<SongPerformer> PerformersOfSong { get; set; }
     }
 }

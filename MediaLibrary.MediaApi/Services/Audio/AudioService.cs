@@ -144,12 +144,12 @@ namespace MediaLibrary.MediaApi.Services.Audio
         #endregion
 
         #region Performer
-        public void AddPerformer(Performer newPerformer)
+        public void AddPerformer(SongPerformer newPerformer)
         {
             _performers.AddPerformer(newPerformer);
         }
 
-        public void DeletePerformer(Performer deletedPerformer)
+        public void DeletePerformer(SongPerformer deletedPerformer)
         {
             _performers.DeletePerformer(deletedPerformer);
         }
@@ -205,12 +205,12 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        public ICollection<Performer> GetPerformersOfSong(Song song)
+        public ICollection<SongPerformer> GetPerformersOfSong(Song song)
         {
             return _songs.GetPerformersOfSong(song);
         }
 
-        public void UpdatePerformer(Performer updatedPerformer)
+        public void UpdatePerformer(SongPerformer updatedPerformer)
         {
             _performers.UpdatePerformer(updatedPerformer);
         }
@@ -222,7 +222,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
 
         public IEnumerable<SelectListItem> GetPerformersToViews()
         {
-            List<SelectListItem> performers = _context.Performers.AsNoTracking()
+            List<SelectListItem> performers = _context.SongPerformers.AsNoTracking()
                 .OrderBy(perf => perf.PerformerName)
                 .Select(p =>
                 new SelectListItem
@@ -330,7 +330,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _albums.GetSongsOfAlbum(album);
         }
 
-        public ICollection<PerformerSong> SongsOfPerformer(Performer performer)
+        public ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer)
         {
             return _performers.SongsOfPerformer(performer);
         }

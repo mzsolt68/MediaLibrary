@@ -10,7 +10,7 @@ namespace MediaLibrary.Entities.Models.Audio
     {
         [Required]
         public int PerformerID { get; set; }
-        public Performer Performer { get; set; }
+        public SongPerformer Performer { get; set; }
         [Required]
         public int SongID { get; set; }
         public Song Song { get; set; }

@@ -55,10 +55,10 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return albumlist;
         }
 
-        public ICollection<Performer> GetPerformersOfSong(Song song)
+        public ICollection<SongPerformer> GetPerformersOfSong(Song song)
         {
             var perfsongs = _context.PerformerSongs.Include(p => p.Performer).Where(ps => ps.Song == song).ToList(); ;
-            ICollection<Performer> performerlist = new List<Performer>();
+            ICollection<SongPerformer> performerlist = new List<SongPerformer>();
             foreach (var item in perfsongs)
             {
                 performerlist.Add(item.Performer);
@@ -92,7 +92,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
         {
             var song = await GetSongById(updatedSong.SongID);
             var perforig = _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToList();
-            ICollection<Performer> perfupd = new List<Performer>();
+            ICollection<SongPerformer> perfupd = new List<SongPerformer>();
             foreach (var item in performers)
             {
                 if (item != null)

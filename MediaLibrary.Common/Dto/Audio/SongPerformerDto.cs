@@ -8,6 +8,6 @@ namespace MediaLibrary.Common.Dto.Audio
 {
     public class SongPerformerDto
     {
-        public Performer Performer { get; set; }
+        public SongPerformer Performer { get; set; }
     }
 }

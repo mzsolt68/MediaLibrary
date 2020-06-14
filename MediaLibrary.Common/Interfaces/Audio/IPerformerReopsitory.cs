@@ -8,12 +8,12 @@ namespace MediaLibrary.Common.Interfaces.Audio
 {
     public interface IPerformerReopsitory
     {
-        void AddPerformer(Performer newPerformer);
-        void DeletePerformer(Performer deletedPerformer);
-        void UpdatePerformer(Performer updatedPerformer);
-        Task<Performer> GetPerformerById(int? id);
-        Task<ICollection<Performer>> GetPerformers();
-        ICollection<PerformerSong> SongsOfPerformer(Performer performer);
+        void AddPerformer(SongPerformer newPerformer);
+        void DeletePerformer(SongPerformer deletedPerformer);
+        void UpdatePerformer(SongPerformer updatedPerformer);
+        Task<SongPerformer> GetPerformerById(int? id);
+        Task<ICollection<SongPerformer>> GetPerformers();
+        ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer);
         Task<int> GetPerformerCount();
     }
 }

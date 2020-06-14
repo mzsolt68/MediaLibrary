@@ -24,12 +24,12 @@ namespace MediaLibrary.Services.Audio
         ICollection<AudioFormat> GetFormats();
         IEnumerable<SelectListItem> GetFormatsToViews();
 
-        void AddPerformer(Performer newPerformer);
-        void DeletePerformer(Performer deletedPerformer);
-        void UpdatePerformer(Performer updatedPerformer);
-        Performer GetPerformerById(int? id);
-        ICollection<Performer> GetPerformers();
-        ICollection<PerformerSong> SongsOfPerformer(Performer performer);
+        void AddPerformer(SongPerformer newPerformer);
+        void DeletePerformer(SongPerformer deletedPerformer);
+        void UpdatePerformer(SongPerformer updatedPerformer);
+        SongPerformer GetPerformerById(int? id);
+        ICollection<SongPerformer> GetPerformers();
+        ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer);
         IEnumerable<SelectListItem> GetPerformersToViews();
 
         void AddSong(Song newSong, List<SongPerformerViewModel> performers);
@@ -38,7 +38,7 @@ namespace MediaLibrary.Services.Audio
         Song GetSongById(int? id);
         ICollection<Song> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
-        ICollection<Performer> GetPerformersOfSong(Song song);
+        ICollection<SongPerformer> GetPerformersOfSong(Song song);
 
         int GetAlbumCount();
         int GetPerformerCount();

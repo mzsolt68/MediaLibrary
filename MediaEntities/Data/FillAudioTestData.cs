@@ -49,12 +49,12 @@ namespace MediaLibrary.Entities.Data
 
         public static void FillPerformers(ModelBuilder builder)
         {
-            builder.Entity<Performer>().HasData(
-                new Performer { PerformerID = 1, PerformerName = "Boney M" },
-                new Performer { PerformerID = 2, PerformerName = "Jamie Winchester" },
-                new Performer { PerformerID = 3, PerformerName = "Hrutka Róbert" },
-                new Performer { PerformerID = 4, PerformerName = "Bery" },
-                new Performer { PerformerID = 5, PerformerName = "Váczi Eszter" }
+            builder.Entity<SongPerformer>().HasData(
+                new SongPerformer { PerformerID = 1, PerformerName = "Boney M" },
+                new SongPerformer { PerformerID = 2, PerformerName = "Jamie Winchester" },
+                new SongPerformer { PerformerID = 3, PerformerName = "Hrutka Róbert" },
+                new SongPerformer { PerformerID = 4, PerformerName = "Bery" },
+                new SongPerformer { PerformerID = 5, PerformerName = "Váczi Eszter" }
                 );
         }
 

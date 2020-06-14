@@ -21,12 +21,12 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<ICollection<AudioFormat>> GetFormats();
         //IEnumerable<SelectListItem> GetFormatsToViews();
 
-        void AddPerformer(Performer newPerformer);
-        void DeletePerformer(Performer deletedPerformer);
-        void UpdatePerformer(Performer updatedPerformer);
+        void AddPerformer(SongPerformer newPerformer);
+        void DeletePerformer(SongPerformer deletedPerformer);
+        void UpdatePerformer(SongPerformer updatedPerformer);
         Task<PerformerDetailsDto> GetPerformerById(int? id);
         Task<ICollection<PerformerDto>> GetPerformers();
-        ICollection<PerformerSong> SongsOfPerformer(Performer performer);
+        ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer);
         //IEnumerable<SelectListItem> GetPerformersToViews();
 
         void AddSong(Song newSong, List<SongPerformerDto> performers);
@@ -35,7 +35,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<SongDetailsDto> GetSongById(int? id);
         Task<ICollection<SongDto>> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
-        ICollection<Performer> GetPerformersOfSong(Song song);
+        ICollection<SongPerformer> GetPerformersOfSong(Song song);
 
         Task<int> GetAlbumCount();
         Task<int> GetPerformerCount();

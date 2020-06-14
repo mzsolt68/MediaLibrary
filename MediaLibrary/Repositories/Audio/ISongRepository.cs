@@ -15,7 +15,7 @@ namespace MediaLibrary.Repositories.Audio
         Song GetSongById(int? id);
         ICollection<Song> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
-        ICollection<Performer> GetPerformersOfSong(Song song);
+        ICollection<SongPerformer> GetPerformersOfSong(Song song);
         int GetSongCount();
     }
 }

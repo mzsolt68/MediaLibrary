@@ -18,36 +18,36 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context = context;
         }
 
-        public void AddPerformer(Performer newPerformer)
+        public void AddPerformer(SongPerformer newPerformer)
         {
-            _context.Performers.Add(newPerformer);
+            _context.SongPerformers.Add(newPerformer);
             _context.SaveChanges();
         }
 
-        public void DeletePerformer(Performer deletedPerformer)
+        public void DeletePerformer(SongPerformer deletedPerformer)
         {
-            _context.Performers.Remove(deletedPerformer);
+            _context.SongPerformers.Remove(deletedPerformer);
             _context.SaveChanges();
         }
 
-        public async Task<Performer> GetPerformerById(int? id)
+        public async Task<SongPerformer> GetPerformerById(int? id)
         {
-            return await _context.Performers
+            return await _context.SongPerformers
                 .Include(s => s.PerformerSongs). ThenInclude(ps => ps.Song)
                 .Where(p => p.PerformerID == id).SingleOrDefaultAsync();
         }
 
         public async Task<int> GetPerformerCount()
         {
-            return await _context.Performers.CountAsync();
+            return await _context.SongPerformers.CountAsync();
         }
 
-        public async Task<ICollection<Performer>> GetPerformers()
+        public async Task<ICollection<SongPerformer>> GetPerformers()
         {
-            return await _context.Performers.AsNoTracking().ToListAsync();
+            return await _context.SongPerformers.AsNoTracking().ToListAsync();
         }
 
-        public ICollection<PerformerSong> SongsOfPerformer(Performer performer)
+        public ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer)
         {
             var pslist = _context.PerformerSongs.Include(x => x.Song).ThenInclude(sa => sa.AlbumSongs).Where(ps => ps.Performer == performer).ToList();
             ICollection<Song> songlist = new List<Song>();
@@ -58,9 +58,9 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return pslist;
         }
 
-        public void UpdatePerformer(Performer updatedPerformer)
+        public void UpdatePerformer(SongPerformer updatedPerformer)
         {
-            _context.Performers.Update(updatedPerformer);
+            _context.SongPerformers.Update(updatedPerformer);
             _context.SaveChanges();
         }
     }

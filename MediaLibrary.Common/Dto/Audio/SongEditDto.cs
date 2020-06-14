@@ -13,7 +13,7 @@ namespace MediaLibrary.Common.Dto.Audio
         [Display(Name = "Előadók")]
         public List<SongPerformerDto> Performers { get; set; }
         public int SelectedPerformerID { get; set; }
-        public IEnumerable<Performer> PerformerList { get; set; }
+        public IEnumerable<SongPerformer> PerformerList { get; set; }
 
         public SongEditDto()
         {

@@ -12,7 +12,7 @@ namespace MediaLibrary.Entities.Data
     {
         public DbSet<Album> Albums { get; set; }
         public DbSet<AudioFormat> AudioFormats { get; set; }
-        public DbSet<Performer> Performers { get; set; }
+        public DbSet<SongPerformer> SongPerformers { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<PerformerSong> PerformerSongs { get; set; }
         public DbSet<AlbumSong> AlbumSongs { get; set; }

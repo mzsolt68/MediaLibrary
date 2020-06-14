@@ -14,7 +14,7 @@ namespace MediaLibrary.Controllers.Audio
     public class PerformersController : Controller
     {
         private readonly IAudioService _service;
-        private PerformerDetailsViewModel _detailsViewModel;
+        private readonly PerformerDetailsViewModel _detailsViewModel;
 
         public PerformersController(IAudioService service)
         {
@@ -52,7 +52,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("PerformerID,PerformerName")] Performer performer)
+        public IActionResult Create([Bind("PerformerID,PerformerName")] SongPerformer performer)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace MediaLibrary.Controllers.Audio
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("PerformerID,PerformerName")] Performer performer)
+        public IActionResult Edit(int id, [Bind("PerformerID,PerformerName")] SongPerformer performer)
         {
             if (id != performer.PerformerID)
             {
@@ -144,7 +144,7 @@ namespace MediaLibrary.Controllers.Audio
             return _service.GetPerformerById(id) != null;
         }
 
-        private PerformerDetailsViewModel CreateDetailsViewModel(Performer performer)
+        private PerformerDetailsViewModel CreateDetailsViewModel(SongPerformer performer)
         {
             var model = new PerformerDetailsViewModel();
             if (performer != null)

@@ -15,7 +15,7 @@ namespace MediaLibrary.Common.Interfaces.Audio
         Task<Song> GetSongById(int? id);
         Task<ICollection<Song>> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
-        ICollection<Performer> GetPerformersOfSong(Song song);
+        ICollection<SongPerformer> GetPerformersOfSong(Song song);
         Task<int> GetSongCount();
     }
 }

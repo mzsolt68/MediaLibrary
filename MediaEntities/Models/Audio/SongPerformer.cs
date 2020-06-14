@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MediaLibrary.Entities.Models.Audio
 {
-    public class Performer
+    public class SongPerformer
     {
+        [Key]
         public int PerformerID { get; set; }
         [Required]
         [Display(Name = "Előadó neve")]

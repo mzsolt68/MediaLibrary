@@ -8,7 +8,7 @@ namespace MediaLibrary.ViewModels.Audio
 {
     public class PerformerDetailsViewModel
     {
-        public Performer Performer { get; set; }
+        public SongPerformer Performer { get; set; }
         public ICollection<PerformerSong> Songs { get; set; }
     }
 }

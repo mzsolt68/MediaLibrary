@@ -38,7 +38,7 @@ namespace MediaLibrary.Services.Audio
             _formats.AddFormat(newFormat);
         }
 
-        public void AddPerformer(Performer newPerformer)
+        public void AddPerformer(SongPerformer newPerformer)
         {
             _performers.AddPerformer(newPerformer);
         }
@@ -58,7 +58,7 @@ namespace MediaLibrary.Services.Audio
             _formats.DeleteFormat(deletedFormat);
         }
 
-        public void DeletePerformer(Performer deletedPerformer)
+        public void DeletePerformer(SongPerformer deletedPerformer)
         {
             _performers.DeletePerformer(deletedPerformer);
         }
@@ -107,24 +107,24 @@ namespace MediaLibrary.Services.Audio
             return new SelectList(formats, "Value", "Text");
         }
 
-        public Performer GetPerformerById(int? id)
+        public SongPerformer GetPerformerById(int? id)
         {
             return _performers.GetPerformerById(id);
         }
 
-        public ICollection<Performer> GetPerformers()
+        public ICollection<SongPerformer> GetPerformers()
         {
             return _performers.GetPerformers();
         }
 
-        public ICollection<Performer> GetPerformersOfSong(Song song)
+        public ICollection<SongPerformer> GetPerformersOfSong(Song song)
         {
             return _songs.GetPerformersOfSong(song);
         }
 
         public IEnumerable<SelectListItem> GetPerformersToViews()
         {
-            List<SelectListItem> performers = _context.Performers.AsNoTracking()
+            List<SelectListItem> performers = _context.SongPerformers.AsNoTracking()
                 .OrderBy(perf => perf.PerformerName)
                 .Select(p =>
                 new SelectListItem
@@ -151,7 +151,7 @@ namespace MediaLibrary.Services.Audio
             return _albums.GetSongsOfAlbum(album);
         }
 
-        public ICollection<PerformerSong> SongsOfPerformer(Performer performer)
+        public ICollection<PerformerSong> SongsOfPerformer(SongPerformer performer)
         {
             return _performers.SongsOfPerformer(performer);
         }
@@ -166,7 +166,7 @@ namespace MediaLibrary.Services.Audio
             _formats.UpdateFormat(updatedFormat);
         }
 
-        public void UpdatePerformer(Performer updatedPerformer)
+        public void UpdatePerformer(SongPerformer updatedPerformer)
         {
             _performers.UpdatePerformer(updatedPerformer);
         }
