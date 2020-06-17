@@ -9,7 +9,7 @@ namespace MediaLibrary.Common.Interfaces.Audio
 {
     public interface ISongRepository
     {
-        void AddSong(Song newSong, List<SongPerformerDto> performers);
+        Task<Song> AddSong(Song newSong, ICollection<int> performers);
         Task<int> DeleteSong(int? id);
         Task UpdateSong(Song updatedSong, List<SongPerformerDto> performers);
         Task<Song> GetSongById(int? id);

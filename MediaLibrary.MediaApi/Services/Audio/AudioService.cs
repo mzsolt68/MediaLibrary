@@ -265,9 +265,22 @@ namespace MediaLibrary.MediaApi.Services.Audio
         #endregion
 
         #region Song
-        public void AddSong(Song newSong, List<SongPerformerDto> performers)
+        public async Task<SongDto> AddSong(SongDto newSong)
         {
-            _songs.AddSong(newSong, performers);
+            Song s = new Song
+            {
+                SongTitle = newSong.Title,
+                SongLyric = newSong.Lyric,
+                GenreID = newSong.Genre.GenreID,
+                LanguageID = newSong.Language.LanguageID
+            };
+            ICollection<int> p = new List<int>();
+            foreach (var item in newSong.Performers)
+            {
+                p.Add(item.PerformerID);
+            }
+            var result = await _songs.AddSong(s, p);
+            return ConvertSongToDto(result);
         }
 
         public async Task<int> DeleteSong(int? id)
@@ -368,6 +381,29 @@ namespace MediaLibrary.MediaApi.Services.Audio
         public async Task<int> GetSongCount()
         {
             return await _songs.GetSongCount();
+        }
+
+        private SongDto ConvertSongToDto(Song song)
+        {
+            SongDto result = new SongDto
+            {
+                SongID = song.SongID,
+                Title = song.SongTitle,
+                Lyric = song.SongLyric,
+                Genre = song.Genre,
+                Language = song.Language,
+                Performers = new List<SongPerformerDto>()
+            };
+            foreach (var performer in song.PerformerSongs)
+            {
+                SongPerformerDto sp = new SongPerformerDto
+                {
+                    PerformerID = performer.PerformerID,
+                    Name = performer.Performer.PerformerName
+                };
+                result.Performers.Add(sp);
+            }
+            return result;
         }
         #endregion
 

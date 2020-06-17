@@ -28,7 +28,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<ICollection<SongPerformerDto>> GetPerformers();
         //IEnumerable<SelectListItem> GetPerformersToViews();
 
-        void AddSong(Song newSong, List<SongPerformerDto> performers);
+        Task<SongDto> AddSong(SongDto newSong);
         Task<int> DeleteSong(int? id);
         void UpdateSong(Song updatedSong, List<SongPerformerDto> performers);
         Task<SongDetailsDto> GetSongById(int? id);

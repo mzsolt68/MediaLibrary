@@ -19,21 +19,25 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             _context = context;
         }
 
-        public void AddSong(Song newSong, List<SongPerformerDto> performers)
+        public async Task<Song> AddSong(Song newSong, ICollection<int> performers)
         {
             _context.Songs.Add(newSong);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             foreach (var item in performers)
             {
-                if (item != null)
-                {
                     _context.PerformerSongs.Add(
                         new PerformerSong
-                        { SongID = newSong.SongID, PerformerID = item.PerformerID}
-                        );
-                }
+                        {
+                            SongID = newSong.SongID,
+                            PerformerID = item
+                        });
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return await _context.Songs
+                .Include(s => s.PerformerSongs).ThenInclude(ps => ps.Performer)
+                .Include(g => g.Genre)
+                .Include(l => l.Language)
+                .AsNoTracking().FirstOrDefaultAsync(s => s.SongID == newSong.SongID);
         }
 
         public async Task<int> DeleteSong(int? id)
