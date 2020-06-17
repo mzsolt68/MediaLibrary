@@ -15,6 +15,6 @@ namespace MediaLibrary.Common.Dto.Audio
         public string Language { get; set; }
 
         [Display(Name = "Album(ok)")]
-        public ICollection<AlbumDto> Albums { get; set; }
+        public ICollection<AlbumSongDto> Albums { get; set; }
     }
 }

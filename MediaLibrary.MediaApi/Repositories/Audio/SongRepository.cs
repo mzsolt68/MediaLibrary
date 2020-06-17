@@ -70,7 +70,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
         {
             var song = await _context.Songs
                 .Include(p => p.PerformerSongs).ThenInclude(ps => ps.Performer)
-                .Include(a => a.AlbumSongs).ThenInclude(als => als.Album)
+                .Include(a => a.AlbumSongs).ThenInclude(als => als.Album).ThenInclude(al => al.AlbumFormat)
                 .Include(g => g.Genre).Include(l => l.Language)
                 .Where(s => s.SongID == id).AsNoTracking().SingleOrDefaultAsync();
             return song;

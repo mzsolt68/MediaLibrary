@@ -307,15 +307,16 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 }
                 if (song.AlbumSongs.Count > 0)
                 {
-                    result.Albums = new List<AlbumDto>();
+                    result.Albums = new List<AlbumSongDto>();
                     foreach (var album in song.AlbumSongs)
                     {
-                        AlbumDto a = new AlbumDto
+                        AlbumSongDto a = new AlbumSongDto
                         {
                             AlbumID = album.Album.AlbumID,
                             Title = album.Album.AlbumTitle,
-                            Nr_of_discs = album.Album.NrOfDiscs,
-                            Nr_of_tracks = await _albums.GetSongsOfAlbum(album.Album.AlbumID)
+                            Format = album.Album.AlbumFormat,
+                            TrackNr = album.TrackNr.ToString(),
+                            PlayTime = album.PlayTime.Hour.ToString() + ":" + album.PlayTime.Minute.ToString()
                         };
                         result.Albums.Add(a);
                     }

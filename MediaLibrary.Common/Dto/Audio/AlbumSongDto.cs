@@ -8,6 +8,10 @@ namespace MediaLibrary.Common.Dto.Audio
 {
     public class AlbumSongDto
     {
-        public AlbumSong SongOfAlbum { get; set; }
+        public int AlbumID { get; set; }
+        public string Title { get; set; }
+        public AudioFormat Format { get; set; }
+        public string TrackNr { get; set; }
+        public string PlayTime { get; set; }
     }
 }

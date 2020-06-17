@@ -31,7 +31,7 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
             var song = await _service.GetSongById(id);
             if (song == null)
