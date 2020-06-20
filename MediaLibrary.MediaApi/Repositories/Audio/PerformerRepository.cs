@@ -29,16 +29,19 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return null;
         }
 
-        //TODO vizsgálni, hogy vannak-e zenék rendelve az előadóhoz
         public async Task<int> DeletePerformer(int? id)
         {
             var deleted = await _context.SongPerformers.SingleOrDefaultAsync(p => p.PerformerID == id);
-            if (deleted != null)
+            if(deleted == null)
             {
-                _context.SongPerformers.Remove(deleted);
-                return await _context.SaveChangesAsync();
+                return 0;
             }
-            return 0;
+            if(await _context.PerformerSongs.CountAsync(ps => ps.PerformerID == id) > 0)
+            {
+                return -1;
+            }
+            _context.SongPerformers.Remove(deleted);
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<SongPerformer> GetPerformerById(int? id)

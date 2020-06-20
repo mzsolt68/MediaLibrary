@@ -90,9 +90,14 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             {
                 return BadRequest();
             }
-            if(await _service.DeletePerformer(id) == 0)
+            int result = await _service.DeletePerformer(id);
+            if (result == 0)
             {
                 return NotFound();
+            }
+            else if(result == -1)
+            {
+                return Conflict("Nem törölhető, mert egy vagy több zeneszám van hozzárendelve!");
             }
             return Ok();
         }
