@@ -54,9 +54,14 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             {
                 return BadRequest();
             }
-            if (await _service.DeleteSong(id) == 0)
+            int result = await _service.DeleteSong(id);
+            if (result == 0)
             {
                 return NotFound();
+            }
+            else if(result == -1)
+            {
+                return Conflict("Nem törölhető, mert egy vagy több albumhoz van rendelve!");
             }
             return Ok();
         }

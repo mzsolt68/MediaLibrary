@@ -42,16 +42,23 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
 
         public async Task<int> DeleteSong(int? id)
         {
-            int result = 0;
-            var deleted = await _context.Songs.Include(ps => ps.PerformerSongs).SingleOrDefaultAsync(s => s.SongID == id);
-            if (deleted != null)
+            int result = -1;
+            if (!await _context.AlbumSongs.AnyAsync(als => als.SongID == id))
             {
-                foreach (var item in deleted.PerformerSongs)
+                var deleted = await _context.Songs.Include(ps => ps.PerformerSongs).SingleOrDefaultAsync(s => s.SongID == id);
+                if (deleted != null)
                 {
-                    _context.PerformerSongs.Remove(item);
+                    foreach (var item in deleted.PerformerSongs)
+                    {
+                        _context.PerformerSongs.Remove(item);
+                    }
+                    _context.Songs.Remove(deleted);
+                    result = await _context.SaveChangesAsync();
                 }
-                _context.Songs.Remove(deleted);
-                result = await _context.SaveChangesAsync();
+                else
+                {
+                    result = 0;
+                }
             }
             return result;
         }
