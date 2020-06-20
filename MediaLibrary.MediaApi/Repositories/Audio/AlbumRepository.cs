@@ -32,13 +32,18 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
         //TODO vizsgálni, hogy vannak-e zenék rendelve az albumhoz
         public async Task<int> DeleteAlbum(int? id)
         {
-            var deleted = await _context.Albums.Where(a => a.AlbumID == id).SingleOrDefaultAsync();
+            int result = 0;
+            var deleted = await _context.Albums.Include(als => als.AlbumSongs).SingleOrDefaultAsync(a => a.AlbumID == id);
             if (deleted != null)
             {
+                foreach (var item in deleted.AlbumSongs)
+                {
+                    _context.AlbumSongs.Remove(item);
+                }
                 _context.Albums.Remove(deleted);
-                return await _context.SaveChangesAsync();
+                result = await _context.SaveChangesAsync();
             }
-            return 0;
+            return result;
         }
 
         public async Task<Album> GetAlbumById(int? id)
