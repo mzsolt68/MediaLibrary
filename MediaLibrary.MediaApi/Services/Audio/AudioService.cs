@@ -280,6 +280,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 p.Add(item.PerformerID);
             }
             var result = await _songs.AddSong(s, p);
+            //TODO result null ellenőrzés
             return ConvertSongToDto(result);
         }
 
@@ -373,9 +374,15 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _albums.GetSongsOfAlbum(album);
         }
 
-        public void UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
+        public async Task<SongDto> UpdateSong(SongDto updatedSong)
         {
-            _songs.UpdateSong(updatedSong, performers);
+            ConvertDtoToSong(updatedSong, out Song s, out ICollection<int> p);
+            var result = await _songs.UpdateSong(s, p);
+            if(result != null)
+            {
+                return ConvertSongToDto(result);
+            }
+            return null;
         }
 
         public async Task<int> GetSongCount()
@@ -404,6 +411,23 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 result.Performers.Add(sp);
             }
             return result;
+        }
+
+        private void ConvertDtoToSong(SongDto songObject, out Song song, out ICollection<int> performers)
+        {
+            song = new Song
+            {
+                SongID = songObject.SongID,
+                SongTitle = songObject.Title,
+                SongLyric = songObject.Lyric,
+                GenreID = songObject.Genre.GenreID,
+                LanguageID = songObject.Language.LanguageID
+            };
+            performers = new List<int>();
+            foreach(var item in songObject.Performers)
+            {
+                performers.Add(item.PerformerID);
+            }
         }
         #endregion
 

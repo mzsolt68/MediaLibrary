@@ -92,40 +92,50 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
                 .AsNoTracking().ToListAsync();
         }
 
-        public async Task UpdateSong(Song updatedSong, List<SongPerformerDto> performers)
+        public async Task<Song> UpdateSong(Song updatedSong, ICollection<int> performers)
         {
-            var song = await GetSongById(updatedSong.SongID);
-            var perforig = _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToList();
-            ICollection<SongPerformer> perfupd = new List<SongPerformer>();
-            foreach (var item in performers)
+            var song = await _context.Songs.SingleOrDefaultAsync(s => s.SongID == updatedSong.SongID);
+            if (song != null)
             {
-                if (item != null)
+                var dbperformers = await _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToListAsync();
+                ICollection<SongPerformer> updatedPerformers = new List<SongPerformer>();
+                foreach (var item in performers)
                 {
-                    //TODO javítani
-                    //perfupd.Add(item.Performer);
+                    var updPerformer = await _context.SongPerformers.SingleOrDefaultAsync(p => p.PerformerID == item);
+                    if (updPerformer != null)
+                    {
+                        updatedPerformers.Add(updPerformer);
+                    }
                 }
-            }
-            foreach (var item in perforig)
-            {
-                if (!perfupd.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                foreach (var item in dbperformers)
                 {
-                    _context.PerformerSongs.Remove(item);
+                    if (!updatedPerformers.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                    {
+                        _context.PerformerSongs.Remove(item);
+                    }
                 }
-            }
-            foreach (var item in perfupd)
-            {
-                if(!perforig.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                foreach (var item in updatedPerformers)
                 {
-                    _context.PerformerSongs.Add(
-                        new PerformerSong
-                        { PerformerID = item.PerformerID, SongID = updatedSong.SongID}
-                        );
+                    if (!dbperformers.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                    {
+                        _context.PerformerSongs.Add(
+                            new PerformerSong
+                            { PerformerID = item.PerformerID, SongID = updatedSong.SongID }
+                            );
+                    }
                 }
+                song.SongTitle = updatedSong.SongTitle;
+                song.SongLyric = updatedSong.SongLyric;
+                song.GenreID = updatedSong.GenreID;
+                song.LanguageID = updatedSong.LanguageID;
+                await _context.SaveChangesAsync();
+                song = await _context.Songs
+                    .Include(ps => ps.PerformerSongs).ThenInclude(p => p.Performer)
+                    .Include(g => g.Genre)
+                    .Include(l => l.Language)
+                    .AsNoTracking().FirstOrDefaultAsync(s => s.SongID == updatedSong.SongID);
             }
-            song.SongTitle = updatedSong.SongTitle;
-            song.SongLyric = updatedSong.SongLyric;
-            _context.Songs.Update(song);
-            _context.SaveChanges();
+            return song;
         }
     }
 }

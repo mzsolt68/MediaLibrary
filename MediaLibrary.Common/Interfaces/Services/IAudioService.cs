@@ -30,7 +30,7 @@ namespace MediaLibrary.Common.Interfaces.Services
 
         Task<SongDto> AddSong(SongDto newSong);
         Task<int> DeleteSong(int? id);
-        void UpdateSong(Song updatedSong, List<SongPerformerDto> performers);
+        Task<SongDto> UpdateSong(SongDto updatedSong);
         Task<SongDetailsDto> GetSongById(int? id);
         Task<ICollection<SongDto>> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);

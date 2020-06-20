@@ -71,5 +71,20 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             var result = await _service.AddSong(newSong);
             return Ok(result);
         }
+
+        [HttpPut("updatesong")]
+        public async Task<ActionResult<SongDto>> UpdateSong([FromBody]SongDto updatedSong)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _service.UpdateSong(updatedSong);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return result;
+        }
     }
 }
