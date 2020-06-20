@@ -70,9 +70,14 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             {
                 return BadRequest();
             }
-            if(await _service.DeleteFormat(id) == 0)
+            int result = await _service.DeleteFormat(id);
+            if (result == 0)
             {
                 return NotFound();
+            }
+            else if(result == -1)
+            {
+                return Conflict("Nem törölhető, mert van ilyen formátumú album rögzítve!");
             }
             return Ok();
         }

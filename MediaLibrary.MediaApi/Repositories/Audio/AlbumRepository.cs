@@ -29,7 +29,6 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return null;
         }
 
-        //TODO vizsgálni, hogy vannak-e zenék rendelve az albumhoz
         public async Task<int> DeleteAlbum(int? id)
         {
             int result = 0;

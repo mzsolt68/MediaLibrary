@@ -29,16 +29,23 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return null;
         }
 
-        //TODO vizsgálni, hogy van-e album rendelve a formátumhoz
         public async Task<int> DeleteFormat(int? id)
         {
-            var deleted = await _context.AudioFormats.Where(f => f.AudioFormatID == id).SingleOrDefaultAsync();
-            if (deleted != null)
+            int result = -1;
+            if (!await _context.Albums.AnyAsync(f => f.AudioFormatID == id))
             {
-                _context.AudioFormats.Remove(deleted);
-                return await _context.SaveChangesAsync();
+                var deleted = await _context.AudioFormats.Where(f => f.AudioFormatID == id).SingleOrDefaultAsync();
+                if (deleted != null)
+                {
+                    _context.AudioFormats.Remove(deleted);
+                    result = await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    result = 0;
+                }
             }
-            return 0;
+            return result;
         }
 
         public async Task<AudioFormat> GetFormatById(int? id)
