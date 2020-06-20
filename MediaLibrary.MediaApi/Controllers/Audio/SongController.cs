@@ -47,12 +47,12 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             return Ok(await _service.GetSongCount());
         }
 
-        [HttpPost("deletesong/{id}")]
+        [HttpDelete("deletesong/{id}")]
         public async Task<ActionResult> DeleteSong(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return BadRequest();
             }
             if (await _service.DeleteSong(id) == 0)
             {
