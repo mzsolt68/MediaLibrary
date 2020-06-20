@@ -69,6 +69,10 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
                 return BadRequest();
             }
             var result = await _service.AddSong(newSong);
+            if(result == null)
+            {
+                return BadRequest();
+            }
             return Ok(result);
         }
 

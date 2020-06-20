@@ -267,21 +267,13 @@ namespace MediaLibrary.MediaApi.Services.Audio
         #region Song
         public async Task<SongDto> AddSong(SongDto newSong)
         {
-            Song s = new Song
-            {
-                SongTitle = newSong.Title,
-                SongLyric = newSong.Lyric,
-                GenreID = newSong.Genre.GenreID,
-                LanguageID = newSong.Language.LanguageID
-            };
-            ICollection<int> p = new List<int>();
-            foreach (var item in newSong.Performers)
-            {
-                p.Add(item.PerformerID);
-            }
+            ConvertDtoToSong(newSong, out Song s, out ICollection<int> p);
             var result = await _songs.AddSong(s, p);
-            //TODO result null ellenőrzés
-            return ConvertSongToDto(result);
+            if (result != null)
+            {
+                return ConvertSongToDto(result);
+            }
+            return null;
         }
 
         public async Task<int> DeleteSong(int? id)
