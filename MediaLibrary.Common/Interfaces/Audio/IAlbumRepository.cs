@@ -10,7 +10,7 @@ namespace MediaLibrary.Common.Interfaces.Audio
     {
         Task<Album> AddAlbum(Album newAlbum);
         Task<int> DeleteAlbum(int? id);
-        void UpdateAlbum(Album updatedAlbum);
+        Task<Album> UpdateAlbum(Album updatedAlbum);
         Task<Album> GetAlbumById(int? id);
         Task<ICollection<Album>> GetAlbums();
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);

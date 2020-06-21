@@ -33,14 +33,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
         #region Album
         public async Task<AlbumDto> AddAlbum(AlbumDto newAlbum)
         {
-            var addedAlbum = new Album
-            {
-                AlbumTitle = newAlbum.Title,
-                AudioFormatID = newAlbum.Format.AudioFormatID,
-                NrOfDiscs = (byte) newAlbum.Nr_of_discs
-            };
-            var result = await _albums.AddAlbum(addedAlbum);
-            result.AlbumFormat = await _formats.GetFormatById(result.AudioFormatID);
+            var result = await _albums.AddAlbum(ConvertDtoToAlbum(newAlbum));
             if(result != null)
             {
                 return ConvertAlbumToDto(result);
@@ -115,9 +108,14 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return _songs.GetAlbumsOfSong(song);
         }
 
-        public void UpdateAlbum(Album updatedAlbum)
+        public async Task<AlbumDto> UpdateAlbum(AlbumDto updatedAlbum)
         {
-            _albums.UpdateAlbum(updatedAlbum);
+            var result = await _albums.UpdateAlbum(ConvertDtoToAlbum(updatedAlbum));
+            if(result != null)
+            {
+                return ConvertAlbumToDto(result);
+            }
+            return null;
         }
 
         public async Task<int> GetAlbumCount()
@@ -140,6 +138,18 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 return result;
             }
             return null;
+        }
+
+        private Album ConvertDtoToAlbum(AlbumDto albumObject)
+        {
+            Album a = new Album
+            {
+                AlbumID = albumObject.AlbumID,
+                AlbumTitle = albumObject.Title,
+                AudioFormatID = albumObject.Format.AudioFormatID,
+                NrOfDiscs = (byte)albumObject.Nr_of_discs
+            };
+            return a;
         }
         #endregion
 

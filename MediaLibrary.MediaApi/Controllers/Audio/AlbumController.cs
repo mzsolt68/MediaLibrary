@@ -73,90 +73,19 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             return Ok(result);
         }
 
-        // GET: Albums/Create
-        //public IActionResult Create()
-        //{
-        //    Album album = new Album();
-        //    if (_editViewModel != null)
-        //    {
-        //        _editViewModel = null;
-        //    }
-        //    _editViewModel = CreateEditViewModel(album);
-        //    return View(_editViewModel);
-        //}
-
-        // POST: Albums/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Create(int AudioFormatID, [Bind("AlbumID,AlbumTitle,NrOfDiscs")] Album album)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        album.AlbumFormat = _service.GetFormatById(AudioFormatID);
-        //        _service.AddAlbum(album);
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(album);
-        //}
-
-        // GET: Albums/Edit/5
-        //public IActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var album = _service.GetAlbumById(id);
-        //    if (album == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (_editViewModel != null)
-        //    {
-        //        _editViewModel = null;
-        //    }
-        //    _editViewModel = CreateEditViewModel(album);
-        //    return View(_editViewModel);
-        //}
-
-        // POST: Albums/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Edit(int id, int AudioFormatID, [Bind("AlbumID,AlbumTitle,NrOfDiscs")] Album album)
-        //{
-        //    if (id != album.AlbumID)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            album.AlbumFormat = _service.GetFormatById(AudioFormatID);
-        //            _service.UpdateAlbum(album);
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!AlbumExists(album.AlbumID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(album);
-        //}
-
-
+        [HttpPut("updatealbum")]
+        public async Task<ActionResult<AlbumDto>> UpdateAlbum([FromBody] AlbumDto album)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _service.UpdateAlbum(album);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }

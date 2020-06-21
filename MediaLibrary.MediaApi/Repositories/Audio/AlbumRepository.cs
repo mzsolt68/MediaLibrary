@@ -24,6 +24,7 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             {
                 _context.Albums.Add(newAlbum);
                 await _context.SaveChangesAsync();
+                newAlbum.AlbumFormat = await _context.AudioFormats.SingleOrDefaultAsync(f => f.AudioFormatID == newAlbum.AudioFormatID);
                 return newAlbum;
             }
             return null;
@@ -79,10 +80,18 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return await _context.AlbumSongs.Where(a => a.AlbumID == id).AsNoTracking().CountAsync();
         }
 
-        public void UpdateAlbum(Album updatedAlbum)
+        public async Task<Album> UpdateAlbum(Album updatedAlbum)
         {
-            _context.Albums.Update(updatedAlbum);
-            _context.SaveChanges();
+            var dbAlbum = await _context.Albums.SingleOrDefaultAsync(a => a.AlbumID == updatedAlbum.AlbumID);
+            if(dbAlbum != null)
+            {
+                dbAlbum.AlbumTitle = updatedAlbum.AlbumTitle;
+                dbAlbum.AudioFormatID = updatedAlbum.AudioFormatID;
+                dbAlbum.NrOfDiscs = updatedAlbum.NrOfDiscs;
+                await _context.SaveChangesAsync();
+                dbAlbum.AlbumFormat = await _context.AudioFormats.SingleOrDefaultAsync(f => f.AudioFormatID == dbAlbum.AudioFormatID);
+            }
+            return dbAlbum;
         }
     }
 }

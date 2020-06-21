@@ -9,7 +9,7 @@ namespace MediaLibrary.Common.Interfaces.Services
     {
         Task<AlbumDto> AddAlbum(AlbumDto newAlbum);
         Task<int> DeleteAlbum(int? id);
-        void UpdateAlbum(Album updatedAlbum);
+        Task<AlbumDto> UpdateAlbum(AlbumDto updatedAlbum);
         Task<AlbumDetailsDto> GetAlbumById(int? id);
         Task<ICollection<AlbumDto>> GetAlbums();
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);
