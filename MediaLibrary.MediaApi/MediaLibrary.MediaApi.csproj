@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Repositories\Common\" />
     <Folder Include="Services\Book\" />
     <Folder Include="Services\Movie\" />
   </ItemGroup>
