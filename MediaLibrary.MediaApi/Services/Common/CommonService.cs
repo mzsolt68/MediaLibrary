@@ -22,9 +22,9 @@ namespace MediaLibrary.MediaApi.Services.Common
         
         #region Genre
 
-        public Task<Genre> AddGenre(Genre newGenre)
+        public async Task<Genre> AddGenre(Genre newGenre)
         {
-            throw new NotImplementedException();
+            return await _genres.AddGenre(newGenre);
         }
 
         public Task<int> DeleteGenre(int? id)

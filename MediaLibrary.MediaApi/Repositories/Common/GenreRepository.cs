@@ -18,9 +18,15 @@ namespace MediaLibrary.MediaApi.Repositories.Common
             _context = context;
         }
 
-        public Task<Genre> AddGenre(Genre newGenre)
+        public async Task<Genre> AddGenre(Genre newGenre)
         {
-            throw new NotImplementedException();
+            if(!await _context.Genres.Where(g => g.GenreName.ToLower() == newGenre.GenreName.ToLower()).AnyAsync())
+            {
+                _context.Genres.Add(newGenre);
+                await _context.SaveChangesAsync();
+                return newGenre;
+            }
+            return null;
         }
 
         public Task<int> DeleteGenre(int? id)
