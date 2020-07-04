@@ -31,6 +31,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
         }
 
         #region Album
+
         public async Task<AlbumDto> AddAlbum(AlbumDto newAlbum)
         {
             var result = await _albums.AddAlbum(ConvertDtoToAlbum(newAlbum));
@@ -118,37 +119,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _albums.GetAlbumCount();
         }
 
-        private AlbumDto ConvertAlbumToDto(Album album)
-        {
-            if (album != null)
-            {
-                var result = new AlbumDto
-                {
-                    AlbumID = album.AlbumID,
-                    Title = album.AlbumTitle,
-                    Format = album.AlbumFormat,
-                    Nr_of_discs = album.NrOfDiscs,
-                    Nr_of_tracks = album.NrOfSongs
-                };
-                return result;
-            }
-            return null;
-        }
-
-        private Album ConvertDtoToAlbum(AlbumDto albumObject)
-        {
-            Album a = new Album
-            {
-                AlbumID = albumObject.AlbumID,
-                AlbumTitle = albumObject.Title,
-                AudioFormatID = albumObject.Format.AudioFormatID,
-                NrOfDiscs = (byte)albumObject.Nr_of_discs
-            };
-            return a;
-        }
         #endregion
 
         #region Performer
+
         public async Task<SongPerformerDto> AddPerformer(SongPerformerDto newPerformer)
         {
             var addedPerformer = new SongPerformer
@@ -239,18 +213,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _performers.GetPerformerCount();
         }
 
-        private SongPerformerDto ConvertPerformerToDto(SongPerformer performer)
-        {
-            var result = new SongPerformerDto
-            {
-                PerformerID = performer.PerformerID,
-                Name = performer.PerformerName
-            };
-            return result;
-        }
         #endregion
 
         #region Song
+
         public async Task<SongDto> AddSong(SongDto newSong)
         {
             ConvertDtoToSong(newSong, out Song s, out ICollection<int> p);
@@ -347,11 +313,6 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
-        {
-            return await _albums.GetSongsOfAlbum(album);
-        }
-
         public async Task<SongDto> UpdateSong(SongDto updatedSong)
         {
             ConvertDtoToSong(updatedSong, out Song s, out ICollection<int> p);
@@ -403,6 +364,78 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return albumsOfSong;
         }
 
+        #endregion
+
+        #region Format
+
+        public async Task<AudioFormat> AddFormat(AudioFormat newFormat)
+        {
+            return await _formats.AddFormat(newFormat);
+        }
+
+        public async Task<int> DeleteFormat(int? id)
+        {
+            return await _formats.DeleteFormat(id);
+        }
+
+        public async Task<AudioFormat> GetFormatById(int? id)
+        {
+            return await _formats.GetFormatById(id);
+        }
+
+        public async Task<ICollection<AudioFormat>> GetFormats()
+        {
+            return await _formats.GetFormats();
+        }
+
+        public async Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat)
+        {
+            return await _formats.UpdateFormat(updatedFormat);
+        }
+
+        #endregion
+
+        #region Local methods
+
+        private AlbumDto ConvertAlbumToDto(Album album)
+        {
+            if (album != null)
+            {
+                var result = new AlbumDto
+                {
+                    AlbumID = album.AlbumID,
+                    Title = album.AlbumTitle,
+                    Format = album.AlbumFormat,
+                    Nr_of_discs = album.NrOfDiscs,
+                    Nr_of_tracks = album.NrOfSongs
+                };
+                return result;
+            }
+            return null;
+        }
+
+        private Album ConvertDtoToAlbum(AlbumDto albumObject)
+        {
+            Album a = new Album
+            {
+                AlbumID = albumObject.AlbumID,
+                AlbumTitle = albumObject.Title,
+                AudioFormatID = albumObject.Format.AudioFormatID,
+                NrOfDiscs = (byte)albumObject.Nr_of_discs
+            };
+            return a;
+        }
+
+        private SongPerformerDto ConvertPerformerToDto(SongPerformer performer)
+        {
+            var result = new SongPerformerDto
+            {
+                PerformerID = performer.PerformerID,
+                Name = performer.PerformerName
+            };
+            return result;
+        }
+
         private SongDto ConvertSongToDto(Song song)
         {
             SongDto result = new SongDto
@@ -437,38 +470,12 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 LanguageID = songObject.Language.LanguageID
             };
             performers = new List<int>();
-            foreach(var item in songObject.Performers)
+            foreach (var item in songObject.Performers)
             {
                 performers.Add(item.PerformerID);
             }
         }
-        #endregion
 
-        #region Format
-        public async Task<AudioFormat> AddFormat(AudioFormat newFormat)
-        {
-            return await _formats.AddFormat(newFormat);
-        }
-
-        public async Task<int> DeleteFormat(int? id)
-        {
-            return await _formats.DeleteFormat(id);
-        }
-
-        public async Task<AudioFormat> GetFormatById(int? id)
-        {
-            return await _formats.GetFormatById(id);
-        }
-
-        public async Task<ICollection<AudioFormat>> GetFormats()
-        {
-            return await _formats.GetFormats();
-        }
-
-        public async Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat)
-        {
-            return await _formats.UpdateFormat(updatedFormat);
-        }
         #endregion
     }
 }
