@@ -39,13 +39,17 @@ namespace MediaLibrary.MediaApi.Repositories.Common
 
         public async Task<ICollection<Genre>> GetGenres()
         {
-            var result = await _context.Genres.ToListAsync();
+            var result = await _context.Genres.AsNoTracking().ToListAsync();
             return result;
         }
 
-        public Task<ICollection<Genre>> GetVideoGenres()
+        public async Task<ICollection<Genre>> GetVideoGenres()
         {
-            throw new NotImplementedException();
+            var result = await _context.Genres
+                .Where(g => g.GenreType == "video")
+                .AsNoTracking()
+                .ToListAsync();
+            return result;
         }
 
         public Task<Genre> UpdateGenre(Genre updatedGenre)
