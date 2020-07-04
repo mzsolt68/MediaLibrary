@@ -103,11 +103,6 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        public ICollection<Album> GetAlbumsOfSong(Song song)
-        {
-            return _songs.GetAlbumsOfSong(song);
-        }
-
         public async Task<AlbumDto> UpdateAlbum(AlbumDto updatedAlbum)
         {
             var result = await _albums.UpdateAlbum(ConvertDtoToAlbum(updatedAlbum));
@@ -386,6 +381,26 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 performersOfSong.Add(ConvertPerformerToDto(performer));
             }
             return performersOfSong;
+        }
+
+        public async Task<ICollection<AlbumDto>> GetAlbumsOfSong(int? songId)
+        {
+            if(!songId.HasValue)
+            {
+                return null;
+            }
+            var albums = await _songs.GetAlbumsOfSong(songId);
+            if(albums == null)
+            {
+                return null;
+            }
+            var albumsOfSong = new List<AlbumDto>();
+            foreach (var album in albums)
+            {
+                album.NrOfSongs = await _albums.GetSongsOfAlbum(album.AlbumID);
+                albumsOfSong.Add(ConvertAlbumToDto(album));
+            }
+            return albumsOfSong;
         }
 
         private SongDto ConvertSongToDto(Song song)

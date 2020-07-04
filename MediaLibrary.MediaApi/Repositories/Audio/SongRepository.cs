@@ -63,15 +63,20 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return result;
         }
 
-        public ICollection<Album> GetAlbumsOfSong(Song song)
+        public async Task<ICollection<Album>> GetAlbumsOfSong(int? songId)
         {
-            var als = _context.AlbumSongs.Include(a => a.Album).ThenInclude(al => al.AlbumFormat).Where(a => a.Song == song);
-            ICollection<Album> albumlist = new List<Album>();
-            foreach (var item in als)
+            if(await _context.Songs.CountAsync(s => s.SongID == songId) == 0)
             {
-                albumlist.Add(item.Album);
+                return null;
             }
-            return albumlist;
+            var albums = await _context.AlbumSongs
+                .Include(a => a.Album)
+                .ThenInclude(al => al.AlbumFormat)
+                .Where(a => a.SongID == songId)
+                .Select(a => a.Album)
+                .AsNoTracking()
+                .ToListAsync();
+            return albums;
         }
 
         public async Task<ICollection<SongPerformer>> GetPerformersOfSong(int? songId)

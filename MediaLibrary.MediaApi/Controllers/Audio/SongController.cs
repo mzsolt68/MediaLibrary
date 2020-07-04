@@ -110,5 +110,20 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return Ok(result);
         }
+
+        [HttpGet("getalbumsofsong/{id}")]
+        public async Task<ActionResult<ICollection<AlbumDto>>> GetAlbumsOfSong(int? id)
+        {
+            if(!id.HasValue)
+            { 
+                return BadRequest(); 
+            }
+            var result = await _service.GetAlbumsOfSong(id);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }
