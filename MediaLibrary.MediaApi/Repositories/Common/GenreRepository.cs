@@ -58,9 +58,16 @@ namespace MediaLibrary.MediaApi.Repositories.Common
             return result;
         }
 
-        public Task<Genre> UpdateGenre(Genre updatedGenre)
+        public async Task<Genre> UpdateGenre(Genre updatedGenre)
         {
-            throw new NotImplementedException();
+            var dbGenre = await _context.Genres.FirstOrDefaultAsync(g => g.GenreID == updatedGenre.GenreID);
+            if(dbGenre != null)
+            {
+                dbGenre.GenreName = updatedGenre.GenreName;
+                dbGenre.GenreType = updatedGenre.GenreType;
+                await _context.SaveChangesAsync();
+            }
+            return dbGenre;
         }
     }
 }

@@ -47,9 +47,9 @@ namespace MediaLibrary.MediaApi.Services.Common
             return await _genres.GetVideoGenres();
         }
 
-        public Task<Genre> UpdateGenre(Genre updatedGenre)
+        public async Task<Genre> UpdateGenre(Genre updatedGenre)
         {
-            throw new NotImplementedException();
+            return await _genres.UpdateGenre(updatedGenre);
         }
 
         #endregion
