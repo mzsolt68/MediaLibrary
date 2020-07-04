@@ -74,14 +74,13 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             return albumlist;
         }
 
-        public ICollection<SongPerformer> GetPerformersOfSong(Song song)
+        public async Task<ICollection<SongPerformer>> GetPerformersOfSong(int? songId)
         {
-            var perfsongs = _context.PerformerSongs.Include(p => p.Performer).Where(ps => ps.Song == song).ToList(); ;
-            ICollection<SongPerformer> performerlist = new List<SongPerformer>();
-            foreach (var item in perfsongs)
-            {
-                performerlist.Add(item.Performer);
-            }
+            var performerlist = await _context.PerformerSongs
+                .Include(p => p.Performer)
+                .Where(ps => ps.SongID == songId)
+                .Select(p => p.Performer)
+                .AsNoTracking().ToListAsync();
             return performerlist;
         }
 

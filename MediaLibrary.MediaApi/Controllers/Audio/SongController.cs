@@ -95,5 +95,20 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return result;
         }
+
+        [HttpGet("getperformersofsong/{id}")]
+        public async Task<ActionResult<ICollection<SongPerformerDto>>> GetPerformersOfSong(int? id)
+        {
+            if(!id.HasValue)
+            {
+                return BadRequest();
+            }
+            var result = await _service.GetPerformersOfSong(id);
+            if(result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }

@@ -224,11 +224,6 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        public ICollection<SongPerformer> GetPerformersOfSong(Song song)
-        {
-            return _songs.GetPerformersOfSong(song);
-        }
-
         public async Task<SongPerformerDto> UpdatePerformer(SongPerformerDto updatedPerformer)
         {
             var tmp = new SongPerformer
@@ -376,6 +371,21 @@ namespace MediaLibrary.MediaApi.Services.Audio
         public async Task<int> GetSongCount()
         {
             return await _songs.GetSongCount();
+        }
+
+        public async Task<ICollection<SongPerformerDto>> GetPerformersOfSong(int? songId)
+        {
+            if (!songId.HasValue)
+            {
+                return null;
+            }
+            var performers = await _songs.GetPerformersOfSong(songId);
+            var performersOfSong = new List<SongPerformerDto>();
+            foreach (var performer in performers)
+            {
+                performersOfSong.Add(ConvertPerformerToDto(performer));
+            }
+            return performersOfSong;
         }
 
         private SongDto ConvertSongToDto(Song song)

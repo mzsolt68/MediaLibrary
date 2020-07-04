@@ -32,7 +32,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<SongDetailsDto> GetSongById(int? id);
         Task<ICollection<SongDto>> GetSongs();
         ICollection<Album> GetAlbumsOfSong(Song song);
-        ICollection<SongPerformer> GetPerformersOfSong(Song song);
+        Task<ICollection<SongPerformerDto>> GetPerformersOfSong(int? songId);
 
         Task<int> GetAlbumCount();
         Task<int> GetPerformerCount();
