@@ -27,9 +27,9 @@ namespace MediaLibrary.MediaApi.Services.Common
             return await _genres.AddGenre(newGenre);
         }
 
-        public Task<int> DeleteGenre(int? id)
+        public async Task<int> DeleteGenre(int? id)
         {
-            throw new NotImplementedException();
+            return await _genres.DeleteGenre(id);
         }
 
         public async Task<ICollection<Genre>> GetAudioGenres()

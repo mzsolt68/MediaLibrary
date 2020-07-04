@@ -75,9 +75,14 @@ namespace MediaLibrary.MediaApi.Controllers.Common
             {
                 return BadRequest();
             }
-            if(await _service.DeleteGenre(id) == 0)
+            var result = await _service.DeleteGenre(id);
+            if (result == 0)
             {
                 return NotFound();
+            }
+            else if(result == -1)
+            {
+                return Conflict("Nem törölhető, mert zeneszám kapcsolódik hozzá!");
             }
             return Ok();
         }

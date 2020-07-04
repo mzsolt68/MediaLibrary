@@ -29,9 +29,24 @@ namespace MediaLibrary.MediaApi.Repositories.Common
             return null;
         }
 
-        public Task<int> DeleteGenre(int? id)
+        public async Task<int> DeleteGenre(int? id)
         {
-            throw new NotImplementedException();
+            //TODO filmeknél eltávolítani a törölt múfaj hivatkozásokat
+            int result = -1;
+            if (!await _context.Songs.AnyAsync(s => s.GenreID == id))
+            {
+                var deleted = await _context.Genres.SingleOrDefaultAsync(g => g.GenreID == id);
+                if (deleted != null)
+                {
+                        _context.Genres.Remove(deleted);
+                        result = await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    result = 0;
+                }
+            }
+            return result;
         }
 
         public async Task<ICollection<Genre>> GetAudioGenres()
