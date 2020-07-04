@@ -16,6 +16,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using MediaLibrary.Common.Interfaces.Common;
+using MediaLibrary.MediaApi.Repositories.Common;
+using MediaLibrary.MediaApi.Services.Common;
 
 namespace MediaLibrary.MediaApi
 {
@@ -41,6 +44,8 @@ namespace MediaLibrary.MediaApi
             services.AddTransient<IPerformerReopsitory, PerformerRepository>();
             services.AddTransient<ISongRepository, SongRepository>();
             services.AddTransient<IAudioService, AudioService>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
+            services.AddTransient<ICommonService, CommonService>();
             services.AddControllers().AddJsonOptions(
                 options => options.JsonSerializerOptions.IgnoreNullValues = true);
         }
