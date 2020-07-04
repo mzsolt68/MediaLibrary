@@ -101,5 +101,20 @@ namespace MediaLibrary.MediaApi.Controllers.Common
             }
             return Ok(result);
         }
+
+        [HttpGet("getgenrebyid/{id}")]
+        public async Task<ActionResult<Genre>> GetGenreById(int? id)
+        {
+            if(!id.HasValue)
+            {
+                return BadRequest();
+            }
+            var result = await _service.GetGenreById(id);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }

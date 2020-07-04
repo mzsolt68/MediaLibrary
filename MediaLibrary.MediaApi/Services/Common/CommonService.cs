@@ -52,6 +52,11 @@ namespace MediaLibrary.MediaApi.Services.Common
             return await _genres.UpdateGenre(updatedGenre);
         }
 
+        public async Task<Genre> GetGenreById(int? id)
+        {
+            return await _genres.GetGenreById(id);
+        }
+
         #endregion
 
         #region Language

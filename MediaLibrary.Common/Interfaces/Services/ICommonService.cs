@@ -24,6 +24,6 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<int> DeleteTag(int? id);
         Task<Tag> UpdateTag(Tag updatedTag);
         Task<ICollection<Tag>> GetTags();
-
+        Task<Genre> GetGenreById(int? id);
     }
 }

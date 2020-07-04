@@ -58,6 +58,11 @@ namespace MediaLibrary.MediaApi.Repositories.Common
             return result;
         }
 
+        public async Task<Genre> GetGenreById(int? id)
+        {
+            return await _context.Genres.FirstOrDefaultAsync(g => g.GenreID == id);
+        }
+
         public async Task<ICollection<Genre>> GetGenres()
         {
             var result = await _context.Genres.AsNoTracking().ToListAsync();

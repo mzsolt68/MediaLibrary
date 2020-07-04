@@ -14,5 +14,6 @@ namespace MediaLibrary.Common.Interfaces.Common
         Task<ICollection<Genre>> GetGenres();
         Task<ICollection<Genre>> GetAudioGenres();
         Task<ICollection<Genre>> GetVideoGenres();
+        Task<Genre> GetGenreById(int? id);
     }
 }
