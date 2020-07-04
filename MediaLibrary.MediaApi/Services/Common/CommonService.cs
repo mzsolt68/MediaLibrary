@@ -1,4 +1,5 @@
-﻿using MediaLibrary.Common.Dto.Audio;
+﻿using MediaLibrary.Common;
+using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common.Interfaces.Common;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Entities.Data;
@@ -68,7 +69,7 @@ namespace MediaLibrary.MediaApi.Services.Common
                 result = new List<SongDto>();
                 foreach (var song in songs)
                 {
-                    result.Add(ConvertSongToDto(song));
+                    result.Add(ConvertObjects.ConvertSongToDto(song));
                 }
             }
             return result;
@@ -123,33 +124,6 @@ namespace MediaLibrary.MediaApi.Services.Common
         }
 
         #endregion
-
-        private SongDto ConvertSongToDto(Song song, bool addPerformers = true)
-        {
-            SongDto result = new SongDto
-            {
-                SongID = song.SongID,
-                Title = song.SongTitle,
-                Lyric = song.SongLyric,
-                Genre = song.Genre,
-                Language = song.Language
-            };
-            if (addPerformers)
-            {
-                result.Performers = new List<SongPerformerDto>();
-                foreach (var performer in song.PerformerSongs)
-                {
-                    SongPerformerDto sp = new SongPerformerDto
-                    {
-                        PerformerID = performer.PerformerID,
-                        Name = performer.Performer.PerformerName
-                    };
-                    result.Performers.Add(sp);
-                }
-            }
-            return result;
-        }
-
 
     }
 }

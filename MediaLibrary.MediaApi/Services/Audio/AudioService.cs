@@ -8,6 +8,7 @@ using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Common.Interfaces.Audio;
 using MediaLibrary.MediaApi.Repositories.Audio;
 using MediaLibrary.Common.Dto.Audio;
+using MediaLibrary.Common;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,10 +35,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
 
         public async Task<AlbumDto> AddAlbum(AlbumDto newAlbum)
         {
-            var result = await _albums.AddAlbum(ConvertDtoToAlbum(newAlbum));
+            var result = await _albums.AddAlbum(ConvertObjects.ConvertDtoToAlbum(newAlbum));
             if(result != null)
             {
-                return ConvertAlbumToDto(result);
+                return ConvertObjects.ConvertAlbumToDto(result);
             }
             return null;
         }
@@ -55,7 +56,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             {
                 result = new AlbumDetailsDto
                 {
-                    Album = ConvertAlbumToDto(album)
+                    Album = ConvertObjects.ConvertAlbumToDto(album)
                 };
                 result.Discs = new List<AudioDiscDto>();
                 var songlist = (await _albums.GetSongsOfAlbum(album)).GroupBy(d => d.Disc);
@@ -97,7 +98,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 result = new List<AlbumDto>();
                 foreach (var album in albums)
                 {
-                    AlbumDto a = ConvertAlbumToDto(album);
+                    AlbumDto a = ConvertObjects.ConvertAlbumToDto(album);
                     result.Add(a);
                 }
             }
@@ -106,10 +107,10 @@ namespace MediaLibrary.MediaApi.Services.Audio
 
         public async Task<AlbumDto> UpdateAlbum(AlbumDto updatedAlbum)
         {
-            var result = await _albums.UpdateAlbum(ConvertDtoToAlbum(updatedAlbum));
+            var result = await _albums.UpdateAlbum(ConvertObjects.ConvertDtoToAlbum(updatedAlbum));
             if(result != null)
             {
-                return ConvertAlbumToDto(result);
+                return ConvertObjects.ConvertAlbumToDto(result);
             }
             return null;
         }
@@ -132,7 +133,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             var result = await _performers.AddPerformer(addedPerformer);
             if(result != null)
             {
-                return ConvertPerformerToDto(result);
+                return ConvertObjects.ConvertPerformerToDto(result);
             }
             return null;
         }
@@ -203,7 +204,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             var result = await _performers.UpdatePerformer(tmp);
             if(result != null)
             {
-                return ConvertPerformerToDto(result);
+                return ConvertObjects.ConvertPerformerToDto(result);
             }
             return null;
         }
@@ -227,7 +228,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             var songsOfPerformer = new List<SongDto>();
             foreach (var song in songs)
             {
-                songsOfPerformer.Add(ConvertSongToDto(song, false));
+                songsOfPerformer.Add(ConvertObjects.ConvertSongToDto(song, false));
             }
             return songsOfPerformer;
         }
@@ -238,11 +239,11 @@ namespace MediaLibrary.MediaApi.Services.Audio
 
         public async Task<SongDto> AddSong(SongDto newSong)
         {
-            ConvertDtoToSong(newSong, out Song s, out ICollection<int> p);
+            ConvertObjects.ConvertDtoToSong(newSong, out Song s, out ICollection<int> p);
             var result = await _songs.AddSong(s, p);
             if (result != null)
             {
-                return ConvertSongToDto(result);
+                return ConvertObjects.ConvertSongToDto(result);
             }
             return null;
         }
@@ -334,11 +335,11 @@ namespace MediaLibrary.MediaApi.Services.Audio
 
         public async Task<SongDto> UpdateSong(SongDto updatedSong)
         {
-            ConvertDtoToSong(updatedSong, out Song s, out ICollection<int> p);
+            ConvertObjects.ConvertDtoToSong(updatedSong, out Song s, out ICollection<int> p);
             var result = await _songs.UpdateSong(s, p);
             if(result != null)
             {
-                return ConvertSongToDto(result);
+                return ConvertObjects.ConvertSongToDto(result);
             }
             return null;
         }
@@ -358,7 +359,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             var performersOfSong = new List<SongPerformerDto>();
             foreach (var performer in performers)
             {
-                performersOfSong.Add(ConvertPerformerToDto(performer));
+                performersOfSong.Add(ConvertObjects.ConvertPerformerToDto(performer));
             }
             return performersOfSong;
         }
@@ -378,7 +379,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             foreach (var album in albums)
             {
                 album.NrOfSongs = await _albums.GetSongsOfAlbum(album.AlbumID);
-                albumsOfSong.Add(ConvertAlbumToDto(album));
+                albumsOfSong.Add(ConvertObjects.ConvertAlbumToDto(album));
             }
             return albumsOfSong;
         }
@@ -414,90 +415,5 @@ namespace MediaLibrary.MediaApi.Services.Audio
 
         #endregion
 
-        #region Local methods
-
-        private AlbumDto ConvertAlbumToDto(Album album)
-        {
-            if (album != null)
-            {
-                var result = new AlbumDto
-                {
-                    AlbumID = album.AlbumID,
-                    Title = album.AlbumTitle,
-                    Format = album.AlbumFormat,
-                    Nr_of_discs = album.NrOfDiscs,
-                    Nr_of_tracks = album.NrOfSongs
-                };
-                return result;
-            }
-            return null;
-        }
-
-        private Album ConvertDtoToAlbum(AlbumDto albumObject)
-        {
-            Album a = new Album
-            {
-                AlbumID = albumObject.AlbumID,
-                AlbumTitle = albumObject.Title,
-                AudioFormatID = albumObject.Format.AudioFormatID,
-                NrOfDiscs = (byte)albumObject.Nr_of_discs
-            };
-            return a;
-        }
-
-        private SongPerformerDto ConvertPerformerToDto(SongPerformer performer)
-        {
-            var result = new SongPerformerDto
-            {
-                PerformerID = performer.PerformerID,
-                Name = performer.PerformerName
-            };
-            return result;
-        }
-
-        private SongDto ConvertSongToDto(Song song, bool addPerformers = true)
-        {
-            SongDto result = new SongDto
-            {
-                SongID = song.SongID,
-                Title = song.SongTitle,
-                Lyric = song.SongLyric,
-                Genre = song.Genre,
-                Language = song.Language
-            };
-            if (addPerformers)
-            {
-                result.Performers = new List<SongPerformerDto>();
-                foreach (var performer in song.PerformerSongs)
-                {
-                    SongPerformerDto sp = new SongPerformerDto
-                    {
-                        PerformerID = performer.PerformerID,
-                        Name = performer.Performer.PerformerName
-                    };
-                    result.Performers.Add(sp);
-                }
-            }
-            return result;
-        }
-
-        private void ConvertDtoToSong(SongDto songObject, out Song song, out ICollection<int> performers)
-        {
-            song = new Song
-            {
-                SongID = songObject.SongID,
-                SongTitle = songObject.Title,
-                SongLyric = songObject.Lyric,
-                GenreID = songObject.Genre.GenreID,
-                LanguageID = songObject.Language.LanguageID
-            };
-            performers = new List<int>();
-            foreach (var item in songObject.Performers)
-            {
-                performers.Add(item.PerformerID);
-            }
-        }
-
-        #endregion
     }
 }
