@@ -1,5 +1,7 @@
 ﻿using MediaLibrary.Common.Interfaces.Common;
+using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,13 @@ namespace MediaLibrary.MediaApi.Repositories.Common
 {
     public class GenreRepository : IGenreRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public GenreRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public Task<Genre> AddGenre(Genre newGenre)
         {
             throw new NotImplementedException();
@@ -19,9 +28,13 @@ namespace MediaLibrary.MediaApi.Repositories.Common
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Genre>> GetAudioGenres()
+        public async Task<ICollection<Genre>> GetAudioGenres()
         {
-            throw new NotImplementedException();
+            var result = await _context.Genres
+                .Where(g => g.GenreType == "audio")
+                .AsNoTracking()
+                .ToListAsync();
+            return result;
         }
 
         public Task<ICollection<Genre>> GetGenres()

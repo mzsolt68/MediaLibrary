@@ -1,14 +1,25 @@
-﻿using MediaLibrary.Common.Interfaces.Services;
+﻿using MediaLibrary.Common.Interfaces.Common;
+using MediaLibrary.Common.Interfaces.Services;
+using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Common;
+using MediaLibrary.MediaApi.Repositories.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MediaLibrary.MediaApi.Services.Common
 {
     public class CommonService : ICommonService
     {
+        private readonly ApplicationDbContext _context;
+        private readonly IGenreRepository _genres;
+
+        public CommonService(ApplicationDbContext context)
+        {
+            _context = context;
+            _genres = new GenreRepository(_context);
+        }
+        
         #region Genre
 
         public Task<Genre> AddGenre(Genre newGenre)
@@ -21,9 +32,9 @@ namespace MediaLibrary.MediaApi.Services.Common
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Genre>> GetAudioGenres()
+        public async Task<ICollection<Genre>> GetAudioGenres()
         {
-            throw new NotImplementedException();
+            return await _genres.GetAudioGenres();
         }
 
         public Task<ICollection<Genre>> GetGenres()
