@@ -249,20 +249,6 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _performers.GetPerformerCount();
         }
 
-        public IEnumerable<SelectListItem> GetPerformersToViews()
-        {
-            List<SelectListItem> performers = _context.SongPerformers.AsNoTracking()
-                .OrderBy(perf => perf.PerformerName)
-                .Select(p =>
-                new SelectListItem
-                {
-                    Value = p.PerformerID.ToString(),
-                    Text = p.PerformerName
-                }).ToList();
-            performers.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz előadót ---" });
-            return new SelectList(performers, "Value", "Text");
-        }
-
         private SongPerformerDto ConvertPerformerToDto(SongPerformer performer)
         {
             var result = new SongPerformerDto
@@ -452,20 +438,6 @@ namespace MediaLibrary.MediaApi.Services.Audio
         public async Task<ICollection<AudioFormat>> GetFormats()
         {
             return await _formats.GetFormats();
-        }
-
-        public IEnumerable<SelectListItem> GetFormatsToViews()
-        {
-            List<SelectListItem> formats = _context.AudioFormats.AsNoTracking()
-                .OrderBy(af => af.AudioFormatName)
-                .Select(f =>
-                new SelectListItem
-                {
-                    Value = f.AudioFormatID.ToString(),
-                    Text = f.AudioFormatName
-                }).ToList();
-            formats.Insert(0, new SelectListItem { Value = null, Text = "--- Válassz formátumot ---" });
-            return new SelectList(formats, "Value", "Text");
         }
 
         public async Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat)

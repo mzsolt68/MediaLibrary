@@ -19,14 +19,12 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<AudioFormat> UpdateFormat(AudioFormat updatedFormat);
         Task<AudioFormat> GetFormatById(int? id);
         Task<ICollection<AudioFormat>> GetFormats();
-        //IEnumerable<SelectListItem> GetFormatsToViews();
 
         Task<SongPerformerDto> AddPerformer(SongPerformerDto newPerformer);
         Task<int> DeletePerformer(int? id);
         Task<SongPerformerDto> UpdatePerformer(SongPerformerDto updatedPerformer);
         Task<PerformerDetailsDto> GetPerformerById(int? id);
         Task<ICollection<SongPerformerDto>> GetPerformers();
-        //IEnumerable<SelectListItem> GetPerformersToViews();
 
         Task<SongDto> AddSong(SongDto newSong);
         Task<int> DeleteSong(int? id);
