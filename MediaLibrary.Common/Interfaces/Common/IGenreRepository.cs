@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MediaLibrary.Common.Interfaces.Common
 {
-    interface IGenreRepository
+    public interface IGenreRepository
     {
         Task<Genre> AddGenre(Genre newGenre);
         Task<int> DeleteGenre(int? id);
