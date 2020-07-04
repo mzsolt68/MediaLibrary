@@ -1,6 +1,8 @@
-﻿using MediaLibrary.Common.Interfaces.Common;
+﻿using MediaLibrary.Common.Dto.Audio;
+using MediaLibrary.Common.Interfaces.Common;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Entities.Data;
+using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Entities.Models.Common;
 using MediaLibrary.MediaApi.Repositories.Common;
 using System;
@@ -19,7 +21,7 @@ namespace MediaLibrary.MediaApi.Services.Common
             _context = context;
             _genres = new GenreRepository(_context);
         }
-        
+
         #region Genre
 
         public async Task<Genre> AddGenre(Genre newGenre)
@@ -55,6 +57,21 @@ namespace MediaLibrary.MediaApi.Services.Common
         public async Task<Genre> GetGenreById(int? id)
         {
             return await _genres.GetGenreById(id);
+        }
+
+        public async Task<ICollection<SongDto>> GetSongsByGenre(int? id)
+        {
+            var songs = await _genres.GetSongsByGenre(id);
+            ICollection<SongDto> result = null;
+            if (songs != null)
+            {
+                result = new List<SongDto>();
+                foreach (var song in songs)
+                {
+                    result.Add(ConvertSongToDto(song));
+                }
+            }
+            return result;
         }
 
         #endregion
@@ -106,5 +123,33 @@ namespace MediaLibrary.MediaApi.Services.Common
         }
 
         #endregion
+
+        private SongDto ConvertSongToDto(Song song, bool addPerformers = true)
+        {
+            SongDto result = new SongDto
+            {
+                SongID = song.SongID,
+                Title = song.SongTitle,
+                Lyric = song.SongLyric,
+                Genre = song.Genre,
+                Language = song.Language
+            };
+            if (addPerformers)
+            {
+                result.Performers = new List<SongPerformerDto>();
+                foreach (var performer in song.PerformerSongs)
+                {
+                    SongPerformerDto sp = new SongPerformerDto
+                    {
+                        PerformerID = performer.PerformerID,
+                        Name = performer.Performer.PerformerName
+                    };
+                    result.Performers.Add(sp);
+                }
+            }
+            return result;
+        }
+
+
     }
 }

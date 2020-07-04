@@ -1,4 +1,6 @@
-﻿using MediaLibrary.Entities.Models.Common;
+﻿using MediaLibrary.Common.Dto.Audio;
+using MediaLibrary.Entities.Models.Audio;
+using MediaLibrary.Entities.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +17,6 @@ namespace MediaLibrary.Common.Interfaces.Common
         Task<ICollection<Genre>> GetAudioGenres();
         Task<ICollection<Genre>> GetVideoGenres();
         Task<Genre> GetGenreById(int? id);
+        Task<ICollection<Song>> GetSongsByGenre(int? id);
     }
 }

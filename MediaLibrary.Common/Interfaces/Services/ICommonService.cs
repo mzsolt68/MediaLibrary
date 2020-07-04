@@ -1,4 +1,5 @@
-﻿using MediaLibrary.Entities.Models.Common;
+﻿using MediaLibrary.Common.Dto.Audio;
+using MediaLibrary.Entities.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +15,8 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<ICollection<Genre>> GetGenres();
         Task<ICollection<Genre>> GetAudioGenres();
         Task<ICollection<Genre>> GetVideoGenres();
+        Task<Genre> GetGenreById(int? id);
+        Task<ICollection<SongDto>> GetSongsByGenre(int? id);
 
         Task<Language> AddLanguage(Language newLanguage);
         Task<int> DeleteLanguage(int? id);
@@ -24,6 +27,5 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<int> DeleteTag(int? id);
         Task<Tag> UpdateTag(Tag updatedTag);
         Task<ICollection<Tag>> GetTags();
-        Task<Genre> GetGenreById(int? id);
     }
 }

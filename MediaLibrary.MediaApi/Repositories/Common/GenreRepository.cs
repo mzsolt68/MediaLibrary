@@ -1,5 +1,6 @@
 ﻿using MediaLibrary.Common.Interfaces.Common;
 using MediaLibrary.Entities.Data;
+using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Entities.Models.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -67,6 +68,21 @@ namespace MediaLibrary.MediaApi.Repositories.Common
         {
             var result = await _context.Genres.AsNoTracking().ToListAsync();
             return result;
+        }
+
+        public async Task<ICollection<Song>> GetSongsByGenre(int? id)
+        {
+            ICollection<Song> songs = null;
+            if(await _context.Genres.AnyAsync(g => g.GenreID == id))
+            {
+                songs = await _context.Songs
+                    .Include(s => s.PerformerSongs)
+                    .ThenInclude(ps => ps.Performer)
+                    .Where(s => s.GenreID == id)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+            return songs;
         }
 
         public async Task<ICollection<Genre>> GetVideoGenres()

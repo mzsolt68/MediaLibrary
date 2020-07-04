@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Entities.Models.Common;
 using Microsoft.AspNetCore.Http;
@@ -110,6 +111,21 @@ namespace MediaLibrary.MediaApi.Controllers.Common
                 return BadRequest();
             }
             var result = await _service.GetGenreById(id);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("getsongsbygenre/{id}")]
+        public async Task<ActionResult<ICollection<SongDto>>> GetSongsByGenre(int? id)
+        {
+            if(!id.HasValue)
+            {
+                return BadRequest();
+            }
+            var result = await _service.GetSongsByGenre(id);
             if(result == null)
             {
                 return NotFound();
