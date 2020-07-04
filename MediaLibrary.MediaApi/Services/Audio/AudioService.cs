@@ -213,6 +213,25 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return await _performers.GetPerformerCount();
         }
 
+        public async Task<ICollection<SongDto>> GetSongsOfPerformer(int? performerId)
+        {
+            if(!performerId.HasValue)
+            {
+                return null;
+            }
+            var songs = await _performers.GetSongsOfPerformer(performerId);
+            if(songs == null)
+            {
+                return null;
+            }
+            var songsOfPerformer = new List<SongDto>();
+            foreach (var song in songs)
+            {
+                songsOfPerformer.Add(ConvertSongToDto(song, false));
+            }
+            return songsOfPerformer;
+        }
+
         #endregion
 
         #region Song
@@ -436,7 +455,7 @@ namespace MediaLibrary.MediaApi.Services.Audio
             return result;
         }
 
-        private SongDto ConvertSongToDto(Song song)
+        private SongDto ConvertSongToDto(Song song, bool addPerformers = true)
         {
             SongDto result = new SongDto
             {
@@ -444,17 +463,20 @@ namespace MediaLibrary.MediaApi.Services.Audio
                 Title = song.SongTitle,
                 Lyric = song.SongLyric,
                 Genre = song.Genre,
-                Language = song.Language,
-                Performers = new List<SongPerformerDto>()
+                Language = song.Language
             };
-            foreach (var performer in song.PerformerSongs)
+            if (addPerformers)
             {
-                SongPerformerDto sp = new SongPerformerDto
+                result.Performers = new List<SongPerformerDto>();
+                foreach (var performer in song.PerformerSongs)
                 {
-                    PerformerID = performer.PerformerID,
-                    Name = performer.Performer.PerformerName
-                };
-                result.Performers.Add(sp);
+                    SongPerformerDto sp = new SongPerformerDto
+                    {
+                        PerformerID = performer.PerformerID,
+                        Name = performer.Performer.PerformerName
+                    };
+                    result.Performers.Add(sp);
+                }
             }
             return result;
         }

@@ -72,5 +72,20 @@ namespace MediaLibrary.MediaApi.Repositories.Audio
             }
             return null;
         }
+
+        public async Task<ICollection<Song>> GetSongsOfPerformer(int? performerId)
+        {
+            if(await _context.SongPerformers.CountAsync(p => p.PerformerID == performerId) == 0)
+            {
+                return null;
+            }
+            var songs = await _context.PerformerSongs
+                .Include(ps => ps.Song)
+                .Where(p => p.PerformerID == performerId)
+                .Select(s => s.Song)
+                .AsNoTracking()
+                .ToListAsync();
+            return songs;
+        }
     }
 }

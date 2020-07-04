@@ -24,6 +24,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<SongPerformerDto> UpdatePerformer(SongPerformerDto updatedPerformer);
         Task<PerformerDetailsDto> GetPerformerById(int? id);
         Task<ICollection<SongPerformerDto>> GetPerformers();
+        Task<ICollection<SongDto>> GetSongsOfPerformer(int? performerId);
 
         Task<SongDto> AddSong(SongDto newSong);
         Task<int> DeleteSong(int? id);
