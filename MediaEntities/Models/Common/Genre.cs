@@ -12,5 +12,7 @@ namespace MediaLibrary.Entities.Models.Common
         [Required]
         [Display(Name = "Műfaj")]
         public string GenreName { get; set; }
+        [Required]
+        public string GenreType { get; set; }
     }
 }

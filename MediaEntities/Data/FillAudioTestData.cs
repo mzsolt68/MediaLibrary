@@ -71,10 +71,14 @@ namespace MediaLibrary.Entities.Data
         public static void FillGenres(ModelBuilder builder)
         {
             builder.Entity<Genre>().HasData(
-                new Genre { GenreID = 1, GenreName = "Disco"},
-                new Genre { GenreID = 2, GenreName = "Jazz"},
-                new Genre { GenreID = 3, GenreName = "Rock"},
-                new Genre { GenreID = 4, GenreName = "Pop"}
+                new Genre { GenreID = 1, GenreName = "Disco", GenreType = "audio"},
+                new Genre { GenreID = 2, GenreName = "Jazz", GenreType = "audio" },
+                new Genre { GenreID = 3, GenreName = "Rock", GenreType = "audio" },
+                new Genre { GenreID = 4, GenreName = "Pop", GenreType = "audio" },
+                new Genre { GenreID = 5, GenreName = "Dráma", GenreType = "video" },
+                new Genre { GenreID = 6, GenreName = "Vígjáték", GenreType = "video" },
+                new Genre { GenreID = 7, GenreName = "Akció", GenreType = "video" },
+                new Genre { GenreID = 8, GenreName = "Romantikus", GenreType = "video" }
                 );
         }
 
