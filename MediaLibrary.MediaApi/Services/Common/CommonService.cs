@@ -37,9 +37,9 @@ namespace MediaLibrary.MediaApi.Services.Common
             return await _genres.GetAudioGenres();
         }
 
-        public Task<ICollection<Genre>> GetGenres()
+        public async Task<ICollection<Genre>> GetGenres()
         {
-            throw new NotImplementedException();
+            return await _genres.GetGenres();
         }
 
         public Task<ICollection<Genre>> GetVideoGenres()

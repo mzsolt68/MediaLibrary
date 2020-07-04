@@ -37,9 +37,10 @@ namespace MediaLibrary.MediaApi.Repositories.Common
             return result;
         }
 
-        public Task<ICollection<Genre>> GetGenres()
+        public async Task<ICollection<Genre>> GetGenres()
         {
-            throw new NotImplementedException();
+            var result = await _context.Genres.ToListAsync();
+            return result;
         }
 
         public Task<ICollection<Genre>> GetVideoGenres()
