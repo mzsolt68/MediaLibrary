@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Book\" />
+    <Folder Include="Movie\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MediaEntities\MediaLibrary.Entities.csproj" />
+    <ProjectReference Include="..\MediaLibrary.Common\MediaLibrary.Common.csproj" />
+    <ProjectReference Include="..\NediaLibrary.Repositories\NediaLibrary.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

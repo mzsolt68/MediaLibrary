@@ -1,24 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MediaLibrary.Entities.Data;
 using MediaLibrary.Common.Interfaces.Audio;
 using MediaLibrary.Common.Interfaces.Services;
-using MediaLibrary.MediaApi.Repositories.Audio;
-using MediaLibrary.MediaApi.Services.Audio;
+using MediaLibrary.Repositories.Audio;
+using MediaLibrary.Services.Audio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using MediaLibrary.Common.Interfaces.Common;
-using MediaLibrary.MediaApi.Repositories.Common;
-using MediaLibrary.MediaApi.Services.Common;
+using MediaLibrary.Repositories.Common;
+using MediaLibrary.Services.Common;
 
 namespace MediaLibrary.MediaApi
 {

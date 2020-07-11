@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Entities.Data;
@@ -7,7 +6,7 @@ using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Audio;
 using Microsoft.EntityFrameworkCore;
 
-namespace MediaLibrary.MediaApi.Repositories.Audio
+namespace MediaLibrary.Repositories.Audio
 {
     public class PerformerRepository : IPerformerReopsitory
     {

@@ -3,12 +3,11 @@ using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Entities.Models.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Repositories.Common
+namespace MediaLibrary.Repositories.Common
 {
     public class GenreRepository : IGenreRepository
     {

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Common.Interfaces.Audio;
-using MediaLibrary.MediaApi.Repositories.Audio;
+using MediaLibrary.Repositories.Audio;
 using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
-namespace MediaLibrary.MediaApi.Services.Audio
+namespace MediaLibrary.Services.Audio
 {
     public class AudioService : IAudioService
     {

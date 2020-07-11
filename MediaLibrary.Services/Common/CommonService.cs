@@ -3,14 +3,13 @@ using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common.Interfaces.Common;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Entities.Data;
-using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Entities.Models.Common;
-using MediaLibrary.MediaApi.Repositories.Common;
+using MediaLibrary.Repositories.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MediaLibrary.MediaApi.Services.Common
+namespace MediaLibrary.Services.Common
 {
     public class CommonService : ICommonService
     {

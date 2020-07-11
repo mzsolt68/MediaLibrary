@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Book\" />
-    <Folder Include="Services\Movie\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MediaEntities\MediaLibrary.Entities.csproj" />
     <ProjectReference Include="..\MediaLibrary.Common\MediaLibrary.Common.csproj" />
+    <ProjectReference Include="..\MediaLibrary.Services\MediaLibrary.Services.csproj" />
   </ItemGroup>
 
 </Project>
