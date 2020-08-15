@@ -68,6 +68,7 @@ namespace MediaLibrary.Services.Audio
                     {
                         AudioTrackDto track = new AudioTrackDto
                         {
+                            SongID = song.SongID,
                             TrackNr = song.TrackNr,
                             Title = song.Song.SongTitle,
                             PlayTime = song.PlayTime.Hour.ToString() + ":" + song.PlayTime.Minute.ToString(),
