@@ -17,5 +17,6 @@ namespace MediaLibrary.Common.Interfaces.Audio
         Task<int> GetSongsOfAlbum(int id);
         Task<int> GetAlbumCount();
         Task<AlbumSong> AddTrack(AlbumSong newTrack);
+        Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr);
     }
 }

@@ -140,5 +140,19 @@ namespace MediaLibrary.Repositories.Audio
                 return true;
             }
         }
+
+        public async Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr)
+        {
+            int result = 0;
+            var dbtrack = await _context.AlbumSongs
+                .Where(als => als.AlbumID == albumID && als.Disc == discNr && als.TrackNr == trackNr)
+                .FirstOrDefaultAsync();
+            if(dbtrack != null)
+            {
+                _context.AlbumSongs.Remove(dbtrack);
+                result = await _context.SaveChangesAsync();
+            }
+            return result;
+        }
     }
 }

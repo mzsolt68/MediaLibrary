@@ -98,5 +98,19 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return Ok(result);
         }
+
+        [HttpDelete("deletetrack/{id}/{disc}/{track}")]
+        public async Task<ActionResult> DeleteTrack(int? id, int? disc, int? track)
+        {
+            if(id == null || disc == null || track == null)
+            {
+                return BadRequest();
+            }
+            if(await _service.DeleteTrack(id, disc, track) == 0)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
     }
 }

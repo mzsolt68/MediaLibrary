@@ -425,6 +425,11 @@ namespace MediaLibrary.Services.Audio
             return null;
         }
 
+        public async Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr)
+        {
+            return await _albums.DeleteTrack(albumID, discNr, trackNr);
+        }
+
         #endregion
     }
 }
