@@ -5,6 +5,7 @@ using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Audio;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace MediaLibrary.Repositories.Audio
 {
@@ -91,6 +92,53 @@ namespace MediaLibrary.Repositories.Audio
                 dbAlbum.AlbumFormat = await _context.AudioFormats.SingleOrDefaultAsync(f => f.AudioFormatID == dbAlbum.AudioFormatID);
             }
             return dbAlbum;
+        }
+
+        public async Task<AlbumSong> AddTrack(AlbumSong newTrack)
+        {
+            AlbumSong result = null;
+            var dbAlbum = await _context.Albums
+                .Include(a => a.AlbumSongs)
+                .Where(a => a.AlbumID == newTrack.AlbumID)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+            if (dbAlbum != null)
+            {
+                if (trackCanBeAdded())
+                {
+                    _context.AlbumSongs.Add(newTrack);
+                    if (await _context.SaveChangesAsync() == 1)
+                    {
+                        result = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(sp => sp.PerformerSongs)
+                            .ThenInclude(pfs => pfs.Performer)
+                            .Where(als => als.AlbumID == newTrack.AlbumID && als.SongID == newTrack.SongID && als.TrackNr == newTrack.TrackNr)
+                            .AsNoTracking()
+                            .SingleOrDefaultAsync();
+                    }
+                }
+            }
+            return result;
+
+            bool trackCanBeAdded()
+            {
+                if(newTrack.Disc > dbAlbum.NrOfDiscs)
+                {
+                    return false;
+                }
+                if(dbAlbum.AlbumSongs.FirstOrDefault(als => als.Disc == newTrack.Disc && als.TrackNr == newTrack.TrackNr) != null)
+                {
+                    return false;
+                }
+                if(dbAlbum.AlbumSongs
+                    .FirstOrDefault(als =>
+                        als.SongID == newTrack.SongID &&
+                        als.Note == newTrack.Note &&
+                        als.PlayTime.Hour == newTrack.PlayTime.Hour && als.PlayTime.Minute == newTrack.PlayTime.Minute) != null)
+                {
+                    return false;
+                }
+                return true;
+            }
         }
     }
 }

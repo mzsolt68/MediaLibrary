@@ -413,5 +413,18 @@ namespace MediaLibrary.Services.Audio
 
         #endregion
 
+        #region Track
+
+        public async Task<AudioTrackDto> AddTrackToAlbum(int? id, int? disc, AudioTrackDto track)
+        {
+            var result = await _albums.AddTrack(ConvertObjects.ConvertDtoToAlbumSong(id, disc, track));
+            if(result != null)
+            {
+                return ConvertObjects.ConvertAldumSongToDto(result);
+            }
+            return null;
+        }
+
+        #endregion
     }
 }

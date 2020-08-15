@@ -89,5 +89,37 @@ namespace MediaLibrary.Common
                 performers.Add(item.PerformerID);
             }
         }
+
+        public static AlbumSong ConvertDtoToAlbumSong(int? albumID, int? disc, AudioTrackDto track)
+        {
+            AlbumSong result = new AlbumSong()
+            {
+                AlbumID = (int)albumID,
+                SongID = track.SongID,
+                Disc = (byte)disc,
+                TrackNr = track.TrackNr,
+                Note = track.Note,
+                PlayTime = Convert.ToDateTime(track.PlayTime)
+            };
+            return result;
+        }
+
+        public static AudioTrackDto ConvertAldumSongToDto(AlbumSong albumSong)
+        {
+            AudioTrackDto newTrack = new AudioTrackDto()
+            {
+                SongID = albumSong.SongID,
+                Title = albumSong.Song.SongTitle,
+                TrackNr = albumSong.TrackNr,
+                Note = albumSong.Note,
+                PlayTime = albumSong.PlayTime.Hour.ToString() + ":" + albumSong.PlayTime.Minute.ToString(),
+                Performer = new List<string>()
+            };
+            foreach (var perfsong in albumSong.Song.PerformerSongs)
+            {
+                newTrack.Performer.Add(perfsong.Performer.PerformerName);
+            }
+            return newTrack;
+        }
     }
 }

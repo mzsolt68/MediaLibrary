@@ -16,5 +16,6 @@ namespace MediaLibrary.Common.Interfaces.Audio
         Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album);
         Task<int> GetSongsOfAlbum(int id);
         Task<int> GetAlbumCount();
+        Task<AlbumSong> AddTrack(AlbumSong newTrack);
     }
 }

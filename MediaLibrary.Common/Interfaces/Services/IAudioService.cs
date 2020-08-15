@@ -37,5 +37,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<int> GetAlbumCount();
         Task<int> GetPerformerCount();
         Task<int> GetSongCount();
+
+        Task<AudioTrackDto> AddTrackToAlbum(int? id, int? disc, AudioTrackDto track);
     }
 }

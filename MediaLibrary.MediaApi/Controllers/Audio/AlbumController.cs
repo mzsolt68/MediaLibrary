@@ -83,5 +83,20 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return Ok(result);
         }
+
+        [HttpPost("addtrack/{id}/{disc}")]
+        public async Task<ActionResult<AudioTrackDto>> AddTrackToAlbum([FromBody]AudioTrackDto track, int? id, int? disc)
+        {
+            if(id == null || disc == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _service.AddTrackToAlbum(id, disc, track);
+            if(result == null)
+            {
+                return BadRequest();
+            }
+            return Ok(result);
+        }
     }
 }
