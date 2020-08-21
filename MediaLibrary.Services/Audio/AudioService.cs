@@ -8,6 +8,7 @@ using MediaLibrary.Common.Interfaces.Audio;
 using MediaLibrary.Repositories.Audio;
 using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common;
+using System;
 
 namespace MediaLibrary.Services.Audio
 {
@@ -428,6 +429,16 @@ namespace MediaLibrary.Services.Audio
         public async Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr)
         {
             return await _albums.DeleteTrack(albumID, discNr, trackNr);
+        }
+
+        public async Task<AudioTrackDto> UpdateTrack(int? albumID, int? discNr, AudioTrackDto track)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ICollection<AudioTrackDto>> UpdateTrackList(int? albimID, int? discNr, ICollection<AudioTrackDto> trackList)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

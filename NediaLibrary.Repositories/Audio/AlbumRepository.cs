@@ -6,6 +6,7 @@ using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Audio;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
+using System;
 
 namespace MediaLibrary.Repositories.Audio
 {
@@ -153,6 +154,16 @@ namespace MediaLibrary.Repositories.Audio
                 result = await _context.SaveChangesAsync();
             }
             return result;
+        }
+
+        public async Task<AlbumSong> UpdateTrack(int? albumID, int? discNr, AlbumSong track)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ICollection<AlbumSong>> UpdateTrackList(int? albumID, int? discNr, ICollection<AlbumSong> trackList)
+        {
+            throw new NotImplementedException();
         }
     }
 }

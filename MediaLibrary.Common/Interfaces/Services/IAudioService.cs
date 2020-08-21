@@ -40,5 +40,7 @@ namespace MediaLibrary.Common.Interfaces.Services
 
         Task<AudioTrackDto> AddTrackToAlbum(int? id, int? disc, AudioTrackDto track);
         Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr);
+        Task<AudioTrackDto> UpdateTrack(int? albumID, int? discNr, AudioTrackDto track);
+        Task<ICollection<AudioTrackDto>> UpdateTrackList(int? albumID, int? discNr, ICollection<AudioTrackDto> trackList);
     }
 }

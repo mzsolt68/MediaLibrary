@@ -112,5 +112,35 @@ namespace MediaLibrary.MediaApi.Controllers.Audio
             }
             return Ok();
         }
+
+        [HttpPut("updatetrack/{id}/{disc}")]
+        public async Task<ActionResult<AudioTrackDto>> UpdateTrack([FromBody] AudioTrackDto track, int? id, int? disc)
+        {
+            if(id == null || track == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _service.UpdateTrack(id, disc, track);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [HttpPut("updatetracklist/{id}/{disc}")]
+        public async Task<ActionResult<ICollection<AudioTrackDto>>> UpdateTrackList([FromBody]ICollection<AudioTrackDto> tracklist, int? id, int? disc)
+        {
+            if(id == null || disc == null || tracklist == null)
+            {
+                return BadRequest();
+            }
+            var result = await _service.UpdateTrackList(id, disc, tracklist);
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }
