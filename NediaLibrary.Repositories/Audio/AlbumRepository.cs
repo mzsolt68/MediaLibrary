@@ -171,7 +171,14 @@ namespace MediaLibrary.Repositories.Audio
 
         public async Task<IEnumerable<AlbumSong>> UpdateTrackList(IEnumerable<AlbumSong> trackList)
         {
-            throw new System.NotImplementedException();
+            var dbtrscklist = await _context.AlbumSongs.Where(x => x.AlbumID == trackList.First().AlbumID && x.Disc == trackList.First().Disc).ToListAsync();
+            if (dbtrscklist != null && dbtrscklist.Count() > 0)
+            {
+                //TODO implementálni a lista frissítését
+                await _context.SaveChangesAsync();
+                return dbtrscklist;
+            }
+            return null;
         }
     }
 }
