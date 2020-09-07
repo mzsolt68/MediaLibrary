@@ -415,9 +415,9 @@ namespace MediaLibrary.Services.Audio
 
         #region Track
 
-        public async Task<AudioTrackDto> AddTrackToAlbum(int? id, int? disc, AudioTrackDto track)
+        public async Task<AudioTrackDto> AddTrackToAlbum(int? albumID, int? discNr, AudioTrackDto track)
         {
-            var result = await _albums.AddTrack(ConvertObjects.ConvertDtoToAlbumSong(id, disc, track));
+            var result = await _albums.AddTrack(ConvertObjects.ConvertDtoToAlbumSong(albumID, discNr, track));
             if(result != null)
             {
                 return ConvertObjects.ConvertAldumSongToDto(result);
@@ -428,6 +428,39 @@ namespace MediaLibrary.Services.Audio
         public async Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr)
         {
             return await _albums.DeleteTrack(albumID, discNr, trackNr);
+        }
+
+        public async Task<AudioTrackDto> UpdateTrack(int? albumID, int? discNr, AudioTrackDto updatedTrack)
+        {
+            var result = await _albums.UpdateTrack(ConvertObjects.ConvertDtoToAlbumSong(albumID, discNr, updatedTrack));
+            if(result != null)
+            {
+                return ConvertObjects.ConvertAldumSongToDto(result);
+            }
+            return null;
+        }
+
+        public async Task<IEnumerable<AudioTrackDto>> UpdateTrackList(int? albumID, int? discNr, IEnumerable<AudioTrackDto> trackList)
+        {
+            if(trackList != null && trackList.Count() > 0)
+            {
+                var aslist = new List<AlbumSong>();
+                foreach (var track in trackList)
+                {
+                    aslist.Add(ConvertObjects.ConvertDtoToAlbumSong(albumID, discNr, track));
+                }
+                var result = await _albums.UpdateTrackList(aslist);
+                if(result != null && result.Count() > 0)
+                {
+                    var dtolist = new List<AudioTrackDto>();
+                    foreach (var albumsong in result)
+                    {
+                        dtolist.Add(ConvertObjects.ConvertAldumSongToDto(albumsong));
+                    }
+                    return dtolist;
+                }
+            }
+            return null;
         }
 
         #endregion
