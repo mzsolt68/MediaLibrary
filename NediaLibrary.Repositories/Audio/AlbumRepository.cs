@@ -154,5 +154,24 @@ namespace MediaLibrary.Repositories.Audio
             }
             return result;
         }
+
+        public async Task<AlbumSong> UpdateTrack(AlbumSong updatedTrack)
+        {
+            var dbtrack = await _context.AlbumSongs.Where(x => x.AlbumID == updatedTrack.AlbumID && x.Disc == updatedTrack.Disc && x.TrackNr == updatedTrack.TrackNr).SingleOrDefaultAsync();
+            if (dbtrack != null)
+            {
+                dbtrack.SongID = updatedTrack.SongID;
+                dbtrack.PlayTime = updatedTrack.PlayTime;
+                dbtrack.Note = updatedTrack.Note;
+                await _context.SaveChangesAsync();
+                return dbtrack;
+            }
+            return null;
+        }
+
+        public async Task<IEnumerable<AlbumSong>> UpdateTrackList(IEnumerable<AlbumSong> trackList)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
