@@ -433,7 +433,12 @@ namespace MediaLibrary.Services.Audio
 
         public async Task<AudioTrackDto> UpdateTrack(int? albumID, int? discNr, AudioTrackDto track)
         {
-            throw new NotImplementedException();
+            var result = await _albums.UpdateTrack(ConvertObjects.ConvertDtoToAlbumSong(albumID, discNr, track));
+            if(result != null)
+            {
+                return ConvertObjects.ConvertAldumSongToDto(result);
+            }
+            return null;
         }
 
         public async Task<ICollection<AudioTrackDto>> UpdateTrackList(int? albimID, int? discNr, ICollection<AudioTrackDto> trackList)
