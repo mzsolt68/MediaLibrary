@@ -6,9 +6,33 @@ using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Audio;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+using System;
 
 namespace MediaLibrary.Repositories.Audio
 {
+    class TrackComparer : IEqualityComparer<AlbumSong>
+    {
+        public bool Equals([AllowNull] AlbumSong x, [AllowNull] AlbumSong y)
+        {
+            if (Object.ReferenceEquals(x, y))
+                return true;
+            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                return false;
+            return x.SongID == y.SongID && x.PlayTime == y.PlayTime && x.Note == y.Note;
+        }
+
+        public int GetHashCode([DisallowNull] AlbumSong obj)
+        {
+            if (Object.ReferenceEquals(obj, null))
+                return 0;
+            int hashSongID = obj.SongID.GetHashCode();
+            int hashPlayTime = obj.PlayTime.GetHashCode();
+            int hashNote = obj.Note.GetHashCode();
+            return hashSongID ^ hashPlayTime ^ hashNote;
+        }
+    }
+
     public class AlbumRepository : IAlbumRepository
     {
         private readonly ApplicationDbContext _context;
