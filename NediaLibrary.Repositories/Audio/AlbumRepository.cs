@@ -6,7 +6,6 @@ using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Audio;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
-using System;
 
 namespace MediaLibrary.Repositories.Audio
 {
@@ -156,25 +155,30 @@ namespace MediaLibrary.Repositories.Audio
             return result;
         }
 
-        public async Task<AlbumSong> UpdateTrack(AlbumSong track)
+        public async Task<AlbumSong> UpdateTrack(AlbumSong updatedTrack)
         {
-            var dbTrack = await _context.AlbumSongs
-                .Where(als => als.AlbumID == track.AlbumID &&
-                    als.Disc == track.Disc &&
-                    als.TrackNr == track.TrackNr).FirstOrDefaultAsync();
-            if(dbTrack != null)
+            var dbtrack = await _context.AlbumSongs.Where(x => x.AlbumID == updatedTrack.AlbumID && x.Disc == updatedTrack.Disc && x.TrackNr == updatedTrack.TrackNr).SingleOrDefaultAsync();
+            if (dbtrack != null)
             {
-                dbTrack.SongID = track.SongID;
-                dbTrack.PlayTime = track.PlayTime;
-                dbTrack.Note = track.Note;
+                dbtrack.SongID = updatedTrack.SongID;
+                dbtrack.PlayTime = updatedTrack.PlayTime;
+                dbtrack.Note = updatedTrack.Note;
                 await _context.SaveChangesAsync();
+                return dbtrack;
             }
-            return dbTrack;
+            return null;
         }
 
-        public async Task<ICollection<AlbumSong>> UpdateTrackList(ICollection<AlbumSong> trackList)
+        public async Task<IEnumerable<AlbumSong>> UpdateTrackList(IEnumerable<AlbumSong> trackList)
         {
-            throw new NotImplementedException();
+            var dbtrscklist = await _context.AlbumSongs.Where(x => x.AlbumID == trackList.First().AlbumID && x.Disc == trackList.First().Disc).ToListAsync();
+            if (dbtrscklist != null && dbtrscklist.Count() > 0)
+            {
+                //TODO implementálni a lista frissítését
+                await _context.SaveChangesAsync();
+                return dbtrscklist;
+            }
+            return null;
         }
     }
 }

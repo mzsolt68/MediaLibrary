@@ -38,9 +38,9 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<int> GetPerformerCount();
         Task<int> GetSongCount();
 
-        Task<AudioTrackDto> AddTrackToAlbum(int? id, int? disc, AudioTrackDto track);
+        Task<AudioTrackDto> AddTrackToAlbum(int? albumID, int? discNr, AudioTrackDto track);
         Task<int> DeleteTrack(int? albumID, int? discNr, int? trackNr);
-        Task<AudioTrackDto> UpdateTrack(int? albumID, int? discNr, AudioTrackDto track);
-        Task<ICollection<AudioTrackDto>> UpdateTrackList(int? albumID, int? discNr, ICollection<AudioTrackDto> trackList);
+        Task<AudioTrackDto> UpdateTrack(int? albumID, int? discNr, AudioTrackDto updatedTrack);
+        Task<IEnumerable<AudioTrackDto>> UpdateTrackList(int? albumID, int? discNr, IEnumerable<AudioTrackDto> trackList);
     }
 }
