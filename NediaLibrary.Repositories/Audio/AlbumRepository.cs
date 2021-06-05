@@ -157,7 +157,7 @@ namespace MediaLibrary.Repositories.Audio
                     .FirstOrDefault(als =>
                         als.SongID == newTrack.SongID &&
                         als.Note == newTrack.Note &&
-                        als.PlayTime.Hour == newTrack.PlayTime.Hour && als.PlayTime.Minute == newTrack.PlayTime.Minute) != null)
+                        als.PlayTime == newTrack.PlayTime) != null)
                 {
                     return false;
                 }

@@ -99,7 +99,7 @@ namespace MediaLibrary.Common
                 Disc = (byte)disc,
                 TrackNr = track.TrackNr,
                 Note = track.Note,
-                PlayTime = Convert.ToDateTime(track.PlayTime)
+                PlayTime = track.PlayTime
             };
             return result;
         }
@@ -112,7 +112,7 @@ namespace MediaLibrary.Common
                 Title = albumSong.Song.SongTitle,
                 TrackNr = albumSong.TrackNr,
                 Note = albumSong.Note,
-                PlayTime = albumSong.PlayTime.Hour.ToString() + ":" + albumSong.PlayTime.Minute.ToString(),
+                PlayTime = albumSong.PlayTime,
                 Performer = new List<string>()
             };
             foreach (var perfsong in albumSong.Song.PerformerSongs)

@@ -71,7 +71,7 @@ namespace MediaLibrary.Services.Audio
                             SongID = song.SongID,
                             TrackNr = song.TrackNr,
                             Title = song.Song.SongTitle,
-                            PlayTime = song.PlayTime.Hour.ToString() + ":" + song.PlayTime.Minute.ToString(),
+                            PlayTime = song.PlayTime,
                             Note = song.Note,
                             Performer = new List<string>()
                         };
@@ -292,7 +292,7 @@ namespace MediaLibrary.Services.Audio
                             Title = album.Album.AlbumTitle,
                             Format = album.Album.AlbumFormat,
                             TrackNr = album.TrackNr.ToString(),
-                            PlayTime = album.PlayTime.Hour.ToString() + ":" + album.PlayTime.Minute.ToString()
+                            PlayTime = album.PlayTime
                         };
                         result.Albums.Add(a);
                     }

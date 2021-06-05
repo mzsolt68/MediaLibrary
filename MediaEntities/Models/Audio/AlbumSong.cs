@@ -20,7 +20,7 @@ namespace MediaLibrary.Entities.Models.Audio
         public int TrackNr { get; set; }
         [Required]
         [Display(Name = "Játékidő")]
-        public DateTime PlayTime { get; set; }
+        public string PlayTime { get; set; }
         [Display(Name = "Lemez")]
         public Byte Disc { get; set; }
         [Display(Name = "Megjegyzés")]
