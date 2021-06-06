@@ -376,7 +376,7 @@ namespace MediaLibrary.Services.Audio
             var albumsOfSong = new List<AlbumDto>();
             foreach (var album in albums)
             {
-                album.NrOfSongs = await _albums.GetSongsOfAlbum(album.AlbumID);
+                album.NrOfSongs = await _albums.GetSongCountOfAlbum(album.AlbumID);
                 albumsOfSong.Add(ConvertObjects.ConvertAlbumToDto(album));
             }
             return albumsOfSong;

@@ -73,7 +73,10 @@ namespace MediaLibrary.Repositories.Audio
         public async Task<Album> GetAlbumById(int? id)
         {
             var result = await _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).AsNoTracking().SingleOrDefaultAsync();
-            result.NrOfSongs = await _context.AlbumSongs.Where(a => a.AlbumID == result.AlbumID).CountAsync();
+            if(result != null)
+            {
+                result.NrOfSongs = await _context.AlbumSongs.Where(a => a.AlbumID == result.AlbumID).CountAsync();
+            }
             return result;
         }
 
@@ -99,9 +102,9 @@ namespace MediaLibrary.Repositories.Audio
             return aslist;
         }
 
-        public async Task<int> GetSongsOfAlbum(int id)
+        public async Task<int> GetSongCountOfAlbum(int albumID)
         {
-            return await _context.AlbumSongs.Where(a => a.AlbumID == id).AsNoTracking().CountAsync();
+            return await _context.AlbumSongs.Where(a => a.AlbumID == albumID).AsNoTracking().CountAsync();
         }
 
         public async Task<Album> UpdateAlbum(Album updatedAlbum)
