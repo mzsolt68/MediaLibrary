@@ -14,7 +14,6 @@ namespace MediaLibrary.Controllers.Audio
     public class PerformersController : Controller
     {
         private readonly IAudioService _service;
-        private readonly PerformerDetailsViewModel _detailsViewModel;
 
         public PerformersController(IAudioService service)
         {

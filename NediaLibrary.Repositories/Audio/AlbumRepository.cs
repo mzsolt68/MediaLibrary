@@ -17,14 +17,14 @@ namespace MediaLibrary.Repositories.Audio
         {
             if (Object.ReferenceEquals(x, y))
                 return true;
-            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+            if (x is null || y is null)
                 return false;
             return x.SongID == y.SongID && x.PlayTime == y.PlayTime && x.Note == y.Note;
         }
 
         public int GetHashCode([DisallowNull] AlbumSong obj)
         {
-            if (Object.ReferenceEquals(obj, null))
+            if (obj is null)
                 return 0;
             int hashSongID = obj.SongID.GetHashCode();
             int hashPlayTime = obj.PlayTime.GetHashCode();
