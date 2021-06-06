@@ -87,8 +87,9 @@ namespace MediaLibrary.Entities.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("PlayTime")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("PlayTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TrackNr")
                         .HasColumnType("int");
@@ -105,7 +106,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 1,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 15, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:15",
                             TrackNr = 1
                         },
                         new
@@ -113,7 +114,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 2,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 26, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:26",
                             TrackNr = 2
                         },
                         new
@@ -121,7 +122,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 3,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 56, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:56",
                             TrackNr = 3
                         },
                         new
@@ -129,7 +130,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 4,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 0, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:00",
                             TrackNr = 4
                         },
                         new
@@ -137,7 +138,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 5,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 24, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:24",
                             TrackNr = 5
                         },
                         new
@@ -145,7 +146,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 6,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 5, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:05",
                             TrackNr = 6
                         },
                         new
@@ -153,7 +154,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 7,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 55, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "3:55",
                             TrackNr = 7
                         },
                         new
@@ -161,7 +162,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 8,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 16, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:16",
                             TrackNr = 8
                         },
                         new
@@ -169,7 +170,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 9,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 25, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:25",
                             TrackNr = 9
                         },
                         new
@@ -177,7 +178,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 10,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 20, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:20",
                             TrackNr = 10
                         },
                         new
@@ -185,7 +186,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 11,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 1, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:01",
                             TrackNr = 11
                         },
                         new
@@ -193,7 +194,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 12,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 2, 30, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "02:30",
                             TrackNr = 12
                         },
                         new
@@ -201,7 +202,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 13,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 24, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:24",
                             TrackNr = 13
                         },
                         new
@@ -209,7 +210,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 14,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 49, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:49",
                             TrackNr = 14
                         },
                         new
@@ -217,7 +218,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 15,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 2, 50, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "02:50",
                             TrackNr = 15
                         },
                         new
@@ -225,7 +226,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 16,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 58, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:58",
                             TrackNr = 16
                         },
                         new
@@ -233,7 +234,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 17,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 2, 25, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "02:25",
                             TrackNr = 17
                         },
                         new
@@ -241,7 +242,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 18,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 4, 11, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "04:11",
                             TrackNr = 18
                         },
                         new
@@ -249,7 +250,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 19,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 56, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:56",
                             TrackNr = 19
                         },
                         new
@@ -257,7 +258,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 1,
                             SongID = 20,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 51, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:51",
                             TrackNr = 20
                         },
                         new
@@ -265,7 +266,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 2,
                             SongID = 21,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 52, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:52",
                             TrackNr = 20
                         },
                         new
@@ -273,7 +274,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 2,
                             SongID = 22,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 45, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:45",
                             TrackNr = 1
                         },
                         new
@@ -281,7 +282,7 @@ namespace MediaLibrary.Entities.Migrations
                             AlbumID = 4,
                             SongID = 22,
                             Disc = (byte)1,
-                            PlayTime = new DateTime(2020, 7, 4, 3, 45, 0, 0, DateTimeKind.Unspecified),
+                            PlayTime = "03:45",
                             TrackNr = 3
                         });
                 });

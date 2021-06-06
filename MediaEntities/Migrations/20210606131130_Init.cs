@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MediaLibrary.Entities.Migrations
 {
-    public partial class NewDBinit : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,7 +65,8 @@ namespace MediaLibrary.Entities.Migrations
                 {
                     GenreID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GenreName = table.Column<string>(nullable: false)
+                    GenreName = table.Column<string>(nullable: false),
+                    GenreType = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +87,7 @@ namespace MediaLibrary.Entities.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Performers",
+                name: "SongPerformers",
                 columns: table => new
                 {
                     PerformerID = table.Column<int>(nullable: false)
@@ -95,7 +96,7 @@ namespace MediaLibrary.Entities.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Performers", x => x.PerformerID);
+                    table.PrimaryKey("PK_SongPerformers", x => x.PerformerID);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,7 +274,7 @@ namespace MediaLibrary.Entities.Migrations
                     AlbumID = table.Column<int>(nullable: false),
                     SongID = table.Column<int>(nullable: false),
                     TrackNr = table.Column<int>(nullable: false),
-                    PlayTime = table.Column<DateTime>(nullable: false),
+                    PlayTime = table.Column<string>(nullable: false),
                     Disc = table.Column<byte>(nullable: false),
                     Note = table.Column<string>(nullable: true)
                 },
@@ -305,9 +306,9 @@ namespace MediaLibrary.Entities.Migrations
                 {
                     table.PrimaryKey("PK_PerformerSongs", x => new { x.PerformerID, x.SongID });
                     table.ForeignKey(
-                        name: "FK_PerformerSongs_Performers_PerformerID",
+                        name: "FK_PerformerSongs_SongPerformers_PerformerID",
                         column: x => x.PerformerID,
-                        principalTable: "Performers",
+                        principalTable: "SongPerformers",
                         principalColumn: "PerformerID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -333,13 +334,17 @@ namespace MediaLibrary.Entities.Migrations
 
             migrationBuilder.InsertData(
                 table: "Genres",
-                columns: new[] { "GenreID", "GenreName" },
+                columns: new[] { "GenreID", "GenreName", "GenreType" },
                 values: new object[,]
                 {
-                    { 4, "Pop" },
-                    { 3, "Rock" },
-                    { 2, "Jazz" },
-                    { 1, "Disco" }
+                    { 8, "Romantikus", "video" },
+                    { 7, "Akció", "video" },
+                    { 6, "Vígjáték", "video" },
+                    { 5, "Dráma", "video" },
+                    { 4, "Pop", "audio" },
+                    { 3, "Rock", "audio" },
+                    { 1, "Disco", "audio" },
+                    { 2, "Jazz", "audio" }
                 });
 
             migrationBuilder.InsertData(
@@ -347,22 +352,22 @@ namespace MediaLibrary.Entities.Migrations
                 columns: new[] { "LanguageID", "LanguageName" },
                 values: new object[,]
                 {
-                    { 2, "francia" },
+                    { 3, "német" },
                     { 1, "angol" },
-                    { 4, "magyar" },
-                    { 3, "német" }
+                    { 2, "francia" },
+                    { 4, "magyar" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Performers",
+                table: "SongPerformers",
                 columns: new[] { "PerformerID", "PerformerName" },
                 values: new object[,]
                 {
+                    { 5, "Váczi Eszter" },
+                    { 4, "Bery" },
                     { 3, "Hrutka Róbert" },
                     { 2, "Jamie Winchester" },
-                    { 1, "Boney M" },
-                    { 5, "Váczi Eszter" },
-                    { 4, "Bery" }
+                    { 1, "Boney M" }
                 });
 
             migrationBuilder.InsertData(
@@ -410,29 +415,29 @@ namespace MediaLibrary.Entities.Migrations
                 columns: new[] { "AlbumID", "SongID", "Disc", "Note", "PlayTime", "TrackNr" },
                 values: new object[,]
                 {
-                    { 1, 1, (byte)1, null, new DateTime(2020, 4, 11, 4, 15, 0, 0, DateTimeKind.Unspecified), 1 },
-                    { 1, 14, (byte)1, null, new DateTime(2020, 4, 11, 3, 49, 0, 0, DateTimeKind.Unspecified), 14 },
-                    { 1, 17, (byte)1, null, new DateTime(2020, 4, 11, 2, 25, 0, 0, DateTimeKind.Unspecified), 17 },
-                    { 1, 13, (byte)1, null, new DateTime(2020, 4, 11, 4, 24, 0, 0, DateTimeKind.Unspecified), 13 },
-                    { 1, 12, (byte)1, null, new DateTime(2020, 4, 11, 2, 30, 0, 0, DateTimeKind.Unspecified), 12 },
-                    { 1, 18, (byte)1, null, new DateTime(2020, 4, 11, 4, 11, 0, 0, DateTimeKind.Unspecified), 18 },
-                    { 1, 11, (byte)1, null, new DateTime(2020, 4, 11, 4, 1, 0, 0, DateTimeKind.Unspecified), 11 },
-                    { 1, 10, (byte)1, null, new DateTime(2020, 4, 11, 4, 20, 0, 0, DateTimeKind.Unspecified), 10 },
-                    { 1, 19, (byte)1, null, new DateTime(2020, 4, 11, 3, 56, 0, 0, DateTimeKind.Unspecified), 19 },
-                    { 1, 9, (byte)1, null, new DateTime(2020, 4, 11, 3, 25, 0, 0, DateTimeKind.Unspecified), 9 },
-                    { 1, 15, (byte)1, null, new DateTime(2020, 4, 11, 2, 50, 0, 0, DateTimeKind.Unspecified), 15 },
-                    { 1, 20, (byte)1, null, new DateTime(2020, 4, 11, 3, 51, 0, 0, DateTimeKind.Unspecified), 20 },
-                    { 1, 8, (byte)1, null, new DateTime(2020, 4, 11, 3, 16, 0, 0, DateTimeKind.Unspecified), 8 },
-                    { 1, 16, (byte)1, null, new DateTime(2020, 4, 11, 3, 58, 0, 0, DateTimeKind.Unspecified), 16 },
-                    { 1, 6, (byte)1, null, new DateTime(2020, 4, 11, 4, 5, 0, 0, DateTimeKind.Unspecified), 6 },
-                    { 2, 21, (byte)1, null, new DateTime(2020, 4, 11, 3, 52, 0, 0, DateTimeKind.Unspecified), 20 },
-                    { 1, 5, (byte)1, null, new DateTime(2020, 4, 11, 4, 24, 0, 0, DateTimeKind.Unspecified), 5 },
-                    { 4, 22, (byte)1, null, new DateTime(2020, 4, 11, 3, 45, 0, 0, DateTimeKind.Unspecified), 3 },
-                    { 1, 2, (byte)1, null, new DateTime(2020, 4, 11, 3, 26, 0, 0, DateTimeKind.Unspecified), 2 },
-                    { 1, 4, (byte)1, null, new DateTime(2020, 4, 11, 4, 0, 0, 0, DateTimeKind.Unspecified), 4 },
-                    { 1, 7, (byte)1, null, new DateTime(2020, 4, 11, 3, 55, 0, 0, DateTimeKind.Unspecified), 7 },
-                    { 1, 3, (byte)1, null, new DateTime(2020, 4, 11, 3, 56, 0, 0, DateTimeKind.Unspecified), 3 },
-                    { 2, 22, (byte)1, null, new DateTime(2020, 4, 11, 3, 45, 0, 0, DateTimeKind.Unspecified), 1 }
+                    { 1, 1, (byte)1, null, "04:15", 1 },
+                    { 1, 14, (byte)1, null, "03:49", 14 },
+                    { 1, 17, (byte)1, null, "02:25", 17 },
+                    { 1, 13, (byte)1, null, "04:24", 13 },
+                    { 1, 12, (byte)1, null, "02:30", 12 },
+                    { 1, 18, (byte)1, null, "04:11", 18 },
+                    { 1, 11, (byte)1, null, "04:01", 11 },
+                    { 1, 10, (byte)1, null, "04:20", 10 },
+                    { 1, 19, (byte)1, null, "03:56", 19 },
+                    { 1, 9, (byte)1, null, "03:25", 9 },
+                    { 1, 15, (byte)1, null, "02:50", 15 },
+                    { 1, 20, (byte)1, null, "03:51", 20 },
+                    { 1, 8, (byte)1, null, "03:16", 8 },
+                    { 1, 16, (byte)1, null, "03:58", 16 },
+                    { 1, 6, (byte)1, null, "04:05", 6 },
+                    { 2, 21, (byte)1, null, "03:52", 20 },
+                    { 1, 5, (byte)1, null, "04:24", 5 },
+                    { 4, 22, (byte)1, null, "03:45", 3 },
+                    { 1, 2, (byte)1, null, "03:26", 2 },
+                    { 1, 4, (byte)1, null, "04:00", 4 },
+                    { 1, 7, (byte)1, null, "3:55", 7 },
+                    { 1, 3, (byte)1, null, "03:56", 3 },
+                    { 2, 22, (byte)1, null, "03:45", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -567,7 +572,7 @@ namespace MediaLibrary.Entities.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Performers");
+                name: "SongPerformers");
 
             migrationBuilder.DropTable(
                 name: "Songs");
