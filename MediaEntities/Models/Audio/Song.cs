@@ -23,7 +23,7 @@ namespace MediaLibrary.Entities.Models.Audio
         [Display(Name = "Nyelv")]
         public Language Language { get; set; }
 
-        public virtual List<PerformerSong> PerformerSongs { get; set; }
+        public virtual ICollection<PerformerSong> PerformerSongs { get; set; }
 
         public virtual ICollection<AlbumSong> AlbumSongs { get; set; }
 
