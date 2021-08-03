@@ -2,52 +2,81 @@
 using MediaLibrary.Entities.Models.Audio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MediaLibrary.Common
 {
     public static class ConvertObjects
     {
-        public static AlbumDto ConvertAlbumToDto(Album album)
+        /// <summary>
+        /// Converts album DB object to DTO
+        /// </summary>
+        /// <param name="album">Album to convert</param>
+        /// <returns></returns>
+        public static AlbumDto AsDto(this Album album)
         {
-            if (album != null)
+            return new AlbumDto
             {
-                var result = new AlbumDto
-                {
-                    AlbumID = album.AlbumID,
-                    Title = album.AlbumTitle,
-                    Format = album.AlbumFormat,
-                    Nr_of_discs = album.NrOfDiscs,
-                    Nr_of_tracks = album.NrOfSongs
-                };
-                return result;
-            }
-            return null;
+                AlbumID = album.AlbumID,
+                Title = album.AlbumTitle,
+                Format = album.AlbumFormat,
+                Nr_of_discs = album.NrOfDiscs,
+                Nr_of_tracks = album.NrOfSongs
+            };
         }
 
-        public static Album ConvertDtoToAlbum(AlbumDto albumObject)
+        /// <summary>
+        /// Converts album DTO to DB object
+        /// </summary>
+        /// <param name="albumObject">DTO to convert</param>
+        /// <returns></returns>
+        public static Album AsAlbum(this AlbumDto albumObject)
         {
-            Album a = new Album
+            return new Album
             {
                 AlbumID = albumObject.AlbumID,
                 AlbumTitle = albumObject.Title,
                 AudioFormatID = albumObject.Format.AudioFormatID,
                 NrOfDiscs = (byte)albumObject.Nr_of_discs
             };
-            return a;
         }
 
-        public static SongPerformerDto ConvertPerformerToDto(SongPerformer performer)
+        /// <summary>
+        /// Converts song performer DB object to DTO
+        /// </summary>
+        /// <param name="performer">Performer to convert</param>
+        /// <returns></returns>
+        public static SongPerformerDto AsDto(this SongPerformer performer)
         {
-            var result = new SongPerformerDto
+            return new SongPerformerDto
             {
                 PerformerID = performer.PerformerID,
                 Name = performer.PerformerName
             };
-            return result;
         }
 
-        public static SongDto ConvertSongToDto(Song song, bool addPerformers = true)
+        /// <summary>
+        /// Converts song performer DTO to DB object
+        /// </summary>
+        /// <param name="albumObject">DTO to convert</param>
+        /// <returns></returns>
+        public static SongPerformer AsPerformer(this SongPerformerDto performer)
+        {
+            return new SongPerformer
+            {
+                PerformerID = performer.PerformerID,
+                PerformerName = performer.Name
+            };
+        }
+
+        /// <summary>
+        /// Converts song DB object to DTO
+        /// </summary>
+        /// <param name="song">Song to convert</param>
+        /// <param name="addPerformers">Need to add performers to DTO?</param>
+        /// <returns></returns>
+        public static SongDto AsDto(this Song song, bool addPerformers = true)
         {
             SongDto result = new SongDto
             {
@@ -59,23 +88,21 @@ namespace MediaLibrary.Common
             };
             if (addPerformers)
             {
-                result.Performers = new List<SongPerformerDto>();
-                foreach (var performer in song.PerformerSongs)
-                {
-                    SongPerformerDto sp = new SongPerformerDto
-                    {
-                        PerformerID = performer.PerformerID,
-                        Name = performer.Performer.PerformerName
-                    };
-                    result.Performers.Add(sp);
-                }
+                result.Performers = song.PerformerSongs.Select(p => p.Performer.AsDto()).ToList();
             }
             return result;
         }
 
-        public static void ConvertDtoToSong(SongDto songObject, out Song song, out ICollection<int> performers)
+        /// <summary>
+        /// Converts song DTO to DB object
+        /// </summary>
+        /// <param name="songObject">DTO to convert</param>
+        /// <param name="performers">List of performer IDs</param>
+        /// <returns></returns>
+        public static Song AsSong(this SongDto songObject, out ICollection<int> performers)
         {
-            song = new Song
+            performers = songObject.Performers.Select(p => p.PerformerID).ToList();
+            return new Song
             {
                 SongID = songObject.SongID,
                 SongTitle = songObject.Title,
@@ -83,11 +110,6 @@ namespace MediaLibrary.Common
                 GenreID = songObject.Genre.GenreID,
                 LanguageID = songObject.Language.LanguageID
             };
-            performers = new List<int>();
-            foreach (var item in songObject.Performers)
-            {
-                performers.Add(item.PerformerID);
-            }
         }
 
         public static AlbumSong ConvertDtoToAlbumSong(int? albumID, int? disc, AudioTrackDto track)
@@ -102,6 +124,27 @@ namespace MediaLibrary.Common
                 PlayTime = track.PlayTime
             };
             return result;
+        }
+
+        //TODO: tesztelni
+        /// <summary>
+        /// Converts album track DTO to DB object
+        /// </summary>
+        /// <param name="track">Track to convert</param>
+        /// <param name="albumID">Album ID track belongs</param>
+        /// <param name="disc">Disc Nr contains the track</param>
+        /// <returns></returns>
+        public static AlbumSong AsAlbumSong(this AudioTrackDto track, int? albumID, int? disc)
+        {
+            return new AlbumSong()
+            {
+                AlbumID = (int)albumID,
+                SongID = track.SongID,
+                Disc = (byte)disc,
+                TrackNr = track.TrackNr,
+                Note = track.Note,
+                PlayTime = track.PlayTime
+            };
         }
 
         public static AudioTrackDto ConvertAldumSongToDto(AlbumSong albumSong)
@@ -120,6 +163,25 @@ namespace MediaLibrary.Common
                 newTrack.Performer.Add(perfsong.Performer.PerformerName);
             }
             return newTrack;
+        }
+
+        //TODO: tesztelni
+        /// <summary>
+        /// Converts album's song DB object to DTO
+        /// </summary>
+        /// <param name="albumSong">Song to convert</param>
+        /// <returns></returns>
+        public static AudioTrackDto AsDto(this AlbumSong albumSong)
+        {
+            return new AudioTrackDto()
+            {
+                SongID = albumSong.SongID,
+                Title = albumSong.Song.SongTitle,
+                TrackNr = albumSong.TrackNr,
+                Note = albumSong.Note,
+                PlayTime = albumSong.PlayTime,
+                Performer = albumSong.Song.PerformerSongs.Select(p => p.Performer.PerformerName).ToList()
+            };
         }
     }
 }
