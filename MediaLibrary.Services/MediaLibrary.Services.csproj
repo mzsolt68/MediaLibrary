@@ -12,7 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MediaEntities\MediaLibrary.Entities.csproj" />
     <ProjectReference Include="..\MediaLibrary.Common\MediaLibrary.Common.csproj" />
-    <ProjectReference Include="..\NediaLibrary.Repositories\NediaLibrary.Repositories.csproj" />
+    <ProjectReference Include="..\NediaLibrary.Repositories\MediaLibrary.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

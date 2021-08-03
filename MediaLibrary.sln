@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.MediaApi", "Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Common", "MediaLibrary.Common\MediaLibrary.Common.csproj", "{73E4674D-DC83-4404-A477-59F8836DCE7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NediaLibrary.Repositories", "NediaLibrary.Repositories\NediaLibrary.Repositories.csproj", "{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Repositories", "NediaLibrary.Repositories\MediaLibrary.Repositories.csproj", "{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediaLibrary.Services", "MediaLibrary.Services\MediaLibrary.Services.csproj", "{C0A219BA-59F9-4AC9-9ECA-97C34AD9F434}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Services", "MediaLibrary.Services\MediaLibrary.Services.csproj", "{C0A219BA-59F9-4AC9-9ECA-97C34AD9F434}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
