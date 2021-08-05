@@ -35,7 +35,8 @@ namespace MediaLibrary.Entities.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            FillAudioTestData.MakeManyToManyConnections(builder);
+            TableConnections.AudioTableConnections(builder);
+            TableConnections.BookTableConnections(builder);
             FillAudioTestData.FillAudioFormats(builder);
             FillAudioTestData.FillPerformers(builder);
             FillAudioTestData.FillAlbums(builder);
