@@ -1,9 +1,6 @@
 ﻿using MediaLibrary.Entities.Models.Common;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MediaLibrary.Entities.Models.Books
 {
@@ -15,6 +12,7 @@ namespace MediaLibrary.Entities.Models.Books
         public string BookTitle { get; set; }
         [Display(Name = "Kiadás")]
         public string Edition { get; set; }
+        public int PublisherID { get; set; }
         [Display(Name = "Kiadó")]
         public Publisher Publisher { get; set; }
         [Display(Name = "Kiadás éve")]
@@ -24,8 +22,8 @@ namespace MediaLibrary.Entities.Models.Books
         [Display(Name = "Nyelv")]
         public Language Language { get; set; }
 
-        public ICollection<Author> Authors { get; set; }
-        public ICollection<BookFormat> Formats { get; set; }
-        public ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<AuthorBook> Authors { get; set; }
+        public virtual ICollection<FormatBook> Formats { get; set; }
+        public virtual ICollection<BookTag> Tags { get; set; }
     }
 }

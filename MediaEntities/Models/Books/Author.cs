@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MediaLibrary.Entities.Models.Books
 {
@@ -17,6 +14,6 @@ namespace MediaLibrary.Entities.Models.Books
         [Display(Name = "Keresztnév 2")]
         public string AuthorFirstName2 { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<AuthorBook> Books { get; set; }
     }
 }
