@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using MediaLibrary.Entities.Models.Books;
 
 namespace MediaLibrary.Entities.Models.Common
 {
@@ -12,5 +10,7 @@ namespace MediaLibrary.Entities.Models.Common
         [Required]
         [Display(Name = "Cimke")]
         public string TagName { get; set; }
+
+        public virtual ICollection<BookTag> BooksOfTag { get; set; }
     }
 }
