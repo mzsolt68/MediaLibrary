@@ -80,6 +80,9 @@ namespace MediaLibrary.Repositories.Audio
             }
             var songs = await _context.PerformerSongs
                 .Include(ps => ps.Song)
+                .ThenInclude(s => s.Genre)
+                .Include(ps => ps.Song)
+                .ThenInclude(s => s.Language)
                 .Where(p => p.PerformerID == performerId)
                 .Select(s => s.Song)
                 .AsNoTracking()
