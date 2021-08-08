@@ -10,8 +10,8 @@ namespace MediaLibrary.Common.Dto.Audio
         public int SongID { get; set; }
         public string Title { get; set; }
         public string Lyric { get; set; }
-        public string Genre { get; set; }
-        public string Language { get; set; }
+        public Genre Genre { get; set; }
+        public Language Language { get; set; }
 
         public ICollection<SongPerformerDto> Performers { get; set; }
     }
