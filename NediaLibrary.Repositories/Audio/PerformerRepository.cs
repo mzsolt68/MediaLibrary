@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Repositories.Audio
 {
+    /// <summary>
+    /// Repository to manipulate Performer DB objects
+    /// </summary>
     public class PerformerRepository : IPerformerReopsitory
     {
         private readonly ApplicationDbContext _context;
