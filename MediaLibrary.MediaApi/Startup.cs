@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using MediaLibrary.Common.Interfaces.Common;
 using MediaLibrary.Repositories.Common;
 using MediaLibrary.Services.Common;
+using MediaLibrary.Services.Books;
+using MediaLibrary.Common.Interfaces.Books;
+using MediaLibrary.Repositories.Books;
 
 namespace MediaLibrary.MediaApi
 {
@@ -36,9 +39,14 @@ namespace MediaLibrary.MediaApi
             services.AddTransient<IAudioFormatRepository, AudioFormatRepository>();
             services.AddTransient<IPerformerReopsitory, PerformerRepository>();
             services.AddTransient<ISongRepository, SongRepository>();
-            services.AddTransient<IAudioService, AudioService>();
             services.AddTransient<IGenreRepository, GenreRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IBookFormatRepository, BookFormatRepository>();
+            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IPublisherRepository, PublisherRepository>();
             services.AddTransient<ICommonService, CommonService>();
+            services.AddTransient<IAudioService, AudioService>();
+            services.AddTransient<IBookService, BookService>();
             services.AddControllers().AddJsonOptions(
                 options => options.JsonSerializerOptions.IgnoreNullValues = true);
         }
