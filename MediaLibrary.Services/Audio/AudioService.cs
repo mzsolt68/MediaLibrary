@@ -305,21 +305,10 @@ namespace MediaLibrary.Services.Audio
         {
             if (trackList != null && trackList.Count() > 0)
             {
-                //var aslist = new List<AlbumSong>();
-                //foreach (var track in trackList)
-                //{
-                //    aslist.Add(ConvertObjects.ConvertDtoToAlbumSong(albumID, discNr, track));
-                //}
                 var albumSongList = trackList.Select(t => t.AsAlbumSong(albumID, discNr));
                 var result = await _albums.UpdateTrackList(albumSongList);
                 if (result != null && result.Count() > 0)
                 {
-                    //var dtolist = new List<AudioTrackDto>();
-                    //foreach (var albumsong in result)
-                    //{
-                    //    dtolist.Add(ConvertObjects.ConvertAldumSongToDto(albumsong));
-                    //}
-                    //return dtolist;
                     return result.Select(s => s.AsAudioTrackDto());
                 }
             }

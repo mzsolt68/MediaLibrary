@@ -112,21 +112,6 @@ namespace MediaLibrary.Common
             };
         }
 
-        public static AlbumSong ConvertDtoToAlbumSong(int? albumID, int? disc, AudioTrackDto track)
-        {
-            AlbumSong result = new AlbumSong()
-            {
-                AlbumID = (int)albumID,
-                SongID = track.SongID,
-                Disc = (byte)disc,
-                TrackNr = track.TrackNr,
-                Note = track.Note,
-                PlayTime = track.PlayTime
-            };
-            return result;
-        }
-
-        //TODO: tesztelni
         /// <summary>
         /// Converts album track DTO to DB object
         /// </summary>
