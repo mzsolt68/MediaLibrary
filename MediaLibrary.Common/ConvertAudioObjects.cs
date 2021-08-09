@@ -1,13 +1,11 @@
 ﻿using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Entities.Models.Audio;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace MediaLibrary.Common
 {
-    public static class ConvertObjects
+    public static class ConvertAudioObjects
     {
         /// <summary>
         /// Converts album DB object to DTO
