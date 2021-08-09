@@ -11,8 +11,8 @@ namespace MediaLibrary.Entities.Models.Books
         public string AuthorLastName { get; set; }
         [Display(Name = "Keresztnév")]
         public string AuthorFirstName { get; set; }
-        [Display(Name = "Keresztnév 2")]
-        public string AuthorFirstName2 { get; set; }
+        [Display(Name = "Középső név")]
+        public string AuthorMiddleName { get; set; }
 
         public virtual ICollection<AuthorBook> Books { get; set; }
     }
