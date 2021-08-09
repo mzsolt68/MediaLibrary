@@ -136,7 +136,9 @@ namespace MediaLibrary.Repositories.Audio
                     _context.AlbumSongs.Add(newTrack);
                     if (await _context.SaveChangesAsync() == 1)
                     {
-                        result = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(sp => sp.PerformerSongs)
+                        result = await _context.AlbumSongs
+                            .Include(x => x.Song)
+                            .ThenInclude(sp => sp.PerformerSongs)
                             .ThenInclude(pfs => pfs.Performer)
                             .Where(als => als.AlbumID == newTrack.AlbumID && als.SongID == newTrack.SongID && als.TrackNr == newTrack.TrackNr)
                             .AsNoTracking()
@@ -184,7 +186,12 @@ namespace MediaLibrary.Repositories.Audio
 
         public async Task<AlbumSong> UpdateTrack(AlbumSong updatedTrack)
         {
-            var dbtrack = await _context.AlbumSongs.Where(x => x.AlbumID == updatedTrack.AlbumID && x.Disc == updatedTrack.Disc && x.TrackNr == updatedTrack.TrackNr).SingleOrDefaultAsync();
+            var dbtrack = await _context.AlbumSongs
+                .Include(s => s.Song)
+                .ThenInclude(ps => ps.PerformerSongs)
+                .ThenInclude(p => p.Performer)
+                .Where(x => x.AlbumID == updatedTrack.AlbumID && x.Disc == updatedTrack.Disc && x.TrackNr == updatedTrack.TrackNr)
+                .SingleOrDefaultAsync();
             if (dbtrack != null)
             {
                 dbtrack.SongID = updatedTrack.SongID;
