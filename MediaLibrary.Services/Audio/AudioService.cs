@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MediaLibrary.Entities.Data;
 using MediaLibrary.Entities.Models.Audio;
 using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Common.Interfaces.Audio;
-using MediaLibrary.Repositories.Audio;
 using MediaLibrary.Common.Dto.Audio;
 using MediaLibrary.Common;
 
@@ -13,19 +11,17 @@ namespace MediaLibrary.Services.Audio
 {
     public class AudioService : IAudioService
     {
-        private readonly ApplicationDbContext _context;
         private readonly IAlbumRepository _albums;
         private readonly IAudioFormatRepository _formats;
         private readonly IPerformerReopsitory _performers;
         private readonly ISongRepository _songs;
 
-        public AudioService(ApplicationDbContext context)
+        public AudioService(IAlbumRepository albums, IAudioFormatRepository formats, IPerformerReopsitory performers, ISongRepository songs)
         {
-            _context = context;
-            _albums = new AlbumRepository(_context);
-            _formats = new AudioFormatRepository(_context);
-            _performers = new PerformerRepository(_context);
-            _songs = new SongRepository(_context);
+            _albums = albums;
+            _formats = formats;
+            _performers = performers;
+            _songs = songs;
         }
 
         #region Album
