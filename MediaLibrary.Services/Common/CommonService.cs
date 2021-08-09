@@ -68,7 +68,7 @@ namespace MediaLibrary.Services.Common
                 result = new List<SongDto>();
                 foreach (var song in songs)
                 {
-                    result.Add(song.AsDto());
+                    result.Add(song.AsSongDto());
                 }
             }
             return result;

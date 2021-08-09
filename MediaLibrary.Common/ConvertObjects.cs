@@ -14,7 +14,7 @@ namespace MediaLibrary.Common
         /// </summary>
         /// <param name="album">Album to convert</param>
         /// <returns>DTO object</returns>
-        public static AlbumDto AsDto(this Album album)
+        public static AlbumDto AsAlbumDto(this Album album)
         {
             return new AlbumDto
             {
@@ -47,7 +47,7 @@ namespace MediaLibrary.Common
         /// </summary>
         /// <param name="performer">Performer to convert</param>
         /// <returns>DTO object</returns>
-        public static SongPerformerDto AsDto(this SongPerformer performer)
+        public static SongPerformerDto AsSongPerformerDto(this SongPerformer performer)
         {
             return new SongPerformerDto
             {
@@ -76,7 +76,7 @@ namespace MediaLibrary.Common
         /// <param name="song">Song to convert</param>
         /// <param name="addPerformers">Need to add performers to DTO?</param>
         /// <returns>DTO object</returns>
-        public static SongDto AsDto(this Song song, bool addPerformers = true)
+        public static SongDto AsSongDto(this Song song, bool addPerformers = true)
         {
             SongDto result = new SongDto
             {
@@ -88,7 +88,7 @@ namespace MediaLibrary.Common
             };
             if (addPerformers)
             {
-                result.Performers = song.PerformerSongs.Select(p => p.Performer.AsDto()).ToList();
+                result.Performers = song.PerformerSongs.Select(p => p.Performer.AsSongPerformerDto()).ToList();
             }
             return result;
         }
@@ -152,7 +152,7 @@ namespace MediaLibrary.Common
         /// </summary>
         /// <param name="albumSong">Song to convert</param>
         /// <returns>DTO object</returns>
-        public static AudioTrackDto AsDto(this AlbumSong albumSong)
+        public static AudioTrackDto AsAudioTrackDto(this AlbumSong albumSong)
         {
             return new AudioTrackDto()
             {
@@ -170,7 +170,7 @@ namespace MediaLibrary.Common
         /// </summary>
         /// <param name="song">Song to convert</param>
         /// <returns>DTo object</returns>
-        public static SongDetailsDto AsDetailsDto(this Song song)
+        public static SongDetailsDto AsSongDetailsDto(this Song song)
         {
             var result = new SongDetailsDto()
             {
@@ -178,7 +178,7 @@ namespace MediaLibrary.Common
                 {
                     SongID = song.SongID,
                     Title = song.SongTitle,
-                    Performers = song.PerformerSongs.Select(ps => ps.Performer.AsDto()).ToList()
+                    Performers = song.PerformerSongs.Select(ps => ps.Performer.AsSongPerformerDto()).ToList()
                 },
                 Genre = song.Genre != null ? song.Genre.GenreName : "",
                 Language = song.Language != null ? song.Language.LanguageName : ""

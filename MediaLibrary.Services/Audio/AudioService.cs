@@ -35,7 +35,7 @@ namespace MediaLibrary.Services.Audio
             var result = await _albums.AddAlbum(newAlbum.AsAlbum());
             if (result != null)
             {
-                return result.AsDto();
+                return result.AsAlbumDto();
             }
             return null;
         }
@@ -53,7 +53,7 @@ namespace MediaLibrary.Services.Audio
             {
                 result = new AlbumDetailsDto
                 {
-                    Album = album.AsDto()
+                    Album = album.AsAlbumDto()
                 };
                 //TODO: refaktorálni extension methodba
                 result.Discs = new List<AudioDiscDto>();
@@ -67,7 +67,7 @@ namespace MediaLibrary.Services.Audio
                     };
                     foreach (var song in disc)
                     {
-                        d.Tracks.Add(song.AsDto());
+                        d.Tracks.Add(song.AsAudioTrackDto());
                     }
                     result.Discs.Add(d);
                 }
@@ -81,7 +81,7 @@ namespace MediaLibrary.Services.Audio
             var albums = await _albums.GetAlbums();
             if (albums.Count > 0)
             {
-                result = albums.Select(a => a.AsDto()).ToList();
+                result = albums.Select(a => a.AsAlbumDto()).ToList();
             }
             return result;
         }
@@ -89,7 +89,7 @@ namespace MediaLibrary.Services.Audio
         public async Task<AlbumDto> UpdateAlbum(AlbumDto updatedAlbum)
         {
             var result = await _albums.UpdateAlbum(updatedAlbum.AsAlbum());
-            return result?.AsDto();
+            return result?.AsAlbumDto();
         }
 
         public async Task<int> GetAlbumCount()
@@ -108,7 +108,7 @@ namespace MediaLibrary.Services.Audio
                 PerformerName = newPerformer.Name
             };
             var result = await _performers.AddPerformer(addedPerformer);
-            return result?.AsDto();
+            return result?.AsSongPerformerDto();
         }
 
         public async Task<int> DeletePerformer(int? id)
@@ -124,11 +124,11 @@ namespace MediaLibrary.Services.Audio
             {
                 result = new PerformerDetailsDto
                 {
-                    Performer = performer.AsDto()
+                    Performer = performer.AsSongPerformerDto()
                 };
                 if (performer.PerformerSongs.Count > 0)
                 {
-                    result.Songs = performer.PerformerSongs.Select(ps => ps.Song.AsDto(false)).ToList();
+                    result.Songs = performer.PerformerSongs.Select(ps => ps.Song.AsSongDto(false)).ToList();
                 }
             }
             return result;
@@ -137,7 +137,7 @@ namespace MediaLibrary.Services.Audio
         public async Task<ICollection<SongPerformerDto>> GetPerformers()
         {
             var performers = await _performers.GetPerformers();
-            return performers.Count > 0 ? performers.Select(p => p.AsDto()).ToList() : null;
+            return performers.Count > 0 ? performers.Select(p => p.AsSongPerformerDto()).ToList() : null;
         }
 
         public async Task<SongPerformerDto> UpdatePerformer(SongPerformerDto updatedPerformer)
@@ -145,7 +145,7 @@ namespace MediaLibrary.Services.Audio
             var result = await _performers.UpdatePerformer(updatedPerformer.AsPerformer());
             if (result != null)
             {
-                return result.AsDto();
+                return result.AsSongPerformerDto();
             }
             return null;
         }
@@ -162,7 +162,7 @@ namespace MediaLibrary.Services.Audio
                 return null;
             }
             var songs = await _performers.GetSongsOfPerformer(performerId);
-            return songs?.Select(s => s.AsDto(false)).ToList();
+            return songs?.Select(s => s.AsSongDto(false)).ToList();
         }
 
         #endregion
@@ -175,7 +175,7 @@ namespace MediaLibrary.Services.Audio
             var result = await _songs.AddSong(newSong.AsSong(out performers), performers);
             if (result != null)
             {
-                return result.AsDto();
+                return result.AsSongDto();
             }
             return null;
         }
@@ -191,7 +191,7 @@ namespace MediaLibrary.Services.Audio
             var song = await _songs.GetSongById(id);
             if (song != null)
             {
-                result = song.AsDetailsDto();
+                result = song.AsSongDetailsDto();
             }
             return result;
         }
@@ -202,7 +202,7 @@ namespace MediaLibrary.Services.Audio
             var songs = await _songs.GetSongs();
             if (songs.Count > 0)
             {
-                result = songs.Select(s => s.AsDto()).ToList();
+                result = songs.Select(s => s.AsSongDto()).ToList();
             }
             return result;
         }
@@ -213,7 +213,7 @@ namespace MediaLibrary.Services.Audio
             var result = await _songs.UpdateSong(updatedSong.AsSong(out performers), performers);
             if (result != null)
             {
-                return result.AsDto();
+                return result.AsSongDto();
             }
             return null;
         }
@@ -230,7 +230,7 @@ namespace MediaLibrary.Services.Audio
                 return null;
             }
             var performers = await _songs.GetPerformersOfSong(songId);
-            return performers.Select(p => p.AsDto()).ToList();
+            return performers.Select(p => p.AsSongPerformerDto()).ToList();
         }
 
         public async Task<ICollection<AlbumDto>> GetAlbumsOfSong(int? songId)
@@ -248,7 +248,7 @@ namespace MediaLibrary.Services.Audio
             foreach (var album in albums)
             {
                 album.NrOfSongs = await _albums.GetSongCountOfAlbum(album.AlbumID);
-                albumsOfSong.Add(album.AsDto());
+                albumsOfSong.Add(album.AsAlbumDto());
             }
             return albumsOfSong;
         }
@@ -291,7 +291,7 @@ namespace MediaLibrary.Services.Audio
             var result = await _albums.AddTrack(track.AsAlbumSong(albumID, discNr));
             if (result != null)
             {
-                return result.AsDto();
+                return result.AsAudioTrackDto();
             }
             return null;
         }
@@ -306,7 +306,7 @@ namespace MediaLibrary.Services.Audio
             var result = await _albums.UpdateTrack(updatedTrack.AsAlbumSong(albumID, discNr));
             if (result != null)
             {
-                return result.AsDto();
+                return result.AsAudioTrackDto();
             }
             return null;
         }
@@ -330,7 +330,7 @@ namespace MediaLibrary.Services.Audio
                     //    dtolist.Add(ConvertObjects.ConvertAldumSongToDto(albumsong));
                     //}
                     //return dtolist;
-                    return result.Select(s => s.AsDto());
+                    return result.Select(s => s.AsAudioTrackDto());
                 }
             }
             return null;
