@@ -51,25 +51,15 @@ namespace MediaLibrary.Services.Audio
             var album = await _albums.GetAlbumById(id);
             if (album != null)
             {
+                var songlist = (await _albums.GetSongsOfAlbum(album)).GroupBy(d => d.Disc);
                 result = new AlbumDetailsDto
                 {
-                    Album = album.AsAlbumDto()
+                    Album = album.AsAlbumDto(),
+                    Discs = new List<AudioDiscDto>()
                 };
-                //TODO: refaktorálni extension methodba
-                result.Discs = new List<AudioDiscDto>();
-                var songlist = (await _albums.GetSongsOfAlbum(album)).GroupBy(d => d.Disc);
                 foreach (var disc in songlist)
                 {
-                    AudioDiscDto d = new AudioDiscDto
-                    {
-                        DiscNumber = disc.Key,
-                        Tracks = new List<AudioTrackDto>()
-                    };
-                    foreach (var song in disc)
-                    {
-                        d.Tracks.Add(song.AsAudioTrackDto());
-                    }
-                    result.Discs.Add(d);
+                    result.Discs.Add(disc.AsAudioDiscDto());
                 }
             }
             return result;

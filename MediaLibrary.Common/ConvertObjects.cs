@@ -206,5 +206,19 @@ namespace MediaLibrary.Common
                 PlayTime = albumSong.PlayTime
             };
         }
+
+        /// <summary>
+        /// Converts album details DB object to DTO
+        /// </summary>
+        /// <param name="disc">Album details to convert</param>
+        /// <returns>DTO object</returns>
+        public static AudioDiscDto AsAudioDiscDto(this IGrouping<byte, AlbumSong> disc)
+        {
+            return new AudioDiscDto()
+            {
+                DiscNumber = disc.Key,
+                Tracks = disc.Select(s => s.AsAudioTrackDto()).ToList()
+            };
+        }
     }
 }
