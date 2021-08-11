@@ -75,7 +75,7 @@ namespace MediaLibrary.Repositories.Common
             if(await _context.Genres.AnyAsync(g => g.GenreID == id))
             {
                 songs = await _context.Songs
-                    .Include(s => s.PerformerSongs)
+                    .Include(s => s.Performers)
                     .ThenInclude(ps => ps.Performer)
                     .Where(s => s.GenreID == id)
                     .AsNoTracking()

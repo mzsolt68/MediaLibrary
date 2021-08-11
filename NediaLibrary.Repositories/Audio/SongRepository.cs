@@ -32,7 +32,7 @@ namespace MediaLibrary.Repositories.Audio
             }
             await _context.SaveChangesAsync();
             return await _context.Songs
-                .Include(s => s.PerformerSongs).ThenInclude(ps => ps.Performer)
+                .Include(s => s.Performers).ThenInclude(ps => ps.Performer)
                 .Include(g => g.Genre)
                 .Include(l => l.Language)
                 .AsNoTracking().FirstOrDefaultAsync(s => s.SongID == newSong.SongID);
@@ -43,10 +43,10 @@ namespace MediaLibrary.Repositories.Audio
             int result = -1;
             if (!await _context.AlbumSongs.AnyAsync(als => als.SongID == id))
             {
-                var deleted = await _context.Songs.Include(ps => ps.PerformerSongs).SingleOrDefaultAsync(s => s.SongID == id);
+                var deleted = await _context.Songs.Include(ps => ps.Performers).SingleOrDefaultAsync(s => s.SongID == id);
                 if (deleted != null)
                 {
-                    foreach (var item in deleted.PerformerSongs)
+                    foreach (var item in deleted.Performers)
                     {
                         _context.PerformerSongs.Remove(item);
                     }
@@ -90,8 +90,8 @@ namespace MediaLibrary.Repositories.Audio
         public async Task<Song> GetSongById(int? id)
         {
             var song = await _context.Songs
-                .Include(p => p.PerformerSongs).ThenInclude(ps => ps.Performer)
-                .Include(a => a.AlbumSongs).ThenInclude(als => als.Album).ThenInclude(al => al.AlbumFormat)
+                .Include(p => p.Performers).ThenInclude(ps => ps.Performer)
+                .Include(a => a.Albums).ThenInclude(als => als.Album).ThenInclude(al => al.AlbumFormat)
                 .Include(g => g.Genre).Include(l => l.Language)
                 .Where(s => s.SongID == id).AsNoTracking().SingleOrDefaultAsync();
             return song;
@@ -105,7 +105,7 @@ namespace MediaLibrary.Repositories.Audio
         public async Task<ICollection<Song>> GetSongs()
         {
             return await _context.Songs
-                .Include(s => s.PerformerSongs).ThenInclude(ps => ps.Performer)
+                .Include(s => s.Performers).ThenInclude(ps => ps.Performer)
                 .AsNoTracking().ToListAsync();
         }
 
@@ -147,7 +147,7 @@ namespace MediaLibrary.Repositories.Audio
                 song.LanguageID = updatedSong.LanguageID;
                 await _context.SaveChangesAsync();
                 song = await _context.Songs
-                    .Include(ps => ps.PerformerSongs).ThenInclude(p => p.Performer)
+                    .Include(ps => ps.Performers).ThenInclude(p => p.Performer)
                     .Include(g => g.Genre)
                     .Include(l => l.Language)
                     .AsNoTracking().FirstOrDefaultAsync(s => s.SongID == updatedSong.SongID);

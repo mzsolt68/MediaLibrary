@@ -49,7 +49,7 @@ namespace MediaLibrary.Repositories.Audio
         public async Task<SongPerformer> GetPerformerById(int? id)
         {
             return await _context.SongPerformers
-                .Include(s => s.PerformerSongs). ThenInclude(ps => ps.Song)
+                .Include(s => s.Songs). ThenInclude(ps => ps.Song)
                 .Where(p => p.PerformerID == id).SingleOrDefaultAsync();
         }
 

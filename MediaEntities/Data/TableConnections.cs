@@ -16,22 +16,22 @@ namespace MediaLibrary.Entities.Data
                 .HasKey(ps => new { ps.PerformerID, ps.SongID });
             builder.Entity<PerformerSong>()
                 .HasOne(ps => ps.Performer)
-                .WithMany(p => p.PerformerSongs)
+                .WithMany(p => p.Songs)
                 .HasForeignKey(ps => ps.PerformerID);
             builder.Entity<PerformerSong>()
                 .HasOne(ps => ps.Song)
-                .WithMany(s => s.PerformerSongs)
+                .WithMany(s => s.Performers)
                 .HasForeignKey(ps => ps.SongID);
 
             builder.Entity<AlbumSong>()
                 .HasKey(als => new { als.AlbumID, als.SongID });
             builder.Entity<AlbumSong>()
                 .HasOne(als => als.Album)
-                .WithMany(a => a.AlbumSongs)
+                .WithMany(a => a.Tracks)
                 .HasForeignKey(als => als.AlbumID);
             builder.Entity<AlbumSong>()
                 .HasOne(als => als.Song)
-                .WithMany(s => s.AlbumSongs)
+                .WithMany(s => s.Albums)
                 .HasForeignKey(als => als.SongID);
         }
 

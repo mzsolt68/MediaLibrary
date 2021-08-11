@@ -112,9 +112,9 @@ namespace MediaLibrary.Services.Audio
                 {
                     Performer = performer.AsSongPerformerDto()
                 };
-                if (performer.PerformerSongs.Count > 0)
+                if (performer.Songs.Count > 0)
                 {
-                    result.Songs = performer.PerformerSongs.Select(ps => ps.Song.AsSongDto(false)).ToList();
+                    result.Songs = performer.Songs.Select(ps => ps.Song.AsSongDto(false)).ToList();
                 }
             }
             return result;

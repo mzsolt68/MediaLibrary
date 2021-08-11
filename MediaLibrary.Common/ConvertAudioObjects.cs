@@ -86,7 +86,7 @@ namespace MediaLibrary.Common
             };
             if (addPerformers)
             {
-                result.Performers = song.PerformerSongs.Select(p => p.Performer.AsSongPerformerDto()).ToList();
+                result.Performers = song.Performers.Select(p => p.Performer.AsSongPerformerDto()).ToList();
             }
             return result;
         }
@@ -144,7 +144,7 @@ namespace MediaLibrary.Common
                 TrackNr = albumSong.TrackNr,
                 Note = albumSong.Note,
                 PlayTime = albumSong.PlayTime,
-                Performer = albumSong.Song.PerformerSongs.Select(p => p.Performer.PerformerName).ToList()
+                Performer = albumSong.Song.Performers.Select(p => p.Performer.PerformerName).ToList()
             };
         }
 
@@ -161,14 +161,14 @@ namespace MediaLibrary.Common
                 {
                     SongID = song.SongID,
                     Title = song.SongTitle,
-                    Performers = song.PerformerSongs.Select(ps => ps.Performer.AsSongPerformerDto()).ToList()
+                    Performers = song.Performers.Select(ps => ps.Performer.AsSongPerformerDto()).ToList()
                 },
                 Genre = song.Genre != null ? song.Genre.GenreName : "",
                 Language = song.Language != null ? song.Language.LanguageName : ""
             };
-            if(song.AlbumSongs.Count > 0)
+            if(song.Albums.Count > 0)
             {
-                result.Albums = song.AlbumSongs.Select(a => a.AsAlbumSongDto()).ToList();
+                result.Albums = song.Albums.Select(a => a.AsAlbumSongDto()).ToList();
             }
             return result;
         }

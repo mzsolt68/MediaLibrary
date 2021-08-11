@@ -57,10 +57,10 @@ namespace MediaLibrary.Repositories.Audio
         public async Task<int> DeleteAlbum(int? id)
         {
             int result = 0;
-            var deleted = await _context.Albums.Include(als => als.AlbumSongs).SingleOrDefaultAsync(a => a.AlbumID == id);
+            var deleted = await _context.Albums.Include(als => als.Tracks).SingleOrDefaultAsync(a => a.AlbumID == id);
             if (deleted != null)
             {
-                foreach (var item in deleted.AlbumSongs)
+                foreach (var item in deleted.Tracks)
                 {
                     _context.AlbumSongs.Remove(item);
                 }
@@ -75,7 +75,7 @@ namespace MediaLibrary.Repositories.Audio
             var result = await _context.Albums.Include(a => a.AlbumFormat).Where(a => a.AlbumID == id).AsNoTracking().SingleOrDefaultAsync();
             if(result != null)
             {
-                result.NrOfSongs = await _context.AlbumSongs.Where(a => a.AlbumID == result.AlbumID).CountAsync();
+                result.NrOfSongs = await GetSongCountOfAlbum(id);
             }
             return result;
         }
@@ -97,12 +97,12 @@ namespace MediaLibrary.Repositories.Audio
 
         public async Task<ICollection<AlbumSong>> GetSongsOfAlbum(Album album)
         {
-            var aslist = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.PerformerSongs)
+            var aslist = await _context.AlbumSongs.Include(x => x.Song).ThenInclude(songPerformer => songPerformer.Performers)
                 .ThenInclude(pfs => pfs.Performer).OrderBy(a => a.TrackNr).Where(als => als.Album == album).AsNoTracking().ToListAsync();
             return aslist;
         }
 
-        public async Task<int> GetSongCountOfAlbum(int albumID)
+        public async Task<int> GetSongCountOfAlbum(int? albumID)
         {
             return await _context.AlbumSongs.Where(a => a.AlbumID == albumID).AsNoTracking().CountAsync();
         }
@@ -125,7 +125,7 @@ namespace MediaLibrary.Repositories.Audio
         {
             AlbumSong result = null;
             var dbAlbum = await _context.Albums
-                .Include(a => a.AlbumSongs)
+                .Include(a => a.Tracks)
                 .Where(a => a.AlbumID == newTrack.AlbumID)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
@@ -138,7 +138,7 @@ namespace MediaLibrary.Repositories.Audio
                     {
                         result = await _context.AlbumSongs
                             .Include(x => x.Song)
-                            .ThenInclude(sp => sp.PerformerSongs)
+                            .ThenInclude(sp => sp.Performers)
                             .ThenInclude(pfs => pfs.Performer)
                             .Where(als => als.AlbumID == newTrack.AlbumID && als.SongID == newTrack.SongID && als.TrackNr == newTrack.TrackNr)
                             .AsNoTracking()
@@ -154,11 +154,11 @@ namespace MediaLibrary.Repositories.Audio
                 {
                     return false;
                 }
-                if(dbAlbum.AlbumSongs.FirstOrDefault(als => als.Disc == newTrack.Disc && als.TrackNr == newTrack.TrackNr) != null)
+                if(dbAlbum.Tracks.FirstOrDefault(als => als.Disc == newTrack.Disc && als.TrackNr == newTrack.TrackNr) != null)
                 {
                     return false;
                 }
-                if(dbAlbum.AlbumSongs
+                if(dbAlbum.Tracks
                     .FirstOrDefault(als =>
                         als.SongID == newTrack.SongID &&
                         als.Note == newTrack.Note &&
@@ -188,7 +188,7 @@ namespace MediaLibrary.Repositories.Audio
         {
             var dbtrack = await _context.AlbumSongs
                 .Include(s => s.Song)
-                .ThenInclude(ps => ps.PerformerSongs)
+                .ThenInclude(ps => ps.Performers)
                 .ThenInclude(p => p.Performer)
                 .Where(x => x.AlbumID == updatedTrack.AlbumID && x.Disc == updatedTrack.Disc && x.TrackNr == updatedTrack.TrackNr)
                 .SingleOrDefaultAsync();
