@@ -3,7 +3,7 @@ using MediaLibrary.Entities.Models.Common;
 
 namespace MediaLibrary.Entities.Models.Books
 {
-    public class BookTag
+    public class TagBook
     {
         [Required]
         public int BookID { get; set; }

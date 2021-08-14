@@ -23,7 +23,7 @@ namespace MediaLibrary.Entities.Data
         public DbSet<AuthorBook> AuthorBooks { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookFormat> BookFormats { get; set; }
-        public DbSet<BookTag> BookTags { get; set; }
+        public DbSet<TagBook> TagBooks { get; set; }
         public DbSet<FormatBook> FormatBooks { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
 

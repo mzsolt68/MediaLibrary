@@ -24,6 +24,6 @@ namespace MediaLibrary.Entities.Models.Books
 
         public virtual ICollection<AuthorBook> Authors { get; set; }
         public virtual ICollection<FormatBook> Formats { get; set; }
-        public virtual ICollection<BookTag> Tags { get; set; }
+        public virtual ICollection<TagBook> Tags { get; set; }
     }
 }

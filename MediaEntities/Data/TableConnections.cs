@@ -48,13 +48,13 @@ namespace MediaLibrary.Entities.Data
                 .WithMany(b => b.Authors)
                 .HasForeignKey(ab => ab.BookID);
 
-            builder.Entity<BookTag>()
+            builder.Entity<TagBook>()
                 .HasKey(bt => new { bt.BookID, bt.TagID });
-            builder.Entity<BookTag>()
+            builder.Entity<TagBook>()
                 .HasOne(bt => bt.Book)
                 .WithMany(t => t.Tags)
                 .HasForeignKey(bt => bt.BookID);
-            builder.Entity<BookTag>()
+            builder.Entity<TagBook>()
                 .HasOne(bt => bt.Tag)
                 .WithMany(b => b.BooksOfTag)
                 .HasForeignKey(bt => bt.TagID);

@@ -11,6 +11,6 @@ namespace MediaLibrary.Entities.Models.Common
         [Display(Name = "Cimke")]
         public string TagName { get; set; }
 
-        public virtual ICollection<BookTag> BooksOfTag { get; set; }
+        public virtual ICollection<TagBook> BooksOfTag { get; set; }
     }
 }
