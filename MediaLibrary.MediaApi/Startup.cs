@@ -1,20 +1,11 @@
 using MediaLibrary.Entities.Data;
-using MediaLibrary.Common.Interfaces.Audio;
-using MediaLibrary.Common.Interfaces.Services;
-using MediaLibrary.Repositories.Audio;
-using MediaLibrary.Services.Audio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MediaLibrary.Common.Interfaces.Common;
-using MediaLibrary.Repositories.Common;
-using MediaLibrary.Services.Common;
-using MediaLibrary.Services.Books;
-using MediaLibrary.Common.Interfaces.Books;
-using MediaLibrary.Repositories.Books;
+using MediaLibrary.MediaApi.Extensions;
 
 namespace MediaLibrary.MediaApi
 {
@@ -35,18 +26,9 @@ namespace MediaLibrary.MediaApi
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IAlbumRepository, AlbumRepository>();
-            services.AddTransient<IAudioFormatRepository, AudioFormatRepository>();
-            services.AddTransient<IPerformerReopsitory, PerformerRepository>();
-            services.AddTransient<ISongRepository, SongRepository>();
-            services.AddTransient<IGenreRepository, GenreRepository>();
-            services.AddTransient<IAuthorRepository, AuthorRepository>();
-            services.AddTransient<IBookFormatRepository, BookFormatRepository>();
-            services.AddTransient<IBookRepository, BookRepository>();
-            services.AddTransient<IPublisherRepository, PublisherRepository>();
-            services.AddTransient<ICommonService, CommonService>();
-            services.AddTransient<IAudioService, AudioService>();
-            services.AddTransient<IBookService, BookService>();
+            services.AddAudioServices();
+            services.AddCommonServices();
+            services.AddBookServices();
             services.AddControllers().AddJsonOptions(
                 options => options.JsonSerializerOptions.IgnoreNullValues = true);
         }
