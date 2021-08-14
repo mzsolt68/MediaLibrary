@@ -19,6 +19,7 @@ namespace MediaLibrary.Entities.Models.Books
         public string PublishYear { get; set; }
         [Display(Name = "ISBN")]
         public string ISBN { get; set; }
+        public int LanguageID { get; set; }
         [Display(Name = "Nyelv")]
         public Language Language { get; set; }
 
