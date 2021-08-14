@@ -37,12 +37,7 @@ namespace MediaLibrary.Entities.Data
             base.OnModelCreating(builder);
             TableConnections.AudioTableConnections(builder);
             TableConnections.BookTableConnections(builder);
-            FillAudioTestData.FillAudioFormats(builder);
-            FillAudioTestData.FillPerformers(builder);
-            FillAudioTestData.FillAlbums(builder);
-            FillAudioTestData.FillGenres(builder);
-            FillAudioTestData.FillLanguages(builder);
-            FillAudioTestData.FillSongs(builder);
+            FillAudioTestData.Fill(builder);
         }
     }
 }

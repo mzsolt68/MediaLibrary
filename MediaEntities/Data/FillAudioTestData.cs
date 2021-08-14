@@ -7,7 +7,17 @@ namespace MediaLibrary.Entities.Data
 {
     public static class FillAudioTestData
     {
-        public static void FillAudioFormats(ModelBuilder builder)
+        public static void Fill(ModelBuilder builder)
+        {
+            FillAudioFormats(builder);
+            FillPerformers(builder);
+            FillAlbums(builder);
+            FillGenres(builder);
+            FillLanguages(builder);
+            FillSongs(builder);
+        }
+
+        private static void FillAudioFormats(ModelBuilder builder)
         {
             builder.Entity<AudioFormat>().HasData(
                 new AudioFormat { AudioFormatID = 1, AudioFormatName = "Audio CD" },
@@ -19,7 +29,7 @@ namespace MediaLibrary.Entities.Data
             );
         }
 
-        public static void FillPerformers(ModelBuilder builder)
+        private static void FillPerformers(ModelBuilder builder)
         {
             builder.Entity<SongPerformer>().HasData(
                 new SongPerformer { PerformerID = 1, PerformerName = "Boney M" },
@@ -27,20 +37,20 @@ namespace MediaLibrary.Entities.Data
                 new SongPerformer { PerformerID = 3, PerformerName = "Hrutka Róbert" },
                 new SongPerformer { PerformerID = 4, PerformerName = "Bery" },
                 new SongPerformer { PerformerID = 5, PerformerName = "Váczi Eszter" }
-                );
+            );
         }
 
-        public static void FillAlbums(ModelBuilder builder)
+        private static void FillAlbums(ModelBuilder builder)
         {
             builder.Entity<Album>().HasData(
                 new Album { AlbumID = 1, AlbumTitle = "Boney M Gold", AudioFormatID = 1, NrOfDiscs = (Byte)1 },
                 new Album { AlbumID = 2, AlbumTitle = "Bravissimo 8", AudioFormatID = 1, NrOfDiscs = (Byte)1 },
                 new Album { AlbumID = 3, AlbumTitle = "Bravissimo 6", AudioFormatID = 1, NrOfDiscs = (Byte)1 },
                 new Album { AlbumID = 4, AlbumTitle = "Vegyes", AudioFormatID = 1, NrOfDiscs = (Byte)1 }
-                );
+            );
         }
 
-        public static void FillGenres(ModelBuilder builder)
+        private static void FillGenres(ModelBuilder builder)
         {
             builder.Entity<Genre>().HasData(
                 new Genre { GenreID = 1, GenreName = "Disco", GenreType = "audio"},
@@ -51,20 +61,20 @@ namespace MediaLibrary.Entities.Data
                 new Genre { GenreID = 6, GenreName = "Vígjáték", GenreType = "video" },
                 new Genre { GenreID = 7, GenreName = "Akció", GenreType = "video" },
                 new Genre { GenreID = 8, GenreName = "Romantikus", GenreType = "video" }
-                );
+            );
         }
 
-        public static void FillLanguages(ModelBuilder builder)
+        private static void FillLanguages(ModelBuilder builder)
         {
             builder.Entity<Language>().HasData(
                 new Language { LanguageID = 1, LanguageName = "angol"},
                 new Language { LanguageID = 2, LanguageName = "francia"},
                 new Language { LanguageID = 3, LanguageName = "német"},
                 new Language { LanguageID = 4, LanguageName = "magyar"}
-                );
+            );
         }
 
-        public static void FillSongs(ModelBuilder builder)
+        private static void FillSongs(ModelBuilder builder)
         {
             builder.Entity<Song>().HasData(
                 new Song { SongID = 1, SongTitle = "Rivers of Babylon", GenreID = 1, LanguageID = 1 },
@@ -89,7 +99,7 @@ namespace MediaLibrary.Entities.Data
                 new Song { SongID = 20, SongTitle = "Megamix", GenreID = 1, LanguageID = 1 },
                 new Song { SongID = 21, SongTitle = "It's Your Life", GenreID = 4, LanguageID = 1 },
                 new Song { SongID = 22, SongTitle = "Egyedül", GenreID = 4, LanguageID = 4 }
-                );
+            );
             builder.Entity<PerformerSong>().HasData(
                 new PerformerSong { PerformerID = 1, SongID = 1 },
                 new PerformerSong { PerformerID = 1, SongID = 2 },
@@ -115,7 +125,7 @@ namespace MediaLibrary.Entities.Data
                 new PerformerSong { PerformerID = 3, SongID = 21 },
                 new PerformerSong { PerformerID = 4, SongID = 22 },
                 new PerformerSong { PerformerID = 5, SongID = 22 }
-                );
+            );
             builder.Entity<AlbumSong>().HasData(
                 new AlbumSong { AlbumID = 1, SongID = 1, TrackNr = 1, PlayTime = "04:15", Disc = 1 },
                 new AlbumSong { AlbumID = 1, SongID = 2, TrackNr = 2, PlayTime = "03:26", Disc = 1 },
@@ -140,7 +150,7 @@ namespace MediaLibrary.Entities.Data
                 new AlbumSong { AlbumID = 2, SongID = 21, TrackNr = 20, PlayTime = "03:52", Disc = 1 },
                 new AlbumSong { AlbumID = 2, SongID = 22, TrackNr = 1, PlayTime = "03:45", Disc = 1 },
                 new AlbumSong { AlbumID = 4, SongID = 22, TrackNr = 3, PlayTime = "03:45", Disc = 1 }
-                );
+            );
         }
     }
 }
