@@ -3,6 +3,7 @@ using MediaLibrary.Common.Interfaces.Books;
 using MediaLibrary.Entities.Models.Books;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediaLibrary.Common.Dto.Books;
 
 namespace MediaLibrary.Services.Books
 {
@@ -22,7 +23,7 @@ namespace MediaLibrary.Services.Books
         }
 
         #region Author
-        public Task<Author> AddAuthor(Author newAuthor)
+        public Task<BookAuthorDTO> AddAuthor(BookAuthorDTO newAuthor)
         {
             throw new System.NotImplementedException();
         }
@@ -32,29 +33,29 @@ namespace MediaLibrary.Services.Books
             throw new System.NotImplementedException();
         }
 
-        public Task<Author> UpdateAuthor(Author updatedAuthor)
+        public Task<BookAuthorDTO> UpdateAuthor(BookAuthorDTO updatedAuthor)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Author> GetAuthorByID(int? authorID)
+        public Task<BookAuthorDTO> GetAuthorByID(int? authorID)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Author>> GetAuthors()
+        public Task<ICollection<BookAuthorDTO>> GetAuthors()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Book>> GetBooksOfAuthor(int? authorID)
+        public Task<ICollection<BookAuthorDetailsDTO>> GetBooksOfAuthor(int? authorID)
         {
             throw new System.NotImplementedException();
         }
         #endregion
 
         #region Book
-        public Task<Book> AddBook(Book newBook)
+        public Task<BookDetailsDTO> AddBook(BookDetailsDTO newBook)
         {
             throw new System.NotImplementedException();
         }
@@ -64,39 +65,39 @@ namespace MediaLibrary.Services.Books
             throw new System.NotImplementedException();
         }
 
-        public Task<Book> UpdateBook(Book updatedBook)
+        public Task<BookDetailsDTO> UpdateBook(BookDetailsDTO updatedBook)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Book> GetBookByID(int? bookID)
+        public Task<BookDetailsDTO> GetBookByID(int? bookID)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Book>> GetBooks()
+        public Task<ICollection<BookDTO>> GetBooks()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Book>> GetBooksByFormat(int? formatID)
+        public Task<ICollection<BookDTO>> GetBooksByFormat(int? formatID)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Book>> GetBooksByTag(int? tagID)
+        public Task<ICollection<BookDTO>> GetBooksByTag(int? tagID)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Book>> GetBooksOfPublisher(int? publisherID)
+        public Task<BookPublisherDetailsDTO> GetBooksOfPublisher(int? publisherID)
         {
             throw new System.NotImplementedException();
         }
         #endregion
 
         #region Format
-        public Task<BookFormat> AddBookFormat(BookFormat newFormat)
+        public Task<BookFormatDTO> AddBookFormat(BookFormatDTO newFormat)
         {
             throw new System.NotImplementedException();
         }
@@ -106,24 +107,24 @@ namespace MediaLibrary.Services.Books
             throw new System.NotImplementedException();
         }
 
-        public Task<BookFormat> UpdateBookFormat(BookFormat updatedFormat)
+        public Task<BookFormatDTO> UpdateBookFormat(BookFormatDTO updatedFormat)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<BookFormat> GetBookFormatByID(int? formatID)
+        public Task<BookFormatDTO> GetBookFormatByID(int? formatID)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<BookFormat>> GetBookFormats()
+        public Task<ICollection<BookFormatDTO>> GetBookFormats()
         {
             throw new System.NotImplementedException();
         }
         #endregion
 
         #region Publisher
-        public Task<Publisher> AddPublisher(Publisher newPublisher)
+        public Task<BookPublisherDTO> AddPublisher(BookPublisherDTO newPublisher)
         {
             throw new System.NotImplementedException();
         }
@@ -133,17 +134,17 @@ namespace MediaLibrary.Services.Books
             throw new System.NotImplementedException();
         }
 
-        public Task<Publisher> UpdatePublisher(Publisher updatedPublisher)
+        public Task<BookPublisherDTO> UpdatePublisher(BookPublisherDTO updatedPublisher)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Publisher> GetPublisherByID(int? publisherID)
+        public Task<BookPublisherDetailsDTO> GetPublisherByID(int? publisherID)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<ICollection<Publisher>> GetPublishers()
+        public Task<ICollection<BookPublisherDTO>> GetPublishers()
         {
             throw new System.NotImplementedException();
         }

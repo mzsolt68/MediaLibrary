@@ -1,4 +1,5 @@
-﻿using MediaLibrary.Entities.Models.Books;
+﻿using MediaLibrary.Common.Dto.Books;
+using MediaLibrary.Entities.Models.Books;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,33 +7,33 @@ namespace MediaLibrary.Common.Interfaces.Services
 {
     public interface IBookService
     {
-        Task<Author> AddAuthor(Author newAuthor);
-        Task<Author> UpdateAuthor(Author updatedAuthor);
+        Task<BookAuthorDTO> AddAuthor(BookAuthorDTO newAuthor);
+        Task<BookAuthorDTO> UpdateAuthor(BookAuthorDTO updatedAuthor);
         Task<int> DeleteAuthor(int? authorID);
-        Task<Author> GetAuthorByID(int? authorID);
-        Task<ICollection<Author>> GetAuthors();
-        Task<ICollection<Book>> GetBooksOfAuthor(int? authorID);
+        Task<BookAuthorDTO> GetAuthorByID(int? authorID);
+        Task<ICollection<BookAuthorDTO>> GetAuthors();
+        Task<ICollection<BookAuthorDetailsDTO>> GetBooksOfAuthor(int? authorID);
 
-        Task<Book> AddBook(Book newBook);
-        Task<Book> UpdateBook(Book updatedBook);
+        Task<BookDetailsDTO> AddBook(BookDetailsDTO newBook);
+        Task<BookDetailsDTO> UpdateBook(BookDetailsDTO updatedBook);
         Task<int> DeleteBook(int? bookID);
-        Task<Book> GetBookByID(int? bookID);
-        Task<ICollection<Book>> GetBooks();
-        Task<ICollection<Book>> GetBooksByTag(int? tagID);
+        Task<BookDetailsDTO> GetBookByID(int? bookID);
+        Task<ICollection<BookDTO>> GetBooks();
+        Task<ICollection<BookDTO>> GetBooksByTag(int? tagID);
 
-        Task<BookFormat> AddBookFormat(BookFormat newFormat);
-        Task<BookFormat> UpdateBookFormat(BookFormat updatedFormat);
+        Task<BookFormatDTO> AddBookFormat(BookFormatDTO newFormat);
+        Task<BookFormatDTO> UpdateBookFormat(BookFormatDTO updatedFormat);
         Task<int> DeleteBookFormat(int? formatID);
-        Task<BookFormat> GetBookFormatByID(int? formatID);
-        Task<ICollection<BookFormat>> GetBookFormats();
-        Task<ICollection<Book>> GetBooksByFormat(int? formatID);
+        Task<BookFormatDTO> GetBookFormatByID(int? formatID);
+        Task<ICollection<BookFormatDTO>> GetBookFormats();
+        Task<ICollection<BookDTO>> GetBooksByFormat(int? formatID);
 
-        Task<Publisher> AddPublisher(Publisher newPublisher);
-        Task<Publisher> UpdatePublisher(Publisher updatedPublisher);
+        Task<BookPublisherDTO> AddPublisher(BookPublisherDTO newPublisher);
+        Task<BookPublisherDTO> UpdatePublisher(BookPublisherDTO updatedPublisher);
         Task<int> DeletePublisher(int? publisherID);
-        Task<Publisher> GetPublisherByID(int? publisherID);
-        Task<ICollection<Publisher>> GetPublishers();
-        Task<ICollection<Book>> GetBooksOfPublisher(int? publisherID);
+        Task<BookPublisherDetailsDTO> GetPublisherByID(int? publisherID);
+        Task<ICollection<BookPublisherDTO>> GetPublishers();
+        Task<BookPublisherDetailsDTO> GetBooksOfPublisher(int? publisherID);
 
     }
 }
