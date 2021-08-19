@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using MediaLibrary.Entities.Models.Books;
 using MediaLibrary.Common.Dto.Books;
 using System.Linq;
@@ -80,7 +78,14 @@ namespace MediaLibrary.Common
         {
             return new BookDetailsDTO()
             {
-
+                Book = book.AsBookDTO(),
+                Edition = book.Edition,
+                ISBN = book.ISBN,
+                PublisYear = book.PublishYear,
+                Language = book.Language.AsLanguageDTO(),
+                Publisher = book.Publisher.AsPublisherDTO(),
+                Formats = book.Formats.Select(f => f.Format.AsBookFormatDTO()).ToList(),
+                Tags = book.Tags.Select(t => t.Tag.AsTagDTO()).ToList()
             };
         }
 
@@ -89,11 +94,20 @@ namespace MediaLibrary.Common
         /// </summary>
         /// <param name="bookDetails">BookDetails DTO</param>
         /// <returns>Book DB object</returns>
-        public static Book AsBook(this BookDetailsDTO bookDetails)
+        public static Book AsBook(this BookDetailsDTO bookDetails, out ICollection<int> authors, out ICollection<int> formats, out ICollection<int> tags)
         {
+            authors = bookDetails.Book.Authors.Select(a => a.AuthorID).ToList();
+            formats = bookDetails.Formats.Select(f => f.FormatID).ToList();
+            tags = bookDetails.Tags.Select(t => t.TagID).ToList();
             return new Book()
             {
-
+                BookID = bookDetails.Book.BookID,
+                BookTitle = bookDetails.Book.BookTitle,
+                Edition = bookDetails.Edition,
+                PublisherID = bookDetails.Publisher.PublisherID,
+                PublishYear = bookDetails.PublisYear,
+                ISBN = bookDetails.ISBN,
+                LanguageID = bookDetails.Language.LanguageID
             };
         }
 
@@ -106,7 +120,8 @@ namespace MediaLibrary.Common
         {
             return new BookFormat()
             {
-
+                BookFormatID = bookFormat.FormatID,
+                BookFormatName = bookFormat.FormatName
             };
         }
 
@@ -119,7 +134,8 @@ namespace MediaLibrary.Common
         {
             return new BookFormatDTO()
             {
-
+                FormatID = bookFormat.BookFormatID,
+                FormatName = bookFormat.BookFormatName
             };
         }
 
@@ -132,7 +148,8 @@ namespace MediaLibrary.Common
         {
             return new Publisher()
             {
-
+                PublisherID = bookPublisher.PublisherID,
+                PublisherName = bookPublisher.PublisherName
             };
         }
 
@@ -145,7 +162,8 @@ namespace MediaLibrary.Common
         {
             return new BookPublisherDTO()
             {
-
+                PublisherID = publisher.PublisherID,
+                PublisherName = publisher.PublisherName
             };
         }
 
@@ -158,7 +176,8 @@ namespace MediaLibrary.Common
         {
             return new BookPublisherDetailsDTO()
             {
-
+                Publisher = publisher.AsPublisherDTO(),
+                Books = publisher.PublishedBooks.Select(p => p.AsBookDTO()).ToList()
             };
         }
     }
