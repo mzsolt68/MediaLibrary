@@ -11,6 +11,6 @@ namespace MediaLibrary.Common.Interfaces.Books
         Task<int> DeleteAuthor(int? authorID);
         Task<Author> GetAuthorByID(int? authorID);
         Task<ICollection<Author>> GetAuthors();
-        Task<ICollection<Book>> GetBooksOfAuthor(int? authorID);
+        Task<Author> GetBooksOfAuthor(int? authorID);
     }
 }

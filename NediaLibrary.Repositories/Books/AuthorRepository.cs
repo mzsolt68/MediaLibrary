@@ -57,7 +57,7 @@ namespace MediaLibrary.Repositories.Books
             return await _context.Authors.AsNoTracking().ToListAsync();
         }
 
-        public async Task<ICollection<Book>> GetBooksOfAuthor(int? authorID)
+        public async Task<Author> GetBooksOfAuthor(int? authorID)
         {
             var dbAuthor = await _context.Authors
                 .Include(ab => ab.Books)
@@ -65,7 +65,7 @@ namespace MediaLibrary.Repositories.Books
                 .Where(a => a.AuthorID == authorID)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
-            return dbAuthor.Books.Select(b => b.Book).ToList();
+            return dbAuthor;
         }
 
         public async Task<Author> UpdateAuthor(Author updatedAuthor)
