@@ -115,29 +115,20 @@ namespace MediaLibrary.Repositories.Audio
             if (song != null)
             {
                 var dbperformers = await _context.PerformerSongs.Where(s => s.SongID == song.SongID).ToListAsync();
-                ICollection<SongPerformer> updatedPerformers = new List<SongPerformer>();
-                foreach (var item in performers)
-                {
-                    var updPerformer = await _context.SongPerformers.SingleOrDefaultAsync(p => p.PerformerID == item);
-                    if (updPerformer != null)
-                    {
-                        updatedPerformers.Add(updPerformer);
-                    }
-                }
                 foreach (var item in dbperformers)
                 {
-                    if (!updatedPerformers.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                    if (!performers.Contains(item.PerformerID))
                     {
                         _context.PerformerSongs.Remove(item);
                     }
                 }
-                foreach (var item in updatedPerformers)
+                foreach (var item in performers)
                 {
-                    if (!dbperformers.Select(x => x.PerformerID).ToList().Contains(item.PerformerID))
+                    if (!dbperformers.Select(x => x.PerformerID).ToList().Contains(item))
                     {
                         _context.PerformerSongs.Add(
                             new PerformerSong
-                            { PerformerID = item.PerformerID, SongID = updatedSong.SongID }
+                            { PerformerID = item, SongID = updatedSong.SongID }
                             );
                     }
                 }
