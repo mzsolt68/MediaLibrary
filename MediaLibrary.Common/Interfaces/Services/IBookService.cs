@@ -1,5 +1,4 @@
 ﻿using MediaLibrary.Common.Dto.Books;
-using MediaLibrary.Entities.Models.Books;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,7 +11,7 @@ namespace MediaLibrary.Common.Interfaces.Services
         Task<int> DeleteAuthor(int? authorID);
         Task<BookAuthorDTO> GetAuthorByID(int? authorID);
         Task<ICollection<BookAuthorDTO>> GetAuthors();
-        Task<ICollection<BookAuthorDetailsDTO>> GetBooksOfAuthor(int? authorID);
+        Task<BookAuthorDetailsDTO> GetBooksOfAuthor(int? authorID);
 
         Task<BookDetailsDTO> AddBook(BookDetailsDTO newBook);
         Task<BookDetailsDTO> UpdateBook(BookDetailsDTO updatedBook);

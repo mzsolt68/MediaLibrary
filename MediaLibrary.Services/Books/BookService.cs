@@ -1,9 +1,10 @@
 ﻿using MediaLibrary.Common.Interfaces.Services;
 using MediaLibrary.Common.Interfaces.Books;
-using MediaLibrary.Entities.Models.Books;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediaLibrary.Common.Dto.Books;
+using MediaLibrary.Common;
+using System.Linq;
 
 namespace MediaLibrary.Services.Books
 {
@@ -23,34 +24,44 @@ namespace MediaLibrary.Services.Books
         }
 
         #region Author
-        public Task<BookAuthorDTO> AddAuthor(BookAuthorDTO newAuthor)
+        public async Task<BookAuthorDTO> AddAuthor(BookAuthorDTO newAuthor)
         {
-            throw new System.NotImplementedException();
+            var result = await _authors.AddAuthor(newAuthor.AsAuthor());
+            return result?.AsAuthorDTO();
         }
 
-        public Task<int> DeleteAuthor(int? authorID)
+        public async Task<int> DeleteAuthor(int? authorID)
         {
-            throw new System.NotImplementedException();
+            return await _authors.DeleteAuthor(authorID);
         }
 
-        public Task<BookAuthorDTO> UpdateAuthor(BookAuthorDTO updatedAuthor)
+        public async Task<BookAuthorDTO> UpdateAuthor(BookAuthorDTO updatedAuthor)
         {
-            throw new System.NotImplementedException();
+            var result = await _authors.UpdateAuthor(updatedAuthor.AsAuthor());
+            return result?.AsAuthorDTO();
         }
 
-        public Task<BookAuthorDTO> GetAuthorByID(int? authorID)
+        public async Task<BookAuthorDTO> GetAuthorByID(int? authorID)
         {
-            throw new System.NotImplementedException();
+            var result = await _authors.GetAuthorByID(authorID);
+            return result?.AsAuthorDTO();
         }
 
-        public Task<ICollection<BookAuthorDTO>> GetAuthors()
+        public async Task<ICollection<BookAuthorDTO>> GetAuthors()
         {
-            throw new System.NotImplementedException();
+            List<BookAuthorDTO> result = null;
+            var authors = await _authors.GetAuthors();
+            if(authors.Count > 0)
+            {
+                result = authors.Select(a => a.AsAuthorDTO()).ToList();
+            }
+            return result;
         }
 
-        public Task<ICollection<BookAuthorDetailsDTO>> GetBooksOfAuthor(int? authorID)
+        public async Task<BookAuthorDetailsDTO> GetBooksOfAuthor(int? authorID)
         {
-            throw new System.NotImplementedException();
+            var result = await _authors.GetBooksOfAuthor(authorID);
+            return result?.AsAuthorDetailsDTO();
         }
         #endregion
 
