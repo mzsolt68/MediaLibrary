@@ -66,39 +66,45 @@ namespace MediaLibrary.Services.Books
         #endregion
 
         #region Book
-        public Task<BookDetailsDTO> AddBook(BookDetailsDTO newBook)
+        public async Task<BookDetailsDTO> AddBook(BookDetailsDTO newBook)
         {
-            throw new System.NotImplementedException();
+            var result = await _books.AddBook(newBook.AsBook(out ICollection<int> authors, out ICollection<int> formats, out ICollection<int> tags), authors, formats, tags);
+            return result.AsBookDetailsDTO();
         }
 
-        public Task<int> DeleteBook(int? bookID)
+        public async Task<int> DeleteBook(int? bookID)
         {
-            throw new System.NotImplementedException();
+            return await _books.DeleteBook(bookID);
         }
 
-        public Task<BookDetailsDTO> UpdateBook(BookDetailsDTO updatedBook)
+        public async Task<BookDetailsDTO> UpdateBook(BookDetailsDTO updatedBook)
         {
-            throw new System.NotImplementedException();
+            var result = await _books.UpdateBook(updatedBook.AsBook(out ICollection<int> authors, out ICollection<int> formats, out ICollection<int> tags), authors, formats, tags);
+            return result.AsBookDetailsDTO();
         }
 
-        public Task<BookDetailsDTO> GetBookByID(int? bookID)
+        public async Task<BookDetailsDTO> GetBookByID(int? bookID)
         {
-            throw new System.NotImplementedException();
+            var result = await _books.GetBookByID(bookID);
+            return result?.AsBookDetailsDTO();
         }
 
-        public Task<ICollection<BookDTO>> GetBooks()
+        public async Task<ICollection<BookDTO>> GetBooks()
         {
-            throw new System.NotImplementedException();
+            var result = await _books.GetBooks();
+            return result?.Select(b => b.AsBookDTO()).ToList();
         }
 
-        public Task<ICollection<BookDTO>> GetBooksByFormat(int? formatID)
+        public async Task<ICollection<BookDTO>> GetBooksByFormat(int? formatID)
         {
-            throw new System.NotImplementedException();
+            var result = await _books.GetBooksByFormat(formatID);
+            return result?.Select(b => b.AsBookDTO()).ToList();
         }
 
-        public Task<ICollection<BookDTO>> GetBooksByTag(int? tagID)
+        public async Task<ICollection<BookDTO>> GetBooksByTag(int? tagID)
         {
-            throw new System.NotImplementedException();
+            var result = await _books.GetBooksByTag(tagID);
+            return result?.Select(b => b.AsBookDTO()).ToList();
         }
 
         public Task<BookPublisherDetailsDTO> GetBooksOfPublisher(int? publisherID)
