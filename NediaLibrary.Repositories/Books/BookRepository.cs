@@ -117,14 +117,14 @@ namespace MediaLibrary.Repositories.Books
                 .ToListAsync();
         }
 
-        public async Task<ICollection<Book>> GetBooksOfPublisher(int? publisherID)
+        public async Task<Publisher> GetBooksOfPublisher(int? publisherID)
         {
-            return await _context.Books
-                .Include(b => b.Authors)
+            return await _context.Publishers
+                .Include(p => p.PublishedBooks)
+                .ThenInclude(pb => pb.Authors)
                 .ThenInclude(a => a.Author)
-                .Where(p => p.PublisherID == publisherID)
                 .AsNoTracking()
-                .ToListAsync();
+                .Where(p => p.PublisherID == publisherID).SingleOrDefaultAsync();
         }
 
         public async Task<Book> UpdateBook(Book updatedBook, ICollection<int> authorIDs, ICollection<int> formatIDs, ICollection<int> tagIDs)

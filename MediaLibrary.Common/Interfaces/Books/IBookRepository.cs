@@ -13,6 +13,6 @@ namespace MediaLibrary.Common.Interfaces.Books
         Task<Book> GetBookByID(int? bookID);
         Task<ICollection<Book>> GetBooksByFormat(int? formatID);
         Task<ICollection<Book>> GetBooksByTag(int? tagID);
-        Task<ICollection<Book>> GetBooksOfPublisher(int? publisherID);
+        Task<Publisher> GetBooksOfPublisher(int? publisherID);
     }
 }

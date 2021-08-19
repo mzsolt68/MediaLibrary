@@ -107,9 +107,10 @@ namespace MediaLibrary.Services.Books
             return result?.Select(b => b.AsBookDTO()).ToList();
         }
 
-        public Task<BookPublisherDetailsDTO> GetBooksOfPublisher(int? publisherID)
+        public async Task<BookPublisherDetailsDTO> GetBooksOfPublisher(int? publisherID)
         {
-            throw new System.NotImplementedException();
+            var result = await _books.GetBooksOfPublisher(publisherID);
+            return result?.AsPublisherDetailsDTO();
         }
         #endregion
 
