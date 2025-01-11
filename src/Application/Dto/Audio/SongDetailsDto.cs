@@ -1,11 +1,6 @@
-﻿using MediaLibrary.Entities.Models.Audio;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MediaLibrary.Common.Dto.Audio
+namespace Application.Dto.Audio
 {
     public class SongDetailsDto
     {

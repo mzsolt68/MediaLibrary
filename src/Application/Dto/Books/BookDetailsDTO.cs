@@ -1,7 +1,7 @@
-﻿using MediaLibrary.Common.Dto.Common;
+﻿using Application.Dto.Common;
 using System.Collections.Generic;
 
-namespace MediaLibrary.Common.Dto.Books
+namespace Application.Dto.Books
 {
     public class BookDetailsDTO
     {

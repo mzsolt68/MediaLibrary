@@ -1,9 +1,9 @@
-﻿using MediaLibrary.Entities.Models.Common;
+﻿using Domain.Models.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MediaLibrary.Common.Dto.Audio
+namespace Application.Dto.Audio
 {
     public class SongDto
     {

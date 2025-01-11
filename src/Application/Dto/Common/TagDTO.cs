@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MediaLibrary.Common.Dto.Common
+﻿namespace Application.Dto.Common
 {
     public class TagDTO
     {

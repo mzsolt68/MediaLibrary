@@ -1,4 +1,4 @@
-﻿namespace MediaLibrary.Common.Dto.Books
+﻿namespace Application.Dto.Books
 {
     public class BookPublisherDTO
     {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MediaLibrary.Common.Dto.Books
+﻿namespace Application.Dto.Books
 {
     public class BookPublisherDetailsDTO
     {

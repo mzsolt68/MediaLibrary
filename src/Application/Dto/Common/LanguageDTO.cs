@@ -1,4 +1,4 @@
-﻿namespace MediaLibrary.Common.Dto.Common
+﻿namespace Application.Dto.Common
 {
     public class LanguageDTO
     {
