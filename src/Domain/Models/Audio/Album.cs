@@ -1,11 +1,12 @@
-﻿using System;
+﻿using SharedKernel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Models.Audio
 {
-    public class Album
+    public class Album : Entity
     {
         public int AlbumID { get; set; }
         [Required]

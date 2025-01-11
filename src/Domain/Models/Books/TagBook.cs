@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Domain.Models.Common;
+using SharedKernel;
 
 namespace Domain.Models.Books
 {
-    public class TagBook
+    public class TagBook : Entity
     {
         [Required]
         public int BookID { get; set; }

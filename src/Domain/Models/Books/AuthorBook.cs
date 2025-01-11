@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SharedKernel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Books
 {
-    public class AuthorBook
+    public class AuthorBook : Entity
     {
         [Required]
         public int AuthorID { get; set; }

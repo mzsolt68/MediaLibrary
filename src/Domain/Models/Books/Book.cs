@@ -1,10 +1,11 @@
 ﻿using Domain.Models.Common;
+using SharedKernel;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Books
 {
-    public class Book
+    public class Book : Entity
     {
         public int BookID { get; set; }
         [Required]

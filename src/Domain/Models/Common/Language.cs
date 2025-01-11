@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SharedKernel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Common
 {
-    public class Language
+    public class Language : Entity
     {
         public int LanguageID { get; set; }
         [Required]

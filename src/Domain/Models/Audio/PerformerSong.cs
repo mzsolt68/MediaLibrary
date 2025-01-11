@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SharedKernel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Audio
 {
-    public class PerformerSong
+    public class PerformerSong : Entity
     {
         [Required]
         public int PerformerID { get; set; }

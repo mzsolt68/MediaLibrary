@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SharedKernel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Common
 {
-    public class Genre
+    public class Genre : Entity
     {
         public int GenreID { get; set; }
         [Required]

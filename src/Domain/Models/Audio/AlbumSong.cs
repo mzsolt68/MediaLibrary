@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SharedKernel;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Domain.Models.Audio
 {
-    public class AlbumSong
+    public class AlbumSong : Entity
     {
         [Required]
         public int AlbumID { get; set; }

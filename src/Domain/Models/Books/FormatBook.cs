@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SharedKernel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Books
 {
-    public class FormatBook
+    public class FormatBook : Entity
     {
         [Required]
         public int FormatID { get; set; }

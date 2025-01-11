@@ -1,10 +1,11 @@
 ﻿using Domain.Models.Common;
+using SharedKernel;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.Audio
 {
-    public class Song
+    public class Song : Entity
     {
         public int SongID { get; set; }
         [Required]

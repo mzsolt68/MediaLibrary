@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SharedKernel;
 
 namespace Domain.Models.Audio
 {
-    public class SongPerformer
+    public class SongPerformer : Entity
     {
         [Key]
         public int PerformerID { get; set; }
