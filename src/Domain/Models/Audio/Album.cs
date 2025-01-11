@@ -80,7 +80,7 @@ namespace Domain.Models.Audio
             }
             _tracks.Remove(albumSong);
             UpdatedAt = DateTime.UtcNow;
-            return Result.Success();
+            return Result.Success(albumSong);
         }
     }
 }
