@@ -1,10 +1,6 @@
-﻿using MediaLibrary.Entities.Models.Audio;
-using MediaLibrary.Entities.Models.Books;
-using MediaLibrary.Entities.Models.Common;
+﻿using Domain.Models.Audio;
+using Domain.Models.Books;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MediaLibrary.Entities.Data
 {

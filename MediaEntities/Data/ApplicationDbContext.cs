@@ -1,6 +1,6 @@
-﻿using MediaLibrary.Entities.Models.Audio;
-using MediaLibrary.Entities.Models.Books;
-using MediaLibrary.Entities.Models.Common;
+﻿using Domain.Models.Books;
+using Domain.Models.Audio;
+using Domain.Models.Common;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

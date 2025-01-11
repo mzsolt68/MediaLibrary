@@ -1,4 +1,4 @@
-﻿using MediaLibrary.Entities.Models.Books;
+﻿using Domain.Models.Books;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Entities.Data

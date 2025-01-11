@@ -1,6 +1,6 @@
 ﻿using System;
-using MediaLibrary.Entities.Models.Audio;
-using MediaLibrary.Entities.Models.Common;
+using Domain.Models.Audio;
+using Domain.Models.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediaLibrary.Entities.Data
