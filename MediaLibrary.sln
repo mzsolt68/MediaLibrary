@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Entities", "MediaEntities\MediaLibrary.Entities.csproj", "{252DA92B-2ADF-44C5-9F26-3198EF31E098}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Repositories", "NediaLibrary.Repositories\MediaLibrary.Repositories.csproj", "{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Services", "MediaLibrary.Services\MediaLibrary.Services.csproj", "{C0A219BA-59F9-4AC9-9ECA-97C34AD9F434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "SharedKernel\SharedKernel.csproj", "{6FFBAE78-0AEC-485F-BB1E-D67FC6FC472F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{C0A219BA-59F9-4AC9-9ECA-97C34AD9F434}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0A219BA-59F9-4AC9-9ECA-97C34AD9F434}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0A219BA-59F9-4AC9-9ECA-97C34AD9F434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FFBAE78-0AEC-485F-BB1E-D67FC6FC472F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FFBAE78-0AEC-485F-BB1E-D67FC6FC472F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FFBAE78-0AEC-485F-BB1E-D67FC6FC472F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FFBAE78-0AEC-485F-BB1E-D67FC6FC472F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
