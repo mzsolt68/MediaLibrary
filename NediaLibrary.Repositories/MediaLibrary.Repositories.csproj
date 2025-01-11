@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MediaEntities\Domain.csproj" />
     <ProjectReference Include="..\MediaLibrary.Common\MediaLibrary.Common.csproj" />
   </ItemGroup>
 
