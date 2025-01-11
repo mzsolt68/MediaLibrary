@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MediaLibrary.Entities.Models.Common
+namespace Domain.Models.Common
 {
     public class Genre
     {

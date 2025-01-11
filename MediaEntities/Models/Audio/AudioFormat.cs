@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MediaLibrary.Entities.Models.Audio
+namespace Domain.Models.Audio
 {
     public class AudioFormat
     {

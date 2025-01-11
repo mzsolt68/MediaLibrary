@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MediaLibrary.Entities.Models.Books
+namespace Domain.Models.Books
 {
     public class Author
     {

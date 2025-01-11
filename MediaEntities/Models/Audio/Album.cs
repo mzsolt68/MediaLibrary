@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MediaLibrary.Entities.Models.Audio
+namespace Domain.Models.Audio
 {
     public class Album
     {

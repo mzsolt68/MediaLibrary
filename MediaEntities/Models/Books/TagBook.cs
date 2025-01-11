@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MediaLibrary.Entities.Models.Common;
+using Domain.Models.Common;
 
-namespace MediaLibrary.Entities.Models.Books
+namespace Domain.Models.Books
 {
     public class TagBook
     {

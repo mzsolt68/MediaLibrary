@@ -1,8 +1,8 @@
-﻿using MediaLibrary.Entities.Models.Common;
+﻿using Domain.Models.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace MediaLibrary.Entities.Models.Audio
+namespace Domain.Models.Audio
 {
     public class Song
     {

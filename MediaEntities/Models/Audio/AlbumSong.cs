@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace MediaLibrary.Entities.Models.Audio
+namespace Domain.Models.Audio
 {
     public class AlbumSong
     {

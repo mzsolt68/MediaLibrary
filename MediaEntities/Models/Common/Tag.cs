@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MediaLibrary.Entities.Models.Books;
+using Domain.Models.Books;
 
-namespace MediaLibrary.Entities.Models.Common
+namespace Domain.Models.Common
 {
     public class Tag
     {
