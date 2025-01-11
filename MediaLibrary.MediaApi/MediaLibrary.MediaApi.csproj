@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MediaEntities\MediaLibrary.Entities.csproj" />
+    <ProjectReference Include="..\MediaEntities\Domain.csproj" />
     <ProjectReference Include="..\MediaLibrary.Common\MediaLibrary.Common.csproj" />
     <ProjectReference Include="..\MediaLibrary.Services\MediaLibrary.Services.csproj" />
   </ItemGroup>
