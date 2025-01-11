@@ -1,4 +1,4 @@
-﻿using MediaLibrary.Common.Dto.Common;
+﻿using Application.Dto.Common;
 using MediaLibrary.Entities.Models.Common;
 
 namespace MediaLibrary.Common

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MediaEntities\Domain.csproj" />
+    <ProjectReference Include="..\src\Application\Application.csproj" />
   </ItemGroup>
 
 </Project>
