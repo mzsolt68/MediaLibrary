@@ -33,11 +33,20 @@ namespace Domain.Models.Common
             return Result.Success(genre);
         }
 
-        public void Update(string genreName, string genreType)
+        public Result Update(string genreName, string genreType)
         {
+            if(string.IsNullOrWhiteSpace(genreName))
+            {
+                return Result.Failure(new Error("GenreName.Missing", "Genre name is missing", ErrorType.Validation));
+            }
+            if(string.IsNullOrWhiteSpace(genreType))
+            {
+                return Result.Failure(new Error("GenreType.Missing", "Genre type is missing", ErrorType.Validation));
+            }
             GenreName = genreName;
             GenreType = genreType;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }
