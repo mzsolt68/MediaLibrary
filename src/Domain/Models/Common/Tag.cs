@@ -22,11 +22,15 @@ namespace Domain.Models.Common
 
         public virtual ICollection<TagBook> BooksOfTag => _booksOfTag.ToList();
 
-        public static Tag Create(string tagName)
+        public static Result<Tag> Create(string tagName)
         {
+            if(string.IsNullOrWhiteSpace(tagName))
+            {
+                return Result.Failure<Tag>(new Error("TagName.Missing", "Tag name is missing", ErrorType.Validation));
+            }
             var tag = new Tag(Guid.NewGuid(), tagName);
             tag.IsActive = true;
-            return tag;
+            return Result.Success(tag);
         }
 
         public void Update(string tagName)
