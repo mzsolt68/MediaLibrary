@@ -33,10 +33,15 @@ namespace Domain.Models.Common
             return Result.Success(tag);
         }
 
-        public void Update(string tagName)
+        public Result Update(string tagName)
         {
+            if(string.IsNullOrWhiteSpace(tagName))
+            {
+                return Result.Failure(new Error("TagName.Missing", "Tag name is missing", ErrorType.Validation));
+            }
             TagName = tagName;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }

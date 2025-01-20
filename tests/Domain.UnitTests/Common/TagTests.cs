@@ -59,10 +59,36 @@ namespace Domain.UnitTests.Common
             var tag = Tag.Create(tagName).Value;
             var newTagName = "Scary";
             // Act
-            tag.Update(newTagName);
+            var result = tag.Update(newTagName);
             // Assert
             tag.TagName.ShouldBe(newTagName);
             tag.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeFalse();
+            result.IsSuccess.ShouldBeTrue();
+        }
+
+        /// <summary>
+        /// Empty tag name should return error when updating.
+        /// <see cref="Tag.Update(string)"/>
+        /// </summary>
+        [Fact]
+        public void UpdateEmptyTagNameShouldReturnError()
+        {
+            // Arrange
+            var tagName = "Horror";
+            var tag = Tag.Create(tagName).Value;
+            var newTagName = "";
+            // Act
+            var result = tag.Update(newTagName);
+            // Assert
+            tag.TagName.ShouldBe(tagName);
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("TagName.Missing");
+            result.Error.Message.ShouldBe("Tag name is missing");
         }
     }
 }
