@@ -14,23 +14,33 @@ namespace Domain.Models.Audio
         [Display(Name = "Formátum neve")]
         public string AudioFormatName { get; set; }
 
-        public static AudioFormat Create(string audioFormatName)
+        public static Result<AudioFormat> Create(string audioFormatName)
         {
+            if(string.IsNullOrWhiteSpace(audioFormatName))
+            {
+                return Result.Failure<AudioFormat>(new Error("AudioFormatName.Missing", "Audio format name is missing", ErrorType.Validation));
+            }
             var audioFormat = new AudioFormat(Guid.NewGuid(), audioFormatName);
             audioFormat.IsActive = true;
-            return audioFormat;
+            return Result.Success(audioFormat);
         }
 
-        public void UpdateName(string audioFormatName)
+        public Result UpdateName(string audioFormatName)
         {
+            if(string.IsNullOrWhiteSpace(audioFormatName))
+            {
+                return Result.Failure(new Error("AudioFormatName.Missing", "Audio format name is missing", ErrorType.Validation));
+            }
             AudioFormatName = audioFormatName;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
-        public void SetActiveState(bool newState)
+        public Result SetActiveState(bool newState)
         {
             IsActive = newState;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }
