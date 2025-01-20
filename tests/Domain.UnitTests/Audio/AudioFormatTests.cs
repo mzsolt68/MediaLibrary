@@ -35,19 +35,7 @@ namespace Domain.UnitTests.Audio
             result.IsSuccess.ShouldBeTrue();
             audioFormat.AudioFormatName.ShouldBe(newAudioFormatName);
         }
-        [Fact]
-        public void SetActiveStateShouldSetNewState()
-        {
-            // Arrange
-            var audioFormat = AudioFormat.Create("MP3").Value;
-            var newState = false;
-            // Act
-            var result = audioFormat.SetActiveState(newState);
-            // Assert
-            result.IsSuccess.ShouldBeTrue();
-            audioFormat.IsActive.ShouldBe(newState);
-        }
-
+        
         /// <summary>
         /// Empty audio format name should return error when creating a new audio format.
         /// <see cref="AudioFormat.Create(string)"/>

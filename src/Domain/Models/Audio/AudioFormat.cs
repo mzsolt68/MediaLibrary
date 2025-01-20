@@ -35,12 +35,5 @@ namespace Domain.Models.Audio
             UpdatedAt = DateTime.UtcNow;
             return Result.Success();
         }
-
-        public Result SetActiveState(bool newState)
-        {
-            IsActive = newState;
-            UpdatedAt = DateTime.UtcNow;
-            return Result.Success();
-        }
     }
 }
