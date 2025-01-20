@@ -15,8 +15,12 @@ namespace Domain.Models.Common
         [Display(Name = "Nyelv")]
         public string LanguageName { get; private set; }
 
-        public static Language Create(string languageName)
+        public static Result<Language> Create(string languageName)
         {
+            if(string.IsNullOrWhiteSpace(languageName))
+            {
+                return Result.Failure<Language>(new Error("LanguageName.Missing", "Language name is missing", ErrorType.Validation));
+            }
             var language = new Language(Guid.NewGuid(), languageName);
             language.IsActive = true;
             return language;
