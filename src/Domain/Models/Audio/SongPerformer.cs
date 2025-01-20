@@ -22,11 +22,15 @@ namespace Domain.Models.Audio
         [Display(Name = "Dalok")]
         public virtual ICollection<PerformerSong> Songs => _songs.ToList();
 
-        public static SongPerformer Create(string performerName)
+        public static Result<SongPerformer> Create(string performerName)
         {
+            if(string.IsNullOrWhiteSpace(performerName))
+            {
+                return Result.Failure<SongPerformer>(new Error("PerformerName.Missing", "Performer name is missing", ErrorType.Validation));
+            }
             var performer = new SongPerformer(Guid.NewGuid(), performerName);
             performer.IsActive = true;
-            return performer;
+            return Result.Success(performer);
         }
 
         public void Update(string performerName)
