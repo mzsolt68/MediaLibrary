@@ -34,29 +34,52 @@ namespace Domain.Models.Audio
         [NotMapped]
         public int NrOfSongs => _tracks.Count;
 
-        public static Album Create(string albumTitle, Guid audioFormatID, Byte nrOfDiscs)
+        public static Result<Album> Create(string albumTitle, Guid audioFormatID, Byte nrOfDiscs)
         {
+            if(string.IsNullOrWhiteSpace(albumTitle))
+            {
+                return Result.Failure<Album>(new Error("AlbumTitle.Missing", "Album title is missing", ErrorType.Validation));
+            }
+            if(nrOfDiscs < 1)
+            {
+                return Result.Failure<Album>(new Error("NrOfDiscs.Invalid", "Number of discs is invalid", ErrorType.Validation));
+            }
+            if(audioFormatID == Guid.Empty)
+            {
+                return Result.Failure<Album>(new Error("AudioFormatID.Missing", "Audio format is missing", ErrorType.Validation));
+            }
             var album = new Album(Guid.NewGuid(), albumTitle, audioFormatID, nrOfDiscs);
             album.IsActive = true;
-            return album;
+            return Result.Success(album);
         }
 
-        public void UpdateTitle(string albumTitle)
+        public Result UpdateTitle(string albumTitle)
         {
+            if(string.IsNullOrWhiteSpace(albumTitle))
+            {
+                return Result.Failure(new Error("AlbumTitle.Missing", "Album title is missing", ErrorType.Validation));
+            }
             AlbumTitle = albumTitle;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
-        public void UpdateFormat(Guid audioFormatID)
+        public Result UpdateFormat(Guid audioFormatID)
         {
+            if(audioFormatID == Guid.Empty)
+            {
+                return Result.Failure(new Error("AudioFormatID.Missing", "Audio format is missing", ErrorType.Validation));
+            }
             AudioFormatID = audioFormatID;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
-        public void UpdateNrOfDiscs(Byte nrOfDiscs)
+        public Result UpdateNrOfDiscs(Byte nrOfDiscs)
         {
             NrOfDiscs = nrOfDiscs;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
         public Result<AlbumSong> AddTrack(Guid songID, int trackNr, string playTime, Byte disc, string note)
