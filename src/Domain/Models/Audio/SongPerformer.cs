@@ -33,10 +33,15 @@ namespace Domain.Models.Audio
             return Result.Success(performer);
         }
 
-        public void Update(string performerName)
+        public Result Update(string performerName)
         {
+            if(string.IsNullOrWhiteSpace(performerName))
+            {
+                return Result.Failure(new Error("PerformerName.Missing", "Performer name is missing", ErrorType.Validation));
+            }
             PerformerName = performerName;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }

@@ -61,11 +61,36 @@ namespace Domain.UnitTests.Audio
             var newPerformerName = "Iron Maiden";
             var songPerformer = SongPerformer.Create(performerName).Value;
             // Act
-            songPerformer.Update(newPerformerName);
+            var result = songPerformer.Update(newPerformerName);
             var updatedAt = songPerformer.UpdatedAt;
             // Assert
             songPerformer.PerformerName.ShouldBe(newPerformerName);
             songPerformer.UpdatedAt.ShouldBe(updatedAt);
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeFalse();
+            result.IsSuccess.ShouldBeTrue();
+        }
+
+        /// <summary>
+        /// Empty performer name should return error when updating.
+        /// <see cref="SongPerformer.Update(string)"/>
+        /// </summary>
+        [Fact]
+        public void EmptyPerformerNameShouldReturnErrorWhenUpdating()
+        {
+            // Arrange
+            var performerName = "Metallica";
+            var newPerformerName = "";
+            var songPerformer = SongPerformer.Create(performerName).Value;
+            // Act
+            var result = songPerformer.Update(newPerformerName);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("PerformerName.Missing");
+            result.Error.Message.ShouldBe("Performer name is missing");
         }
     }
 }
