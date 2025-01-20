@@ -60,12 +60,41 @@ namespace Domain.UnitTests.Common
             var language = Language.Create(languageName).Value;
             var newLanguageName = "Hungarian";
             // Act
-            language.Update(newLanguageName);
+            var result = language.Update(newLanguageName);
             // Assert
             language.LanguageName.ShouldBe(newLanguageName);
             language.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             language.IsActive.ShouldBeTrue();
             language.ShouldNotBeNull();
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeFalse();
+            result.IsSuccess.ShouldBeTrue();
+        }
+
+        /// <summary>
+        /// Empty language name should return error when updating.
+        /// <see cref="Language.Update(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void UpdateWithEmptyLanguageNameShouldReturnError()
+        {
+            // Arrange
+            var languageName = "English";
+            var language = Language.Create(languageName).Value;
+            var newLanguageName = "";
+            // Act
+            var result = language.Update(newLanguageName);
+            // Assert
+            language.LanguageName.ShouldBe(languageName);
+            language.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+            language.IsActive.ShouldBeTrue();
+            language.ShouldNotBeNull();
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("LanguageName.Missing");
+            result.Error.Message.ShouldBe("Language name is missing");
         }
     }
 }

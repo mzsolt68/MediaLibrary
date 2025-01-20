@@ -26,10 +26,15 @@ namespace Domain.Models.Common
             return language;
         }
 
-        public void Update(string languageName)
+        public Result Update(string languageName)
         {
+            if(string.IsNullOrWhiteSpace(languageName))
+            {
+                return Result.Failure(new Error("LanguageName.Missing", "Language name is missing", ErrorType.Validation));
+            }
             LanguageName = languageName;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }
