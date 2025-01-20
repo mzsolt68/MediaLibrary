@@ -38,17 +38,34 @@ namespace Domain.Models.Audio
         public virtual ICollection<PerformerSong> Performers => _performers.ToList();
         public virtual ICollection<AlbumSong> Albums => _albums.ToList();
 
-        public static Song Create(string songTitle, string songLyric, Guid genreID, Guid languageID)
+        public static Result<Song> Create(string songTitle, string songLyric, Guid genreID, Guid languageID)
         {
+            if(string.IsNullOrWhiteSpace(songTitle))
+            {
+                return Result.Failure<Song>(new Error("SongTitle.Missing", "Song title is missing", ErrorType.Validation));
+            }
+            if(genreID == Guid.Empty)
+            {
+                return Result.Failure<Song>(new Error("Genre.Missing", "Genre is missing", ErrorType.Validation));
+            }
+            if (languageID == Guid.Empty)
+            {
+                return Result.Failure<Song>(new Error("Language.Missing", "Language is missing", ErrorType.Validation));
+            }
             var song = new Song(Guid.NewGuid(), songTitle, songLyric, genreID, languageID);
             song.IsActive = true;
-            return song;
+            return Result.Success(song);
         }
 
-        public void UpdateTitle(string songTitle)
+        public Result UpdateTitle(string songTitle)
         {
+            if(string.IsNullOrWhiteSpace(songTitle))
+            {
+                return Result.Failure(new Error("SongTitle.Missing", "Song title is missing", ErrorType.Validation));
+            }
             SongTitle = songTitle;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
         public void UpdateLyric(string songLyric)
@@ -57,23 +74,37 @@ namespace Domain.Models.Audio
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void UpdateGenre(Guid genreID)
+        public Result UpdateGenre(Guid genreID)
         {
+            if(genreID == Guid.Empty)
+            {
+                return Result.Failure(new Error("Genre.Missing", "Genre is missing", ErrorType.Validation));
+            }
             GenreID = genreID;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
-        public void UpdateLanguage(Guid languageID)
+        public Result UpdateLanguage(Guid languageID)
         {
+            if(languageID == Guid.Empty)
+            {
+                return Result.Failure(new Error("Language.Missing", "Language is missing", ErrorType.Validation));
+            }
             LanguageID = languageID;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
 
         public Result<PerformerSong> AddPerformer(Guid performerID)
         {
-            if (_performers.Any(p => p.PerformerID == performerID))
+            if(performerID == Guid.Empty)
             {
-                Result.Failure<PerformerSong>(new Error("Performer.Exists", "Performer already added to song.", ErrorType.Failure));
+                return Result.Failure<PerformerSong>(new Error("Performer.Missing", "Performer is missing", ErrorType.Validation));
+            }
+            if (Performers.Any(p => p.PerformerID == performerID))
+            {
+                return Result.Failure<PerformerSong>(new Error("Performer.Exists", "Performer already added to song.", ErrorType.Failure));
             }
             var performerSong = PerformerSong.Create(performerID, Id);
             _performers.Add(performerSong);
@@ -82,10 +113,14 @@ namespace Domain.Models.Audio
 
         public Result<PerformerSong> RemovePerformer(Guid performerID)
         {
-            var performerSong = _performers.FirstOrDefault(p => p.PerformerID == performerID);
+            if(performerID == Guid.Empty)
+            {
+                return Result.Failure<PerformerSong>(new Error("Performer.Missing", "Performer is missing", ErrorType.Validation));
+            }
+            var performerSong = Performers.FirstOrDefault(p => p.PerformerID == performerID);
             if (performerSong == null)
             {
-                Result.Failure<PerformerSong>(new Error("Performer.NotFound", "Performer not found in song.", ErrorType.NotFound));
+                return Result.Failure<PerformerSong>(new Error("Performer.NotFound", "Performer not found in song.", ErrorType.NotFound));
             }
             _performers.Remove(performerSong);
             return Result.Success(performerSong);
