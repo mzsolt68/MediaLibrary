@@ -19,11 +19,19 @@ namespace Domain.Models.Books
         public Guid BookID { get; private set; }
         public Book Book { get; private set; }
 
-        public static AuthorBook Create(Guid authorId, Guid bookId)
+        public static Result<AuthorBook> Create(Guid authorId, Guid bookId)
         {
+            if(authorId == Guid.Empty)
+            {
+                return Result.Failure<AuthorBook>(new Error("AuthorID.Required", "AuthorID is required", ErrorType.Validation));
+            }
+            if (bookId == Guid.Empty)
+            {
+                return Result.Failure<AuthorBook>(new Error("BookID.Required", "BookID is required", ErrorType.Validation));
+            }
             var authorBook = new AuthorBook(Guid.NewGuid(), authorId, bookId);
             authorBook.IsActive = true;
-            return authorBook;
+            return Result.Success(authorBook);
         }
     }
 }
