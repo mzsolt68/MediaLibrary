@@ -22,17 +22,26 @@ namespace Domain.Models.Books
 
         public virtual ICollection<Book> PublishedBooks => _publishedBooks.ToList();
 
-        public static Publisher Create(string publisherName)
+        public static Result<Publisher> Create(string publisherName)
         {
+            if(string.IsNullOrWhiteSpace(publisherName))
+            {
+                return Result.Failure<Publisher>(new Error("PublisherName.Required", "Publisher name is required", ErrorType.Validation));
+            }
             var publisher = new Publisher(Guid.NewGuid(), publisherName);
             publisher.IsActive = true;
-            return publisher;
+            return Result.Success(publisher);
         }
 
-        public void Update(string publisherName)
+        public Result Update(string publisherName)
         {
+            if (string.IsNullOrWhiteSpace(publisherName))
+            {
+                return Result.Failure(new Error("PublisherName.Required", "Publisher name is required", ErrorType.Validation));
+            }
             PublisherName = publisherName;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }
