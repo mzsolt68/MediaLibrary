@@ -84,7 +84,23 @@ namespace Domain.Models.Audio
 
         public Result<AlbumSong> AddTrack(Guid songID, int trackNr, string playTime, Byte disc, string note)
         {
-            if(_tracks.Any(x => x.SongID == songID))
+            if(songID == Guid.Empty)
+            {
+                return Result.Failure<AlbumSong>(new Error("Song.Missing", "There's no song to add to the album.", ErrorType.Validation));
+            }
+            if (trackNr < 1)
+            {
+                return Result.Failure<AlbumSong>(new Error("TrackNr.Invalid", "Track number is invalid.", ErrorType.Validation));
+            }
+            if(string.IsNullOrWhiteSpace(playTime))
+            {
+                return Result.Failure<AlbumSong>(new Error("PlayTime.Missing", "Play time is missing.", ErrorType.Validation));
+            }
+            if(disc < 1)
+            {
+                return Result.Failure<AlbumSong>(new Error("Disc.Invalid", "Disc number is invalid.", ErrorType.Validation));
+            }
+            if (_tracks.Any(x => x.SongID == songID))
             {
                 return Result.Failure<AlbumSong>(new Error("Song.AlreadyAdded", "The song is already added to the album.", ErrorType.Failure));
             }

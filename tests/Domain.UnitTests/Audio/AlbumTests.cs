@@ -218,9 +218,236 @@ namespace Domain.UnitTests.Audio
             album.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
         }
 
-        // TODO: Add more tests for Addtrack and RemoveTrack methods.
         /// <summary>
+        /// Add track should add a new track to the album.
+        /// <see cref="Album.AddTrack(Guid, int, string, byte, string)"/>
         /// </summary>
+        [Fact]
+        public void AddTrackShouldAddNewTrackToAlbum()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            var trackNr = 1;
+            var playTime = "5:00";
+            byte disc = 1;
+            var note = "First track";
+            // Act
+            var result = album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeFalse();
+            result.IsSuccess.ShouldBeTrue();
+            result.ShouldBeOfType<Result<AlbumSong>>();
+            album.Tracks.Count.ShouldBe(1);
+            album.Tracks.First().SongID.ShouldBe(songID);
+            album.Tracks.First().TrackNr.ShouldBe(trackNr);
+            album.Tracks.First().PlayTime.ShouldBe(playTime);
+            album.Tracks.First().Disc.ShouldBe(disc);
+            album.Tracks.First().Note.ShouldBe(note);
+            album.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+        }
 
+        /// <summary>
+        /// Empty song ID should return error when adding track.
+        /// <see cref="Album.AddTrack(Guid, int, string, byte, string)"/>
+        /// </summary>
+        [Fact]
+        public void EmptySongIDShouldReturnErrorWhenAddingTrack()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.Empty;
+            var trackNr = 1;
+            var playTime = "5:00";
+            byte disc = 1;
+            var note = "First track";
+            // Act
+            var result = album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("Song.Missing");
+            result.Error.Message.ShouldBe("There's no song to add to the album.");
+            album.Tracks.Count.ShouldBe(0);
+        }
+
+        /// <summary>
+        /// Empty track number should return error when adding track.
+        /// <see cref="Album.AddTrack(Guid, int, string, byte, string)"/>
+        /// </summary>
+        [Fact]
+        public void EmptyTrackNumberShouldReturnErrorWhenAddingTrack()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            var trackNr = 0;
+            var playTime = "5:00";
+            byte disc = 1;
+            var note = "First track";
+            // Act
+            var result = album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("TrackNr.Invalid");
+            result.Error.Message.ShouldBe("Track number is invalid.");
+            album.Tracks.Count.ShouldBe(0);
+        }
+
+        /// <summary>
+        /// Empty play time should return error when adding track.
+        /// <see cref="Album.AddTrack(Guid, int, string, byte, string)"/>
+        /// </summary>  
+        [Fact]
+        public void EmptyPlayTimeShouldReturnErrorWhenAddingTrack()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            var trackNr = 1;
+            var playTime = "";
+            byte disc = 1;
+            var note = "First track";
+            // Act
+            var result = album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("PlayTime.Missing");
+            result.Error.Message.ShouldBe("Play time is missing.");
+            album.Tracks.Count.ShouldBe(0);
+        }
+
+        /// <summary>
+        /// Empty disc should return error when adding track.
+        /// <see cref="Album.AddTrack(Guid, int, string, byte, string)"/>
+        /// </summary>
+        [Fact]
+        public void EmptyDiscShouldReturnErrorWhenAddingTrack()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            var trackNr = 1;
+            var playTime = "5:00";
+            byte disc = 0;
+            var note = "First track";
+            // Act
+            var result = album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Error.Code.ShouldBe("Disc.Invalid");
+            result.Error.Message.ShouldBe("Disc number is invalid.");
+            album.Tracks.Count.ShouldBe(0);
+        }
+
+        /// <summary>
+        /// Add track should return error if already added.
+        /// <see cref="Album.AddTrack(Guid, int, string, byte, string)"/>
+        /// </summary>
+        [Fact]
+        public void AddTrackShouldReturnErrorIfAlreadyAdded()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            var trackNr = 1;
+            var playTime = "5:00";
+            byte disc = 1;
+            var note = "First track";
+            album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Act
+            var result = album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.Failure);
+            result.Error.Code.ShouldBe("Song.AlreadyAdded");
+            result.Error.Message.ShouldBe("The song is already added to the album.");
+            album.Tracks.Count.ShouldBe(1);
+        }
+
+        /// <summary>
+        /// Remove track should remove a track from the album.
+        /// <see cref="Album.RemoveTrack(Guid)"/>
+        /// </summary>
+        [Fact]
+        public void RemoveTrackShouldRemoveTrackFromAlbum()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            var trackNr = 1;
+            var playTime = "5:00";
+            byte disc = 1;
+            var note = "First track";
+            album.AddTrack(songID, trackNr, playTime, disc, note);
+            // Act
+            var result = album.RemoveTrack(songID);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeFalse();
+            result.IsSuccess.ShouldBeTrue();
+            album.Tracks.Count.ShouldBe(0);
+            album.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+        }
+
+        /// <summary>
+        /// Remove track should return error if track not found.
+        /// <see cref="Album.RemoveTrack(Guid)"/>
+        /// </summary>
+        [Fact]
+        public void RemoveTrackShouldReturnErrorIfTrackNotFound()
+        {
+            // Arrange
+            var albumTitle = "Master of Puppets";
+            var audioFormatID = Guid.NewGuid();
+            byte nrOfDiscs = 1;
+            var album = Album.Create(albumTitle, audioFormatID, nrOfDiscs).Value;
+            var songID = Guid.NewGuid();
+            // Act
+            var result = album.RemoveTrack(songID);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Type.ShouldBe(ErrorType.NotFound);
+            result.Error.Code.ShouldBe("Song.NotFound");
+            result.Error.Message.ShouldBe("The song is not found in the album.");
+            album.Tracks.Count.ShouldBe(0);
+        }
     }
 }
