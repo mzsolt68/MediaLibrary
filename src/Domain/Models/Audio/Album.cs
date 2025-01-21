@@ -105,9 +105,9 @@ namespace Domain.Models.Audio
                 return Result.Failure<AlbumSong>(new Error("Song.AlreadyAdded", "The song is already added to the album.", ErrorType.Failure));
             }
             var albumSong = AlbumSong.Create(Id, songID, trackNr, playTime, disc, note);
-            _tracks.Add(albumSong);
+            _tracks.Add(albumSong.Value);
             UpdatedAt = DateTime.UtcNow;
-            return Result.Success(albumSong);
+            return Result.Success(albumSong.Value);
         }
 
         public Result RemoveTrack(Guid songID)
