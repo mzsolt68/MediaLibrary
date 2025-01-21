@@ -19,11 +19,19 @@ namespace Domain.Models.Books
         public Guid BookID { get; private set; }
         public Book Book { get; private set; }
 
-        public static FormatBook Create(Guid formatId, Guid bookId)
+        public static Result<FormatBook> Create(Guid formatId, Guid bookId)
         {
+            if(formatId == Guid.Empty)
+            {
+                return Result.Failure<FormatBook>(new Error("FormatBook.FormatID.Empty", "Format ID is required", ErrorType.Validation));
+            }
+            if (bookId == Guid.Empty)
+            {
+                return Result.Failure<FormatBook>(new Error("FormatBook.BookID.Empty", "Book ID is required", ErrorType.Validation));
+            }
             var formatBook = new FormatBook(Guid.NewGuid(), formatId, bookId);
             formatBook.IsActive = true;
-            return formatBook;
+            return Result.Success(formatBook);
         }
     }
 }
