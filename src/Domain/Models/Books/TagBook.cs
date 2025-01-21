@@ -20,11 +20,19 @@ namespace Domain.Models.Books
         public Guid TagID { get; private set; }
         public Tag Tag { get; private set; }
 
-        public static TagBook Create(Guid bookId, Guid tagId)
+        public static Result<TagBook> Create(Guid bookId, Guid tagId)
         {
+            if(bookId == Guid.Empty)
+            {
+                return Result.Failure<TagBook>(new Error("BookID.Missing", "BookID is required", ErrorType.Validation));
+            }
+            if (tagId == Guid.Empty)
+            {
+                return Result.Failure<TagBook>(new Error("TagID.Missing", "TagID is required", ErrorType.Validation));
+            }
             var tagBook = new TagBook(Guid.NewGuid(), bookId, tagId);
             tagBook.IsActive = true;
-            return tagBook;
+            return Result.Success(tagBook);
         }
     }
 }
