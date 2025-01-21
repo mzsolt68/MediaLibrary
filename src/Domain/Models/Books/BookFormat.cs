@@ -21,17 +21,26 @@ namespace Domain.Models.Books
 
         public virtual ICollection<FormatBook> BooksInFormat => bookFormats.ToList();
 
-        public static BookFormat Create(string bookFormatName)
+        public static Result<BookFormat> Create(string bookFormatName)
         {
+            if(string.IsNullOrWhiteSpace(bookFormatName))
+            {
+                return Result.Failure<BookFormat>(new Error("BookFormatName.Required", "Bookformat name is required.", ErrorType.Validation));
+            }
             var bookFormat = new BookFormat(Guid.NewGuid(), bookFormatName);
             bookFormat.IsActive = true;
-            return bookFormat;
+            return Result.Success(bookFormat);
         }
 
-        public void Update(string bookFormatName)
+        public Result Update(string bookFormatName)
         {
+            if (string.IsNullOrWhiteSpace(bookFormatName))
+            {
+                return Result.Failure(new Error("BookFormatName.Required", "Bookformat name is required.", ErrorType.Validation));
+            }
             BookFormatName = bookFormatName;
             UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
         }
     }
 }
