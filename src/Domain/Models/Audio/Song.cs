@@ -107,8 +107,8 @@ namespace Domain.Models.Audio
                 return Result.Failure<PerformerSong>(new Error("Performer.Exists", "Performer already added to song.", ErrorType.Failure));
             }
             var performerSong = PerformerSong.Create(performerID, Id);
-            _performers.Add(performerSong);
-            return Result.Success(performerSong);
+            _performers.Add(performerSong.Value);
+            return Result.Success(performerSong.Value);
         }
 
         public Result<PerformerSong> RemovePerformer(Guid performerID)
