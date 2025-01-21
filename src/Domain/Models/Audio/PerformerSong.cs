@@ -19,11 +19,19 @@ namespace Domain.Models.Audio
         public Guid SongID { get; private set; }
         public Song Song { get; private set; }
 
-        public static PerformerSong Create(Guid performerID, Guid songID)
+        public static Result<PerformerSong> Create(Guid performerID, Guid songID)
         {
+            if (performerID == Guid.Empty)
+            {
+                return Result.Failure<PerformerSong>(new Error("PerformerID.Missing", "Performer ID is missing", ErrorType.Validation));
+            }
+            if (songID == Guid.Empty)
+            {
+                return Result.Failure<PerformerSong>(new Error("SongID.Missing", "Song ID is missing", ErrorType.Validation));
+            }
             var performerSong = new PerformerSong(Guid.NewGuid(), performerID, songID);
             performerSong.IsActive = true;
-            return performerSong;
+            return Result.Success(performerSong);
         }
     }
 }
