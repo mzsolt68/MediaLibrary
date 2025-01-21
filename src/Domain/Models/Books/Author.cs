@@ -27,11 +27,15 @@ namespace Domain.Models.Books
 
         public virtual ICollection<AuthorBook> Books => _books.ToList();
 
-        public static Author Create(string lastName, string firstName, string middleName)
+        public static Result<Author> Create(string lastName, string firstName, string middleName)
         {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                return Result.Failure<Author>(new Error("Author.Lastname.Required", "Author last name is required.", ErrorType.Validation));
+            }
             var author = new Author(Guid.NewGuid(), lastName, firstName, middleName);
             author.IsActive = true;
-            return author;
+            return Result.Success(author);
         }
     }
 }
