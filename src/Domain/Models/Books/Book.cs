@@ -59,8 +59,8 @@ namespace Domain.Models.Books
                 return Result.Failure<AuthorBook>(new Error("Author.AlreadyAdded", "Author is already added to the book", ErrorType.Failure));
             }
             var authorBook = AuthorBook.Create(authorID, Id);
-            _authors.Add(authorBook);
-            return Result.Success(authorBook);
+            _authors.Add(authorBook.Value);
+            return Result.Success(authorBook.Value);
         }
 
         public Result<AuthorBook> RemoveAuthor(Guid authorID)
@@ -81,8 +81,8 @@ namespace Domain.Models.Books
                 return Result.Failure<FormatBook>(new Error("Format.AlreadyAdded", "Format is already added to the book", ErrorType.Failure));
             }
             var formatBook = FormatBook.Create(formatID, Id);
-            _formats.Add(formatBook);
-            return Result.Success(formatBook);
+            _formats.Add(formatBook.Value);
+            return Result.Success(formatBook.Value);
         }
 
         public Result<FormatBook> RemoveFormat(Guid formatID)
@@ -103,8 +103,8 @@ namespace Domain.Models.Books
                 return Result.Failure<TagBook>(new Error("Tag.AlreadyAdded", "Tag is already added to the book", ErrorType.Failure));
             }
             var tagBook = TagBook.Create(tagID, Id);
-            _tags.Add(tagBook);
-            return Result.Success(tagBook);
+            _tags.Add(tagBook.Value);
+            return Result.Success(tagBook.Value);
         }
 
         public Result<TagBook> RemoveTag(Guid tagID)
