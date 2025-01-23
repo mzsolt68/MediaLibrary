@@ -19,4 +19,8 @@
     <Folder Include="Books\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Application.UnitTests" />
+  </ItemGroup>
+
 </Project>
