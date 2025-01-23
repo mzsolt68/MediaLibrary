@@ -14,4 +14,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Audio\" />
+    <Folder Include="Books\" />
+  </ItemGroup>
+
 </Project>
