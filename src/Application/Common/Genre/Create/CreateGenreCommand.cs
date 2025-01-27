@@ -2,7 +2,7 @@
 using Application.Abstractions.Messaging;
 using System.Windows.Input;
 
-namespace Application.Common.Genre.Create
+namespace Application.Common
 {
     public sealed class CreateGenreCommand : ICommand<Guid>
     {
