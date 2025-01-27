@@ -48,5 +48,11 @@ namespace Domain.Models.Common
             UpdatedAt = DateTime.UtcNow;
             return Result.Success();
         }
+
+        public void Inactivate()
+        {
+            IsActive = false;
+            UpdatedAt = DateTime.UtcNow;
+        }
     }
 }
