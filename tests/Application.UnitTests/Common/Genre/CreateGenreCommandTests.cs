@@ -1,6 +1,6 @@
 ﻿using Shouldly;
 using Moq;
-using Application.Common.Genre.Create;
+using Application.Common;
 using Application.Abstractions.Data;
 using Microsoft.EntityFrameworkCore;
 using Domain.Models.Common;
