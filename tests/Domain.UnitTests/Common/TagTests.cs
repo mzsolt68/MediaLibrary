@@ -90,5 +90,24 @@ namespace Domain.UnitTests.Common
             result.Error.Code.ShouldBe("TagName.Missing");
             result.Error.Message.ShouldBe("Tag name is missing");
         }
+
+        /// <summary>
+        /// Tests the <see cref="Tag.Inactivate"/> method.
+        /// </summary>
+        [Fact]
+        public void InactivateShouldSetIsActiveToFalse()
+        {
+            // Arrange
+            var tagName = "Horror";
+            var tag = Tag.Create(tagName).Value;
+
+            // Act
+            tag.Inactivate();
+
+            // Assert
+            tag.ShouldNotBeNull();
+            tag.IsActive.ShouldBeFalse();
+            tag.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+        }
     }
 }
