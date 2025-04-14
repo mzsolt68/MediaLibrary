@@ -96,5 +96,23 @@ namespace Domain.UnitTests.Common
             result.Error.Code.ShouldBe("LanguageName.Missing");
             result.Error.Message.ShouldBe("Language name is missing");
         }
+
+        /// <summary>
+        /// Tests the <see cref="Language.Inactivate"/> method.
+        /// </summary>
+        [Fact]
+        public void InactivateShouldSetIsActiveToFalse()
+        {
+            // Arrange
+            var languageName = "English";
+            var language = Language.Create(languageName).Value;
+
+            // Act
+            language.Inactivate();
+
+            // Assert
+            language.IsActive.ShouldBeFalse();
+            language.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+        }
     }
 }
