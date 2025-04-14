@@ -141,5 +141,25 @@ namespace Domain.UnitTests.Common
             result.Error.Code.ShouldBe("GenreType.Missing");
             result.Error.Message.ShouldBe("Genre type is missing");
         }
+
+        /// <summary>
+        /// Tests the <see cref="Genre.Inactivate"/> method.
+        /// </summary>
+        [Fact]
+        public void InactivateShouldSetIsActiveToFalse()
+        {
+            // Arrange
+            var genreName = "Horror";
+            var genreType = "Scary";
+            var genre = Genre.Create(genreName, genreType).Value;
+
+            // Act
+            genre.Inactivate();
+
+            // Assert
+            genre.ShouldNotBeNull();
+            genre.IsActive.ShouldBeFalse();
+            genre.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
+        }
     }
 }
