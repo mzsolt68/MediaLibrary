@@ -108,7 +108,7 @@ namespace Domain.UnitTests.Common
             var language = Language.Create(languageName).Value;
 
             // Act
-            language.Inactivate();
+            language.SetActiveState(false);
 
             // Assert
             language.IsActive.ShouldBeFalse();

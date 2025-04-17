@@ -14,7 +14,7 @@ namespace Application.Common
             {
                 return Result.Failure(new Error("Genre.NotFound", $"Genre with {request.GenreId} ID is not found.", ErrorType.NotFound));
             }
-            genre.Inactivate();
+            genre.SetActiveState(false);
             int result = await context.SaveChangesAsync(cancellationToken);
             if(result == 0)
             {

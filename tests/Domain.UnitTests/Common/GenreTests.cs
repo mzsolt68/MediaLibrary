@@ -154,7 +154,7 @@ namespace Domain.UnitTests.Common
             var genre = Genre.Create(genreName, genreType).Value;
 
             // Act
-            genre.Inactivate();
+            genre.SetActiveState(false);
 
             // Assert
             genre.ShouldNotBeNull();

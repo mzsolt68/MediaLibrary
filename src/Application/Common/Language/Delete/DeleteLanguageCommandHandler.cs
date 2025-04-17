@@ -18,7 +18,7 @@ namespace Application.Common
             {
                 return Result.Failure(new Error("Language.NotFound", $"Language with {request.LanguageId} ID is not found.", ErrorType.NotFound));
             }
-            language.Inactivate();
+            language.SetActiveState(false);
             int result = await context.SaveChangesAsync(cancellationToken);
             if (result == 0)
             {

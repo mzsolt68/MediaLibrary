@@ -102,7 +102,7 @@ namespace Domain.UnitTests.Common
             var tag = Tag.Create(tagName).Value;
 
             // Act
-            tag.Inactivate();
+            tag.SetActiveState(false);
 
             // Assert
             tag.ShouldNotBeNull();

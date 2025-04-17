@@ -13,7 +13,7 @@ namespace Application.Common
             {
                 return Result.Failure(new Error("Tag.NotFound", $"Tag with {request.TagId} ID is not found.", ErrorType.NotFound));
             }
-            tag.Inactivate();
+            tag.SetActiveState(false);
             int result = await context.SaveChangesAsync(cancellationToken);
             if (result == 0)
             {
