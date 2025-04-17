@@ -13,14 +13,14 @@ namespace Application.UnitTests.Common
     /// </summary>
     public class DeleteLanguageCommandTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
-        private readonly Mock<DbSet<Language>> _languages;
+        private readonly Mock<IUnitOfWork> _context;
+        private readonly Mock<ILanguageRepository> _languages;
 
         public DeleteLanguageCommandTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _languages = new Mock<DbSet<Language>>();
-            _context.Setup(x => x.Languages).Returns(_languages.Object);
+            _context = new Mock<IUnitOfWork>();
+            _languages = new Mock<ILanguageRepository>();
+            _context.Setup(x => x.LanguageRepository).Returns(_languages.Object);
         }
 
         /// <summary>
@@ -31,8 +31,9 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var language = Language.Create("English").Value;
-            _languages.Setup(x => x.FindAsync(language.Id, CancellationToken.None)).ReturnsAsync(language);
             var command = new DeleteLanguageCommand(language.Id);
+            _languages.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
+            _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
             var handler = new DeleteLanguageCommandHandler(_context.Object);
@@ -51,7 +52,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageId = Guid.Empty;
-            _languages.Setup(x => x.FindAsync(languageId, CancellationToken.None)).ReturnsAsync((Language)null);
+            _languages.Setup(x => x.GetByIdAsync(languageId)).ReturnsAsync((Language)null);
             var command = new DeleteLanguageCommand(languageId);
 
             // Act

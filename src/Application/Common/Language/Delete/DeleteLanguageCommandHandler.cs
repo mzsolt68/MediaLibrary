@@ -9,17 +9,21 @@ using System.Threading.Tasks;
 
 namespace Application.Common
 {
-    internal sealed class DeleteLanguageCommandHandler(IApplicationDbContext context) : ICommandHandler<DeleteLanguageCommand>
+    internal sealed class DeleteLanguageCommandHandler(IUnitOfWork context) : ICommandHandler<DeleteLanguageCommand>
     {
         public async Task<Result> Handle(DeleteLanguageCommand request, CancellationToken cancellationToken)
         {
-            var language = await context.Languages.FindAsync(request.LanguageId, cancellationToken);
+            var language = await context.LanguageRepository.GetByIdAsync(request.LanguageId);
             if (language == null)
             {
                 return Result.Failure(new Error("Language.NotFound", $"Language with {request.LanguageId} ID is not found.", ErrorType.NotFound));
             }
-            language.Inactivate();
-            await context.SaveChangesAsync(cancellationToken);
+            language.SetActiveState(false);
+            int result = await context.SaveChangesAsync(cancellationToken);
+            if (result == 0)
+            {
+                return Result.Failure(new Error("Language.DeletionFailed", "Failed to delete language.", ErrorType.Problem));
+            }
             return Result.Success();
         }
     }

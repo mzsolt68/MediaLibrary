@@ -13,14 +13,14 @@ namespace Application.UnitTests.Common
     /// </summary>
     public class DeleteTagCommandTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
-        private readonly Mock<DbSet<Tag>> _tags;
+        private readonly Mock<IUnitOfWork> _context;
+        private readonly Mock<ITagRepository> _tags;
 
         public DeleteTagCommandTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _tags = new Mock<DbSet<Tag>>();
-            _context.Setup(x => x.Tags).Returns(_tags.Object);
+            _context = new Mock<IUnitOfWork>();
+            _tags = new Mock<ITagRepository>();
+            _context.Setup(x => x.TagRepository).Returns(_tags.Object);
         }
 
         /// <summary>
@@ -31,8 +31,9 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tag = Tag.Create("Horror").Value;
-            _tags.Setup(x => x.FindAsync(tag.Id, CancellationToken.None)).ReturnsAsync(tag);
             var command = new DeleteTagCommand(tag.Id);
+            _tags.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
+            _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
             var handler = new DeleteTagCommandHandler(_context.Object);
@@ -51,7 +52,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagId = Guid.Empty;
-            _tags.Setup(x => x.FindAsync(tagId, CancellationToken.None)).ReturnsAsync((Tag)null);
+            _tags.Setup(x => x.GetByIdAsync(tagId)).ReturnsAsync((Tag?)null);
             var command = new DeleteTagCommand(tagId);
 
             // Act

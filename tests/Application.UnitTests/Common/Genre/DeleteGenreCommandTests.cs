@@ -13,13 +13,13 @@ namespace Application.UnitTests.Common
     /// </summary>
     public class DeleteGenreCommandTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
-        private readonly Mock<DbSet<Genre>> _genres;
+        private readonly Mock<IUnitOfWork> _context;
+        private readonly Mock<IGenreRepository> _genres;
         public DeleteGenreCommandTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _genres = new Mock<DbSet<Genre>>();
-            _context.Setup(x => x.Genres).Returns(_genres.Object);
+            _context = new Mock<IUnitOfWork>();
+            _genres = new Mock<IGenreRepository>();
+            _context.Setup(x => x.GenreRepository).Returns(_genres.Object);
         }
 
         /// <summary>
@@ -30,8 +30,9 @@ namespace Application.UnitTests.Common
         public async Task ProperParametersShouldSetGenreToInactive()
         {
             // Arrange
+            _context.Setup(x => x.SaveChangesAsync(CancellationToken.None)).ReturnsAsync(1);
             var genre = Genre.Create("Test Genre", "Test Type").Value;
-            _genres.Setup(x => x.FindAsync(genre.Id, CancellationToken.None)).ReturnsAsync(genre);
+            _genres.Setup(x => x.GetByIdAsync(genre.Id)).ReturnsAsync(genre);
             var command = new DeleteGenreCommand(genre.Id);
             // Act
             var handler = new DeleteGenreCommandHandler(_context.Object);
@@ -49,7 +50,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genreId = Guid.Empty;
-            _genres.Setup(x => x.FindAsync(genreId, CancellationToken.None)).ReturnsAsync((Genre)null);
+            _genres.Setup(x => x.GetByIdAsync(genreId)).ReturnsAsync((Genre?)null); 
             var command = new DeleteGenreCommand(genreId);
             // Act
             var handler = new DeleteGenreCommandHandler(_context.Object);

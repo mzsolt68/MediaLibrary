@@ -5,7 +5,7 @@ using SharedKernel;
 
 namespace Application.Common
 {
-    internal sealed class CreateLanguageCommandHandler(IApplicationDbContext context) : ICommandHandler<CreateLanguageCommand, Guid>
+    internal sealed class CreateLanguageCommandHandler(IUnitOfWork context) : ICommandHandler<CreateLanguageCommand, Guid>
     {
         public async Task<Result<Guid>> Handle(CreateLanguageCommand request, CancellationToken cancellationToken)
         {
@@ -15,9 +15,12 @@ namespace Application.Common
                 return Result.Failure<Guid>(new Error(languageResult.Error.Code, languageResult.Error.Message, languageResult.Error.Type));
             }
 
-            context.Languages.Add(languageResult.Value);
-            await context.SaveChangesAsync(cancellationToken);
-
+            await context.LanguageRepository.AddAsync(languageResult.Value);
+            int result = await context.SaveChangesAsync(cancellationToken);
+            if (result == 0)
+            {
+                return Result.Failure<Guid>(new Error("Language.CreationFailed", "Failed to create language.", ErrorType.Problem));
+            }
             return Result.Success(languageResult.Value.Id);
         }
     }

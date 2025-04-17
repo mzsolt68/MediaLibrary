@@ -13,12 +13,12 @@ namespace Application.UnitTests.Common
     /// </summary>
     public class CreateTagCommandTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
+        private readonly Mock<IUnitOfWork> _context;
 
         public CreateTagCommandTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _context.Setup(x => x.Tags).Returns(new Mock<DbSet<Tag>>().Object);
+            _context = new Mock<IUnitOfWork>();
+            _context.Setup(x => x.TagRepository).Returns(new Mock<ITagRepository>().Object);
         }
 
         /// <summary>
@@ -34,6 +34,7 @@ namespace Application.UnitTests.Common
             {
                 TagName = tagName
             };
+            _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
             var handler = new CreateTagCommandHandler(_context.Object);

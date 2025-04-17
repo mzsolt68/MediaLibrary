@@ -10,14 +10,14 @@ namespace Application.UnitTests.Common
 {
     public class UpdateTagCommandHandlerTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
-        private readonly Mock<DbSet<Tag>> _tags;
+        private readonly Mock<IUnitOfWork> _context;
+        private readonly Mock<ITagRepository> _tags;
 
         public UpdateTagCommandHandlerTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _tags = new Mock<DbSet<Tag>>();
-            _context.Setup(x => x.Tags).Returns(_tags.Object);
+            _context = new Mock<IUnitOfWork>();
+            _tags = new Mock<ITagRepository>();
+            _context.Setup(x => x.TagRepository).Returns(_tags.Object);
         }
 
         [Fact]
@@ -25,11 +25,10 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tag = Tag.Create("Old Name").Value;
-            _tags.Setup(x => x.FindAsync(tag.Id, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(tag);
-
             var command = new UpdateTagCommand(tag.Id, "New Name");
             var handler = new UpdateTagCommandHandler(_context.Object);
+            _tags.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
+            _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -44,8 +43,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagId = Guid.NewGuid();
-            _tags.Setup(x => x.FindAsync(new object[] { tagId }, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync((Tag)null);
+            _tags.Setup(x => x.GetByIdAsync(tagId)).ReturnsAsync((Tag?)null);
 
             var command = new UpdateTagCommand(tagId, "New Name");
             var handler = new UpdateTagCommandHandler(_context.Object);
@@ -64,8 +62,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tag = Tag.Create("Old Name").Value;
-            _tags.Setup(x => x.FindAsync(tag.Id, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(tag);
+            _tags.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
 
             var command = new UpdateTagCommand(tag.Id, string.Empty);
             var handler = new UpdateTagCommandHandler(_context.Object);

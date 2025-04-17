@@ -5,11 +5,11 @@ using SharedKernel;
 
 namespace Application.Common
 {
-    internal sealed class UpdateTagCommandHandler(IApplicationDbContext context) : ICommandHandler<UpdateTagCommand>
+    internal sealed class UpdateTagCommandHandler(IUnitOfWork context) : ICommandHandler<UpdateTagCommand>
     {
         public async Task<Result> Handle(UpdateTagCommand request, CancellationToken cancellationToken)
         {
-            var tag = await context.Tags.FindAsync(request.TagId, cancellationToken);
+            var tag = await context.TagRepository.GetByIdAsync(request.TagId);
             if (tag == null)
             {
                 return Result.Failure(new Error("Tag.NotFound", $"Tag with ID {request.TagId} was not found.", ErrorType.NotFound));
@@ -21,7 +21,11 @@ namespace Application.Common
                 return Result.Failure(updateResult.Error);
             }
 
-            await context.SaveChangesAsync(cancellationToken);
+            int result = await context.SaveChangesAsync(cancellationToken);
+            if (result == 0)
+            {
+                return Result.Failure(new Error("Tag.UpdateFailed", "Failed to update tag.", ErrorType.Problem));
+            }
             return Result.Success();
         }
     }

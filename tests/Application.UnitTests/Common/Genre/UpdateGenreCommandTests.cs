@@ -10,14 +10,14 @@ namespace Application.UnitTests.Common
 {
     public class UpdateGenreCommandHandlerTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
-        private readonly Mock<DbSet<Genre>> _genres;
+        private readonly Mock<IUnitOfWork> _context;
+        private readonly Mock<IGenreRepository> _genres;
 
         public UpdateGenreCommandHandlerTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _genres = new Mock<DbSet<Genre>>();
-            _context.Setup(x => x.Genres).Returns(_genres.Object);
+            _context = new Mock<IUnitOfWork>();
+            _genres = new Mock<IGenreRepository>();
+            _context.Setup(x => x.GenreRepository).Returns(_genres.Object);
         }
 
         [Fact]
@@ -25,8 +25,8 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genre = Genre.Create("Old Name", "Old Type").Value;
-            _genres.Setup(x => x.FindAsync(genre.Id, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(genre);
+            _genres.Setup(x => x.GetByIdAsync(genre.Id)).ReturnsAsync(genre);
+            _context.Setup(x => x.SaveChangesAsync(CancellationToken.None)).ReturnsAsync(1);
 
             var command = new UpdateGenreCommand(genre.Id, "New Name", "New Type");
             var handler = new UpdateGenreCommandHandler(_context.Object);
@@ -45,8 +45,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genreId = Guid.NewGuid();
-            _genres.Setup(x => x.FindAsync(new object[] { genreId }, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync((Genre)null);
+            _genres.Setup(x => x.GetByIdAsync(genreId)).ReturnsAsync((Genre?)null);
 
             var command = new UpdateGenreCommand(genreId, "New Name", "New Type");
             var handler = new UpdateGenreCommandHandler(_context.Object);
@@ -65,8 +64,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genre = Genre.Create("Old Name", "Old Type").Value;
-            _genres.Setup(x => x.FindAsync(genre.Id, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(genre);
+            _genres.Setup(x => x.GetByIdAsync(genre.Id)).ReturnsAsync(genre);
 
             var command = new UpdateGenreCommand(genre.Id, string.Empty, "New Type");
             var handler = new UpdateGenreCommandHandler(_context.Object);
