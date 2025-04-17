@@ -10,14 +10,14 @@ namespace Application.UnitTests.Common
 {
     public class UpdateLanguageCommandHandlerTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
-        private readonly Mock<DbSet<Language>> _languageDbSet;
+        private readonly Mock<IUnitOfWork> _context;
+        private readonly Mock<ILanguageRepository> _languageDbSet;
 
         public UpdateLanguageCommandHandlerTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _languageDbSet = new Mock<DbSet<Language>>();
-            _context.Setup(x => x.Languages).Returns(_languageDbSet.Object);
+            _context = new Mock<IUnitOfWork>();
+            _languageDbSet = new Mock<ILanguageRepository>();
+            _context.Setup(x => x.LanguageRepository).Returns(_languageDbSet.Object);
         }
 
         [Fact]
@@ -25,8 +25,8 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var language = Language.Create("Old Name").Value;
-            _languageDbSet.Setup(x => x.FindAsync(language.Id, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(language);
+            _languageDbSet.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
+            _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var command = new UpdateLanguageCommand(language.Id, "New Name");
             var handler = new UpdateLanguageCommandHandler(_context.Object);
@@ -44,8 +44,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageId = Guid.NewGuid();
-            _languageDbSet.Setup(x => x.FindAsync(languageId, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync((Language)null);
+            _languageDbSet.Setup(x => x.GetByIdAsync(languageId)).ReturnsAsync((Language?)null);
 
             var command = new UpdateLanguageCommand(languageId, "New Name");
             var handler = new UpdateLanguageCommandHandler(_context.Object);
@@ -64,8 +63,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var language = Language.Create("Old Name").Value;
-            _languageDbSet.Setup(x => x.FindAsync(language.Id, It.IsAny<CancellationToken>()))
-                     .ReturnsAsync(language);
+            _languageDbSet.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
 
             var command = new UpdateLanguageCommand(language.Id, string.Empty);
             var handler = new UpdateLanguageCommandHandler(_context.Object);

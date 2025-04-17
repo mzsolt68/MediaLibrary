@@ -13,12 +13,12 @@ namespace Application.UnitTests.Common
     /// </summary>
     public class CreateLanguageCommandHandlerTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
+        private readonly Mock<IUnitOfWork> _context;
 
         public CreateLanguageCommandHandlerTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _context.Setup(x => x.Languages).Returns(new Mock<DbSet<Language>>().Object);
+            _context = new Mock<IUnitOfWork>();
+            _context.Setup(x => x.LanguageRepository).Returns(new Mock<ILanguageRepository>().Object);
         }
 
         /// <summary>
@@ -34,6 +34,7 @@ namespace Application.UnitTests.Common
             {
                 LanguageName = languageName
             };
+            _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
             var handler = new CreateLanguageCommandHandler(_context.Object);

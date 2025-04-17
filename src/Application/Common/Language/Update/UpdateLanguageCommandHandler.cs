@@ -5,11 +5,11 @@ using SharedKernel;
 
 namespace Application.Common
 {
-    internal sealed class UpdateLanguageCommandHandler(IApplicationDbContext context) : ICommandHandler<UpdateLanguageCommand>
+    internal sealed class UpdateLanguageCommandHandler(IUnitOfWork context) : ICommandHandler<UpdateLanguageCommand>
     {
         public async Task<Result> Handle(UpdateLanguageCommand request, CancellationToken cancellationToken)
         {
-            var language = await context.Languages.FindAsync(request.LanguageId, cancellationToken);
+            var language = await context.LanguageRepository.GetByIdAsync(request.LanguageId);
             if (language == null)
             {
                 return Result.Failure(new Error("Language.NotFound", $"Language with ID {request.LanguageId} was not found.", ErrorType.NotFound));
@@ -20,8 +20,12 @@ namespace Application.Common
             {
                 return Result.Failure(updateResult.Error);
             }
-
-            await context.SaveChangesAsync(cancellationToken);
+            await context.LanguageRepository.UpdateAsync(language);
+            int result = await context.SaveChangesAsync(cancellationToken);
+            if (result == 0)
+            {
+                return Result.Failure(new Error("Language.UpdateFailed", "Failed to update language.", ErrorType.Problem));
+            }
             return Result.Success();
         }
     }
