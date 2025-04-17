@@ -5,7 +5,7 @@ using SharedKernel;
 
 namespace Application.Common
 {
-    internal sealed class CreateTagCommandHandler(IApplicationDbContext context) : ICommandHandler<CreateTagCommand, Guid>
+    internal sealed class CreateTagCommandHandler(IUnitOfWork context) : ICommandHandler<CreateTagCommand, Guid>
     {
         public async Task<Result<Guid>> Handle(CreateTagCommand request, CancellationToken cancellationToken)
         {
@@ -15,9 +15,12 @@ namespace Application.Common
                 return Result.Failure<Guid>(new Error(tagResult.Error.Code, tagResult.Error.Message, tagResult.Error.Type));
             }
 
-            context.Tags.Add(tagResult.Value);
-            await context.SaveChangesAsync(cancellationToken);
-
+            await context.TagRepository.AddAsync(tagResult.Value);
+            int result = await context.SaveChangesAsync(cancellationToken);
+            if(result == 0)
+            {
+                return Result.Failure<Guid>(new Error("Tag.CreateFailed", "Failed to create tag.", ErrorType.Problem));
+            }
             return Result.Success(tagResult.Value.Id);
         }
     }
