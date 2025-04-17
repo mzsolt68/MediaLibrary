@@ -13,12 +13,12 @@ namespace Application.UnitTests.Common
     /// </summary>
     public class CreateGenreCommandTests
     {
-        private readonly Mock<IApplicationDbContext> _context;
+        private readonly Mock<IUnitOfWork> _context;
 
         public CreateGenreCommandTests()
         {
-            _context = new Mock<IApplicationDbContext>();
-            _context.Setup(x => x.Genres).Returns(new Mock<DbSet<Genre>>().Object);
+            _context = new Mock<IUnitOfWork>();
+            _context.Setup(x => x.GenreRepository).Returns(new Mock<IGenreRepository>().Object);
         }
 
         /// <summary>
@@ -29,6 +29,8 @@ namespace Application.UnitTests.Common
         public async Task ProperParametersShouldCreateNewGenre()
         {
             // Arrange
+            _context.Setup(x => x.SaveChangesAsync(CancellationToken.None))
+                .ReturnsAsync(1);
             var genreName = "Test Genre";
             var genreType = "Test Type";
             var command = new CreateGenreCommand
