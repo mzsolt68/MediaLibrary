@@ -37,5 +37,18 @@ namespace Domain.Models.Books
             author.IsActive = true;
             return Result.Success(author);
         }
+
+        public Result Update(string lastName, string firstName, string middleName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                return Result.Failure(new Error("Author.Lastname.Required", "Author last name is required.", ErrorType.Validation));
+            }
+            AuthorLastName = lastName;
+            AuthorFirstName = firstName;
+            AuthorMiddleName = middleName;
+            UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
+        }
     }
 }
