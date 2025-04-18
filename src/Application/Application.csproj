@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Audio\" />
-    <Folder Include="Books\" />
+    <Folder Include="Books\Author\Create\" />
   </ItemGroup>
 
   <ItemGroup>

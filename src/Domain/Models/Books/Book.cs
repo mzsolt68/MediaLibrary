@@ -56,6 +56,22 @@ namespace Domain.Models.Books
             return Result.Success(book);
         }
 
+        public Result Update(string bookTitle, string edition, Guid publisherID, string publishYear, string isbn, Guid languageID)
+        {
+            if (string.IsNullOrWhiteSpace(bookTitle))
+            {
+                return Result.Failure(new Error("BookTitle.Empty", "BookTitle cannot be empty.", ErrorType.Validation));
+            }
+            BookTitle = bookTitle;
+            Edition = edition;
+            PublisherID = publisherID;
+            PublishYear = publishYear;
+            ISBN = isbn;
+            LanguageID = languageID;
+            UpdatedAt = DateTime.UtcNow;
+            return Result.Success();
+        }
+
         public Result<AuthorBook> AddAuthor(Guid authorID)
         {
             if(authorID == Guid.Empty)

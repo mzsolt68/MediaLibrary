@@ -560,6 +560,58 @@ namespace Domain.UnitTests.Books
             result.Error.Type.ShouldBe(ErrorType.NotFound);
         }
 
+        /// <summary>
+        /// Proper parameters should update the book.
+        /// <see cref="Book.Update(string, string, Guid, string, string, Guid)"/>
+        /// </summary>
+        [Fact]
+        public void ProperParametersShouldUpdateBook()
+        {
+            // Arrange
+            var bookTitle = "Book Title";
+            var edition = "1st";
+            var publisherID = Guid.NewGuid();
+            var publishYear = "2021";
+            var isbn = "978-3-16-148410-0";
+            var languageID = Guid.NewGuid();
+            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
+            // Act
+            var result = book.Update("New Book Title", "2nd", Guid.NewGuid(), "2022", "978-3-16-148410-1", Guid.NewGuid());
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsSuccess.ShouldBeTrue();
+            result.IsFailure.ShouldBeFalse();
+            book.BookTitle.ShouldBe("New Book Title");
+            book.Edition.ShouldBe("2nd");
+            book.PublisherID.ShouldNotBe(publisherID);
+            book.PublishYear.ShouldBe("2022");
+            book.ISBN.ShouldBe("978-3-16-148410-1");
+        }
 
+        /// <summary>
+        /// Missing title should return a failure when updating.
+        /// <see cref="Book.Update(string, string, Guid, string, string, Guid)"/>
+        /// </summary>
+        [Fact]
+        public void MissingTitleShouldReturnFailureWhenUpdating()
+        {
+            // Arrange
+            var bookTitle = "Book Title";
+            var edition = "1st";
+            var publisherID = Guid.NewGuid();
+            var publishYear = "2021";
+            var isbn = "978-3-16-148410-0";
+            var languageID = Guid.NewGuid();
+            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
+            // Act
+            var result = book.Update(string.Empty, edition, publisherID, publishYear, isbn, languageID);
+            // Assert
+            result.ShouldNotBeNull();
+            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeFalse();
+            result.Error.Code.ShouldBe("BookTitle.Empty");
+            result.Error.Message.ShouldBe("BookTitle cannot be empty.");
+            result.Error.Type.ShouldBe(ErrorType.Validation);
+        }
     }
 }
