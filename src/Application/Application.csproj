@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <Folder Include="Audio\" />
-    <Folder Include="Books\" />
+    <Folder Include="Books\Author\Create\" />
+    <Folder Include="Books\Author\Delete\" />
+    <Folder Include="Books\Author\Update\" />
   </ItemGroup>
 
   <ItemGroup>
