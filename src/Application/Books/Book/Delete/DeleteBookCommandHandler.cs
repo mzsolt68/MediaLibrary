@@ -15,9 +15,9 @@ namespace Application.Books
                 return Result.Failure(new Error("Book.NotFound", $"Book with {request.BookId} ID is not found.", ErrorType.NotFound));
             }
 
-            await context.BookRepository.DeleteAuthorsAsync(book.Id);
-            await context.BookRepository.DeleteFormatsAsync(book.Id);
-            await context.BookRepository.DeleteTagsAsync(book.Id);
+            await context.BookRepository.DeleteBookAuthorsAsync(book.Id);
+            await context.BookRepository.DeleteBookFormatsAsync(book.Id);
+            await context.BookRepository.DeleteBookTagsAsync(book.Id);
 
             book.SetActiveState(false);
             int result = await context.SaveChangesAsync(cancellationToken);

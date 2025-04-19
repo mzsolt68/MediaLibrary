@@ -5,7 +5,7 @@ using Moq;
 using SharedKernel;
 using Shouldly;
 
-namespace Application.UnitTests.Books.Author
+namespace Application.UnitTests.Books
 {
     public class CreateAuthorCommandTests
     {

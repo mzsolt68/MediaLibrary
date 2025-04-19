@@ -4,7 +4,7 @@ using Moq;
 using SharedKernel;
 using Shouldly;
 
-namespace Application.UnitTests.Books.Book
+namespace Application.UnitTests.Books
 {
     public class DeleteBookCommandTests
     {
