@@ -3,7 +3,7 @@ using Application.Books;
 using Moq;
 using Shouldly;
 
-namespace Application.UnitTests.Books.Book
+namespace Application.UnitTests.Books
 {
     public class CreateBookCommandHandlerTests
     {
