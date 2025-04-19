@@ -8,6 +8,7 @@
         IBookRepository BookRepository { get; }
         IBookFormatRepository BookFormatRepository { get; }
         IAuthorRepository AuthorRepository { get; }
+        IPublisherRepository PublisherRepository { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
