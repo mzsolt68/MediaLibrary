@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Books\BookFormat\" />
     <Folder Include="Common\Language\" />
     <Folder Include="Common\Tag\" />
   </ItemGroup>

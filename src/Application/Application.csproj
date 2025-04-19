@@ -17,6 +17,9 @@
   <ItemGroup>
     <Folder Include="Audio\" />
     <Folder Include="Books\Author\Create\" />
+    <Folder Include="Books\BookFormat\Create\" />
+    <Folder Include="Books\BookFormat\Delete\" />
+    <Folder Include="Books\BookFormat\Update\" />
     <Folder Include="Books\Publisher\Create\" />
     <Folder Include="Books\Publisher\Delete\" />
     <Folder Include="Books\Publisher\Update\" />
