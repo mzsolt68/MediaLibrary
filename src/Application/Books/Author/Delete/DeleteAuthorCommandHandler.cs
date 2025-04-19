@@ -17,6 +17,9 @@ namespace Application.Books
             await context.AuthorRepository.DeleteBooks(author.Id);
 
             author.SetActiveState(false);
+
+            //TODO: check if author is used in any book
+
             int result = await context.SaveChangesAsync(cancellationToken);
             if(result == 0)
             {
