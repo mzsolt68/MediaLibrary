@@ -2,7 +2,7 @@
 {
     public class BookFormatDTO
     {
-        public int FormatID { get; set; }
+        public Guid FormatID { get; set; }
         public string FormatName { get; set; }
     }
 }
