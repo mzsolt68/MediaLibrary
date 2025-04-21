@@ -2,7 +2,7 @@
 {
     public class TagDTO
     {
-        public int TagID { get; set; }
+        public Guid TagID { get; set; }
         public string TagName { get; set; }
     }
 }

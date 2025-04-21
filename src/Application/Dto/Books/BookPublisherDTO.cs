@@ -2,7 +2,7 @@
 {
     public class BookPublisherDTO
     {
-        public int PublisherID { get; set; }
+        public Guid PublisherID { get; set; }
         public string PublisherName { get; set; }
     }
 }

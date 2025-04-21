@@ -2,7 +2,7 @@
 {
     public class LanguageDTO
     {
-        public int LanguageID { get; set; }
+        public Guid LanguageID { get; set; }
         public string LanguageName { get; set; }
     }
 }
