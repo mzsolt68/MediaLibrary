@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    internal class MediaDbContext : DbContext
+    public class MediaDbContext : DbContext
     {
         public MediaDbContext(DbContextOptions<MediaDbContext> options)
             : base(options)
