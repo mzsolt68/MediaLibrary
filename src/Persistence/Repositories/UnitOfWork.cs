@@ -5,25 +5,32 @@ namespace Persistence.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly MediaDbContext _context;
+        private IGenreRepository? _genreRepository;
+        private ITagRepository? _tagRepository;
+        private ILanguageRepository? _languageRepository;
+        private IBookRepository? _bookRepository;
+        private IBookFormatRepository? _bookFormatRepository;
+        private IAuthorRepository? _authorRepository;
+        private IPublisherRepository? _publisherRepository;
         private bool _disposed;
 
         public UnitOfWork(MediaDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public IGenreRepository GenreRepository => throw new NotImplementedException();
+        public IGenreRepository GenreRepository => _genreRepository ??= new GenreRepository(_context);
 
-        public ITagRepository TagRepository => throw new NotImplementedException();
+        public ITagRepository TagRepository => _tagRepository ??= new TagRepository(_context);
 
-        public ILanguageRepository LanguageRepository => throw new NotImplementedException();
+        public ILanguageRepository LanguageRepository => _languageRepository ??= new LanguageRepository(_context);
 
-        public IBookRepository BookRepository => throw new NotImplementedException();
+        public IBookRepository BookRepository => _bookRepository ??= new BookRepository(_context);
 
-        public IBookFormatRepository BookFormatRepository => throw new NotImplementedException();
+        public IBookFormatRepository BookFormatRepository => _bookFormatRepository ??= new BookFormatRepository(_context);
 
-        public IAuthorRepository AuthorRepository => throw new NotImplementedException();
+        public IAuthorRepository AuthorRepository => _authorRepository ??= new AuthorRepository(_context);
 
-        public IPublisherRepository PublisherRepository => throw new NotImplementedException();
+        public IPublisherRepository PublisherRepository => _publisherRepository ??= new PublisherRepository(_context);
 
         public void Dispose()
         {
