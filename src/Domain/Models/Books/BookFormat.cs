@@ -6,24 +6,47 @@ using System.Linq;
 
 namespace Domain.Models.Books
 {
+    /// <summary>
+    /// Represents the format of a book in the domain.
+    /// </summary>
     public class BookFormat : Entity
     {
         private HashSet<FormatBook> bookFormats;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookFormat"/> class.
+        /// </summary>
+        /// <param name="guid">The unique identifier for the book format.</param>
+        /// <param name="bookFormatName">The name of the book format.</param>
         private BookFormat(Guid guid, string bookFormatName) : base(guid)
         {
             BookFormatName = bookFormatName;
             bookFormats = new HashSet<FormatBook>();
         }
+
+        /// <summary>
+        /// Gets the name of the book format.
+        /// </summary>
         [Required]
         [Display(Name = "Formátum")]
         public string BookFormatName { get; private set; }
 
+        /// <summary>
+        /// Gets the collection of books associated with this format.
+        /// </summary>
         public virtual ICollection<FormatBook> BooksInFormat => bookFormats.ToList();
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="BookFormat"/> class.
+        /// </summary>
+        /// <param name="bookFormatName">The name of the book format.</param>
+        /// <returns>
+        /// A <see cref="Result{TValue}"/> containing the created <see cref="BookFormat"/> instance if successful,
+        /// or an error if validation fails.
+        /// </returns>
         public static Result<BookFormat> Create(string bookFormatName)
         {
-            if(string.IsNullOrWhiteSpace(bookFormatName))
+            if (string.IsNullOrWhiteSpace(bookFormatName))
             {
                 return Result.Failure<BookFormat>(new Error("BookFormatName.Required", "Bookformat name is required.", ErrorType.Validation));
             }
@@ -32,6 +55,13 @@ namespace Domain.Models.Books
             return Result.Success(bookFormat);
         }
 
+        /// <summary>
+        /// Updates the name of the book format.
+        /// </summary>
+        /// <param name="bookFormatName">The new name of the book format.</param>
+        /// <returns>
+        /// A <see cref="Result"/> indicating success or failure of the update operation.
+        /// </returns>
         public Result Update(string bookFormatName)
         {
             if (string.IsNullOrWhiteSpace(bookFormatName))
