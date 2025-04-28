@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Data;
 using Domain.Models.Books;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -8,12 +9,14 @@ namespace Persistence.Repositories
     /// </summary>
     public class PublisherRepository : GenericRepository<Publisher>, IPublisherRepository
     {
+        private readonly MediaDbContext _context;
         /// <summary>
         /// Initializes a new instance of the <see cref="PublisherRepository"/> class.
         /// </summary>
         /// <param name="context">The database context to use for data operations.</param>
         public PublisherRepository(MediaDbContext context) : base(context)
         {
+            _context = context;
         }
 
         /// <summary>
@@ -21,9 +24,16 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be deleted.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task DeleteBooks(Guid publisherId)
+        public async Task DeleteBooks(Guid publisherId)
         {
-            throw new NotImplementedException();
+            var books = await _context.Books
+                .Where(book => book.PublisherID == publisherId)
+                .ToListAsync();
+
+            if (books.Any())
+            {
+                _context.Books.RemoveRange(books);
+            }
         }
 
         /// <summary>
@@ -34,9 +44,12 @@ namespace Persistence.Repositories
         /// A <see cref="Task"/> representing the asynchronous operation, 
         /// with a result of a read-only collection of <see cref="Book"/> entities.
         /// </returns>
-        public Task<IReadOnlyCollection<Book>> GetBooks(Guid publisherId)
+        public async Task<IReadOnlyCollection<Book>> GetBooks(Guid publisherId)
         {
-            throw new NotImplementedException();
+            return await _context.Books
+                .AsNoTracking()
+                .Where(book => book.PublisherID == publisherId)
+                .ToListAsync();
         }
     }
 }

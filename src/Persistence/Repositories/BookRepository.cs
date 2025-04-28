@@ -1,5 +1,6 @@
 ﻿using Application.Abstractions.Data;
 using Domain.Models.Books;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
@@ -8,12 +9,14 @@ namespace Persistence.Repositories
     /// </summary>
     public class BookRepository : GenericRepository<Book>, IBookRepository
     {
+        private readonly MediaDbContext _context;
         /// <summary>
         /// Initializes a new instance of the <see cref="BookRepository"/> class.
         /// </summary>
         /// <param name="context">The database context to be used by the repository.</param>
         public BookRepository(MediaDbContext context) : base(context)
         {
+            _context = context;
         }
 
         /// <summary>
@@ -21,9 +24,10 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="BookId">The unique identifier of the book.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task DeleteBookAuthorsAsync(Guid BookId)
+        public async Task DeleteBookAuthorsAsync(Guid BookId)
         {
-            throw new NotImplementedException();
+            var authorsToRemove = _context.AuthorsOfBooks.Where(ab => ab.BookID == BookId);
+            _context.AuthorsOfBooks.RemoveRange(authorsToRemove);
         }
 
         /// <summary>
@@ -31,9 +35,10 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="BookId">The unique identifier of the book.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task DeleteBookFormatsAsync(Guid BookId)
+        public async Task DeleteBookFormatsAsync(Guid BookId)
         {
-            throw new NotImplementedException();
+            var formatsToRemove = _context.FormatsOfBooks.Where(fb => fb.BookID == BookId);
+            _context.FormatsOfBooks.RemoveRange(formatsToRemove);
         }
 
         /// <summary>
@@ -41,9 +46,10 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="BookId">The unique identifier of the book.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task DeleteBookTagsAsync(Guid BookId)
+        public async Task DeleteBookTagsAsync(Guid BookId)
         {
-            throw new NotImplementedException();
+            var tagsToRemove = _context.TagsOfBooks.Where(tb => tb.BookID == BookId);
+            _context.TagsOfBooks.RemoveRange(tagsToRemove);
         }
 
         /// <summary>
@@ -54,9 +60,17 @@ namespace Persistence.Repositories
         /// A task representing the asynchronous operation, containing the book with its full data if found,
         /// or null otherwise.
         /// </returns>
-        public Task<Book?> GetBookWithFullDataAsync(Guid bookId)
+        public async Task<Book?> GetBookWithFullDataAsync(Guid bookId)
         {
-            throw new NotImplementedException();
+            return await _context.Books
+                .AsNoTracking()
+                .Include(b => b.Authors)
+                    .ThenInclude(ab => ab.Author)
+                .Include(b => b.Formats)
+                    .ThenInclude(fb => fb.Format)
+                .Include(b => b.Tags)
+                    .ThenInclude(tb => tb.Tag)
+                .FirstOrDefaultAsync(b => b.Id == bookId);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Application.Abstractions.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Persistence.Repositories
 {
@@ -24,9 +26,10 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="entity">The entity to add.</param>
         /// <returns>A task representing the asynchronous operation, containing the added entity.</returns>
-        public Task<T> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync(entity);
+            return entity;
         }
 
         /// <summary>
@@ -34,19 +37,19 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(entity);
         }
 
-        /// <summary>
-        /// Retrieves all entities from the database asynchronously.
-        /// </summary>
-        /// <param name="includeInactive">A flag indicating whether to include inactive entities.</param>
-        /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>
-        public Task<IReadOnlyList<T>> GetAllAsync(bool includeInactive = false)
+        /// <summary>  
+        /// Retrieves all entities from the database asynchronously based on a predicate.  
+        /// </summary>  
+        /// <param name="predicate">A predicate to filter the entities.</param>  
+        /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>  
+        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
         }
 
         /// <summary>
@@ -54,9 +57,11 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="id">The unique identifier of the entity.</param>
         /// <returns>A task representing the asynchronous operation, containing the entity if found, or null otherwise.</returns>
-        public Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(entity => EF.Property<Guid>(entity, "Id") == id);
         }
 
         /// <summary>
@@ -64,9 +69,9 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="entity">The entity to update.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public Task UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
-            throw new NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
         }
     }
 }
