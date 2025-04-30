@@ -4,6 +4,7 @@ using Application.Dto.Common;
 using Domain.Models.Common;
 using Moq;
 using Shouldly;
+using System.Linq.Expressions;
 
 namespace Application.UnitTests.Common
 {
@@ -24,13 +25,15 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tags = new List<Tag>
-            {
-                Tag.Create("Horror").Value,
-                Tag.Create("Comedy").Value
-            };
-            _tagRepository.Setup(x => x.GetAllAsync(false)).ReturnsAsync(tags);
+                {
+                    Tag.Create("Horror").Value,
+                    Tag.Create("Comedy").Value
+                };
+            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>())).ReturnsAsync(tags);
 
-            var query = new GetTagsQuery();
+            // Provide a valid predicate for the query
+            Expression<Func<Tag, bool>> predicate = tag => true;
+            var query = new GetTagsQuery<Tag>(predicate);
             var handler = new GetTagsQueryHandler(_unitOfWork.Object);
 
             // Act
@@ -49,9 +52,11 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoTagsExist()
         {
             // Arrange
-            _tagRepository.Setup(x => x.GetAllAsync(false)).ReturnsAsync(new List<Tag>());
+            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>())).ReturnsAsync(new List<Tag>());
 
-            var query = new GetTagsQuery();
+            // Provide a valid predicate for the query
+            Expression<Func<Tag, bool>> predicate = tag => true;
+            var query = new GetTagsQuery<Tag>(predicate); // Updated to pass the required parameter
             var handler = new GetTagsQueryHandler(_unitOfWork.Object);
 
             // Act
