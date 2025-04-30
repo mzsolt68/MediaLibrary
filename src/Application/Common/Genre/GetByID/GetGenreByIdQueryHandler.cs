@@ -15,7 +15,6 @@ namespace Application.Common
         /// Initializes a new instance of the <see cref="GetGenreByIdQueryHandler"/> class.
         /// </summary>
         /// <param name="context">The unit of work providing access to repositories.</param>
-        public GetGenreByIdQueryHandler(IUnitOfWork context) : base(context) { }
 
         /// <summary>
         /// Handles the query to retrieve a genre by its unique identifier.
