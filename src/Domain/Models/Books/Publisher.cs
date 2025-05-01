@@ -11,6 +11,13 @@ namespace Domain.Models.Books
     /// </summary>
     public class Publisher : Entity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Publisher"/> class with the specified ID.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private Publisher(Guid id) : base(id) { }
+        
         private HashSet<Book> _publishedBooks;
 
         /// <summary>

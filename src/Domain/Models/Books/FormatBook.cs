@@ -11,6 +11,12 @@ namespace Domain.Models.Books
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatBook"/> class.
+        /// It is used for EF Core only.
+        /// </summary>
+        private FormatBook() : base(Guid.Empty) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatBook"/> class.
         /// </summary>
         /// <param name="id">The unique identifier for the FormatBook entity.</param>
         /// <param name="formatId">The unique identifier of the associated Format.</param>

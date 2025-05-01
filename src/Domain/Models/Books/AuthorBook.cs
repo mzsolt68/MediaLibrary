@@ -10,7 +10,14 @@ namespace Domain.Models.Books
     public class AuthorBook : Entity
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorBook"/> class.
+        /// Initializes a new instance of the <see cref="AuthorBook"/> class with the specified identifier.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id">The unique identifier for the AuthorBook entity.</param>
+        private AuthorBook(Guid id) : base(id) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorBook"/> class with the specified identifiers for the author and book.
         /// </summary>
         /// <param name="id">The unique identifier for the AuthorBook entity.</param>
         /// <param name="authorId">The unique identifier of the associated Author.</param>

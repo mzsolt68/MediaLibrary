@@ -12,6 +12,13 @@ namespace Domain.Models.Audio
     /// </summary>
     public class Album : Entity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Album"/> class.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private Album(Guid id) : base(id) { }
+
         private HashSet<AlbumSong> _tracks;
 
         /// <summary>

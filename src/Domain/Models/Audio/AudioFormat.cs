@@ -10,6 +10,13 @@ namespace Domain.Models.Audio
     public class AudioFormat : Entity
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="AudioFormat"/> class with the specified identifier.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private AudioFormat(Guid id) : base(id) {}
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AudioFormat"/> class with the specified identifier and name.
         /// </summary>
         /// <param name="id">The unique identifier for the audio format.</param>
