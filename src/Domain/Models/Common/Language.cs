@@ -10,6 +10,13 @@ namespace Domain.Models.Common
     public class Language : Entity
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Language"/> class with the specified identifier.
+        /// It is used EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private Language(Guid id) : base(id) { }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Language"/> class with the specified identifier and language name.
         /// </summary>
         /// <param name="guid">The unique identifier for the language.</param>

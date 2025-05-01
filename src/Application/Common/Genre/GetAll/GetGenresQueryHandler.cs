@@ -3,6 +3,7 @@ using Application.Dto.Common;
 using SharedKernel;
 using Application.Abstractions.Data;
 using Application.Dto.ConvertObjects;
+using Domain.Models.Common;
 
 namespace Application.Common
 {
@@ -10,7 +11,7 @@ namespace Application.Common
     /// Handles the query to retrieve all genres.
     /// </summary>
     /// <param name="context">The unit of work providing access to repositories.</param>
-    public sealed class GetGenresQueryHandler(IUnitOfWork context) : IQueryHandler<GetGenresQuery, List<GenreDTO>>
+    public sealed class GetGenresQueryHandler(IUnitOfWork context) : IQueryHandler<GetGenresQuery<Genre>, List<GenreDTO>>
     {
         /// <summary>
         /// Handles the query to retrieve all genres.
@@ -21,10 +22,10 @@ namespace Application.Common
         /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{TValue}"/> 
         /// with a list of <see cref="GenreDTO"/> if successful, or an error if no genres are found.
         /// </returns>
-        public async Task<Result<List<GenreDTO>>> Handle(GetGenresQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<GenreDTO>>> Handle(GetGenresQuery<Genre> request, CancellationToken cancellationToken)
         {
             // Retrieve all genres from the repository.
-            var genres = await context.GenreRepository.GetAllAsync();
+            var genres = await context.GenreRepository.GetAllAsync(request.Predicate);
 
             // Check if genres are null or empty and return a failure result if so.
             if (genres == null || !genres.Any())

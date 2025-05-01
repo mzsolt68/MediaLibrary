@@ -58,17 +58,17 @@ namespace Persistence
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for genres.
         /// </summary>
-        public required DbSet<Genre> Genres { get; set; }
+        public DbSet<Genre> Genres { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for tags.
         /// </summary>
-        public required DbSet<Tag> Tags { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for languages.
         /// </summary>
-        public required DbSet<Language> Languages { get; set; }
+        public DbSet<Language> Languages { get; set; }
 
         #endregion
 
@@ -77,37 +77,37 @@ namespace Persistence
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for authors.
         /// </summary>
-        public required DbSet<Author> Authors { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for the association between authors and books.
         /// </summary>
-        public required DbSet<AuthorBook> AuthorsOfBooks { get; set; }
+        public DbSet<AuthorBook> AuthorsOfBooks { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for books.
         /// </summary>
-        public required DbSet<Book> Books { get; set; }
+        public DbSet<Book> Books { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for book formats.
         /// </summary>
-        public required DbSet<BookFormat> BookFormats { get; set; }
+        public DbSet<BookFormat> BookFormats { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for the association between formats and books.
         /// </summary>
-        public required DbSet<FormatBook> FormatsOfBooks { get; set; }
+        public DbSet<FormatBook> FormatsOfBooks { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for publishers.
         /// </summary>
-        public required DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="DbSet{TEntity}"/> for the association between tags and books.
         /// </summary>
-        public required DbSet<TagBook> TagsOfBooks { get; set; }
+        public DbSet<TagBook> TagsOfBooks { get; set; }
 
         #endregion
     }

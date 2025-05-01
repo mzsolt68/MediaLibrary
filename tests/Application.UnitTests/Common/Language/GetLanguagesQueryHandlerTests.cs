@@ -4,6 +4,7 @@ using Application.Dto.Common;
 using Domain.Models.Common;
 using Moq;
 using Shouldly;
+using System.Linq.Expressions;
 
 namespace Application.UnitTests.Common
 {
@@ -28,9 +29,11 @@ namespace Application.UnitTests.Common
                 Language.Create("English").Value,
                 Language.Create("Spanish").Value
             };
-            _languageRepository.Setup(x => x.GetAllAsync(false)).ReturnsAsync(languages);
+            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>())).ReturnsAsync(languages);
 
-            var query = new GetLanguagesQuery();
+            // Provide a valid predicate for the query
+            Expression<Func<Language, bool>> predicate = language => true; 
+            var query = new GetLanguagesQuery<Language>(predicate);
             var handler = new GetLanguagesQueryHandler(_unitOfWork.Object);
 
             // Act
@@ -49,9 +52,11 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoLanguagesExist()
         {
             // Arrange
-            _languageRepository.Setup(x => x.GetAllAsync(false)).ReturnsAsync(new List<Language>());
+            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>())).ReturnsAsync(new List<Language>());
 
-            var query = new GetLanguagesQuery();
+            // Provide a valid predicate for the query
+            Expression<Func<Language, bool>> predicate = language => true;
+            var query = new GetLanguagesQuery<Language>(predicate);
             var handler = new GetLanguagesQueryHandler(_unitOfWork.Object);
 
             // Act

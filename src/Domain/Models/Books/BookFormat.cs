@@ -11,6 +11,13 @@ namespace Domain.Models.Books
     /// </summary>
     public class BookFormat : Entity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BookFormat"/> class.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private BookFormat(Guid id) : base(id) {}
+
         private HashSet<FormatBook> bookFormats;
 
         /// <summary>

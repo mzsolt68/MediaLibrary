@@ -11,6 +11,13 @@ namespace Domain.Models.Audio
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PerformerSong"/> class.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private PerformerSong(Guid id) : base(id) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PerformerSong"/> class.
         /// </summary>
         /// <param name="id">The unique identifier of the performer-song association.</param>
         /// <param name="performerID">The unique identifier of the performer.</param>

@@ -12,6 +12,13 @@ namespace Domain.Models.Books
     /// </summary>
     public class Book : Entity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Book"/> class with the specified ID.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private Book(Guid id) : base(id) { }
+
         private HashSet<AuthorBook> _authors;
         private HashSet<FormatBook> _formats;
         private HashSet<TagBook> _tags;

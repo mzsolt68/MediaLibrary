@@ -1,4 +1,6 @@
-﻿namespace Application.Abstractions.Data
+﻿using System.Linq.Expressions;
+
+namespace Application.Abstractions.Data
 {
     /// <summary>
     /// Represents a generic repository interface for performing CRUD operations on entities.
@@ -16,9 +18,9 @@
         /// <summary>
         /// Retrieves all entities.
         /// </summary>
-        /// <param name="includeInactive">A flag indicating whether to include inactive entities in the result.</param>
+        /// <param name="predicate">A predicate to filter the entities.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of entities.</returns>
-        Task<IReadOnlyList<T>> GetAllAsync(bool includeInactive = false);
+        Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Adds a new entity to the repository.

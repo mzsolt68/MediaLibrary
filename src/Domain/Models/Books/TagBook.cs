@@ -11,6 +11,12 @@ namespace Domain.Models.Books
     public class TagBook : Entity
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="TagBook"/> class with an empty identifier.
+        /// It is used for EF Core only.
+        /// </summary>
+        private TagBook() : base(Guid.Empty) {}
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TagBook"/> class.
         /// </summary>
         /// <param name="id">The unique identifier for the TagBook entity.</param>

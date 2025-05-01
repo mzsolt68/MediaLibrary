@@ -12,6 +12,13 @@ namespace Domain.Models.Common
     /// </summary>
     public class Tag : Entity
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tag"/> class with an empty identifier.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private Tag(Guid id) : base(id) { }
+
         private HashSet<TagBook> _booksOfTag;
 
         /// <summary>

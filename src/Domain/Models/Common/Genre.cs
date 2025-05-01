@@ -10,6 +10,13 @@ namespace Domain.Models.Common
     public class Genre : Entity
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="Genre"/> class with the specified identifier.
+        /// It is used for EF Core only.
+        /// </summary>
+        /// <param name="id"></param>
+        private Genre(Guid id) : base(id) { }
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="Genre"/> class.
         /// </summary>
         /// <param name="guid">The unique identifier for the genre.</param>

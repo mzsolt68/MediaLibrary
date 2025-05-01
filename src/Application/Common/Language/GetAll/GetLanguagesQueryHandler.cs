@@ -3,6 +3,7 @@ using Application.Dto.Common;
 using SharedKernel;
 using Application.Abstractions.Data;
 using Application.Dto.ConvertObjects;
+using Domain.Models.Common;
 
 namespace Application.Common
 {
@@ -10,7 +11,7 @@ namespace Application.Common
     /// Handles the query to retrieve all languages.
     /// </summary>
     /// <param name="context">The unit of work providing access to repositories.</param>
-    public sealed class GetLanguagesQueryHandler(IUnitOfWork context) : IQueryHandler<GetLanguagesQuery, List<LanguageDTO>>
+    public sealed class GetLanguagesQueryHandler(IUnitOfWork context) : IQueryHandler<GetLanguagesQuery<Language>, List<LanguageDTO>>
     {
         /// <summary>
         /// Handles the query to retrieve all languages.
@@ -21,10 +22,10 @@ namespace Application.Common
         /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{TValue}"/> 
         /// with a list of <see cref="LanguageDTO"/> if successful, or an error if no languages are found.
         /// </returns>
-        public async Task<Result<List<LanguageDTO>>> Handle(GetLanguagesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<LanguageDTO>>> Handle(GetLanguagesQuery<Language> request, CancellationToken cancellationToken)
         {
             // Retrieve all languages from the repository.
-            var languages = await context.LanguageRepository.GetAllAsync();
+            var languages = await context.LanguageRepository.GetAllAsync(request.Predicate);
 
             // Check if no languages were found.
             if (languages == null || !languages.Any())
