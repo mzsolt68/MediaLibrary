@@ -53,7 +53,7 @@ public class GenericRepositoryTests : Testing
     }
     
     [Fact]
-    public async Task AddAsync_ShouldAddEntityToContext()
+    public void AddAsync_ShouldAddEntityToContext()
     {
         // Arrange
         var dbContext = CreateDbContext(nameof(AddAsync_ShouldAddEntityToContext));

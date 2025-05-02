@@ -29,7 +29,7 @@ namespace Application.UnitTests.Common
                     Tag.Create("Horror").Value,
                     Tag.Create("Comedy").Value
                 };
-            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>())).ReturnsAsync(tags);
+            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>(), CancellationToken.None)).ReturnsAsync(tags);
 
             // Provide a valid predicate for the query
             Expression<Func<Tag, bool>> predicate = tag => true;
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoTagsExist()
         {
             // Arrange
-            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>())).ReturnsAsync(new List<Tag>());
+            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>(), CancellationToken.None)).ReturnsAsync(new List<Tag>());
 
             // Provide a valid predicate for the query
             Expression<Func<Tag, bool>> predicate = tag => true;

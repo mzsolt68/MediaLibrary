@@ -32,7 +32,7 @@ namespace Application.UnitTests.Common
             // Arrange
             var tag = Tag.Create("Horror").Value;
             var command = new DeleteTagCommand(tag.Id);
-            _tags.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
+            _tags.Setup(x => x.GetByIdAsync(tag.Id, CancellationToken.None)).ReturnsAsync(tag);
             _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagId = Guid.Empty;
-            _tags.Setup(x => x.GetByIdAsync(tagId)).ReturnsAsync((Tag?)null);
+            _tags.Setup(x => x.GetByIdAsync(tagId, CancellationToken.None)).ReturnsAsync((Tag?)null);
             var command = new DeleteTagCommand(tagId);
 
             // Act

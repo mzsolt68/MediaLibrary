@@ -25,7 +25,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var language = Language.Create("Old Name").Value;
-            _languageDbSet.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
+            _languageDbSet.Setup(x => x.GetByIdAsync(language.Id, CancellationToken.None)).ReturnsAsync(language);
             _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var command = new UpdateLanguageCommand(language.Id, "New Name");
@@ -44,7 +44,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageId = Guid.NewGuid();
-            _languageDbSet.Setup(x => x.GetByIdAsync(languageId)).ReturnsAsync((Language?)null);
+            _languageDbSet.Setup(x => x.GetByIdAsync(languageId, CancellationToken.None)).ReturnsAsync((Language?)null);
 
             var command = new UpdateLanguageCommand(languageId, "New Name");
             var handler = new UpdateLanguageCommandHandler(_context.Object);
@@ -63,7 +63,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var language = Language.Create("Old Name").Value;
-            _languageDbSet.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
+            _languageDbSet.Setup(x => x.GetByIdAsync(language.Id, CancellationToken.None)).ReturnsAsync(language);
 
             var command = new UpdateLanguageCommand(language.Id, string.Empty);
             var handler = new UpdateLanguageCommandHandler(_context.Object);

@@ -24,7 +24,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var language = Language.Create("English").Value;
-            _languageRepository.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
+            _languageRepository.Setup(x => x.GetByIdAsync(language.Id, CancellationToken.None)).ReturnsAsync(language);
 
             var query = new GetLanguageByIdQuery(language.Id);
             var handler = new GetLanguageByIdQueryHandler(_unitOfWork.Object);
@@ -44,7 +44,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageId = Guid.NewGuid();
-            _languageRepository.Setup(x => x.GetByIdAsync(languageId)).ReturnsAsync((Language?)null);
+            _languageRepository.Setup(x => x.GetByIdAsync(languageId, CancellationToken.None)).ReturnsAsync((Language?)null);
 
             var query = new GetLanguageByIdQuery(languageId);
             var handler = new GetLanguageByIdQueryHandler(_unitOfWork.Object);

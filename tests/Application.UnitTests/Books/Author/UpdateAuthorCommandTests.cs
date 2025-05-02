@@ -24,7 +24,7 @@ namespace Application.UnitTests.Books
             // Arrange
             var author = Domain.Models.Books.Author.Create("Lem", "Stanislaw", "");
 
-            _authorRepository.Setup(x => x.GetByIdAsync(author.Value.Id)).ReturnsAsync(author.Value);
+            _authorRepository.Setup(x => x.GetByIdAsync(author.Value.Id, CancellationToken.None)).ReturnsAsync(author.Value);
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var command = new UpdateAuthorCommand(
@@ -47,7 +47,7 @@ namespace Application.UnitTests.Books
         {
             // Arrange
             var authorId = Guid.NewGuid();
-            _authorRepository.Setup(x => x.GetByIdAsync(authorId)).ReturnsAsync(null as Domain.Models.Books.Author);
+            _authorRepository.Setup(x => x.GetByIdAsync(authorId, CancellationToken.None)).ReturnsAsync(null as Domain.Models.Books.Author);
 
             var command = new UpdateAuthorCommand(
                 authorId,
@@ -72,7 +72,7 @@ namespace Application.UnitTests.Books
             // Arrange
             var author = Domain.Models.Books.Author.Create("Lem", "Stanislaw", "");
 
-            _authorRepository.Setup(x => x.GetByIdAsync(author.Value.Id)).ReturnsAsync(author.Value);
+            _authorRepository.Setup(x => x.GetByIdAsync(author.Value.Id, CancellationToken.None)).ReturnsAsync(author.Value);
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(0);
 
             var command = new UpdateAuthorCommand(

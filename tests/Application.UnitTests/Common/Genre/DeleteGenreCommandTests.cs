@@ -32,7 +32,7 @@ namespace Application.UnitTests.Common
             // Arrange
             _context.Setup(x => x.SaveChangesAsync(CancellationToken.None)).ReturnsAsync(1);
             var genre = Genre.Create("Test Genre", "Test Type").Value;
-            _genres.Setup(x => x.GetByIdAsync(genre.Id)).ReturnsAsync(genre);
+            _genres.Setup(x => x.GetByIdAsync(genre.Id, CancellationToken.None)).ReturnsAsync(genre);
             var command = new DeleteGenreCommand(genre.Id);
             // Act
             var handler = new DeleteGenreCommandHandler(_context.Object);
@@ -50,7 +50,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genreId = Guid.Empty;
-            _genres.Setup(x => x.GetByIdAsync(genreId)).ReturnsAsync((Genre?)null); 
+            _genres.Setup(x => x.GetByIdAsync(genreId, CancellationToken.None)).ReturnsAsync((Genre?)null); 
             var command = new DeleteGenreCommand(genreId);
             // Act
             var handler = new DeleteGenreCommandHandler(_context.Object);

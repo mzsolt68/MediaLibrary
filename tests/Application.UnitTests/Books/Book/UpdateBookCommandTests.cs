@@ -22,7 +22,7 @@ namespace Application.UnitTests.Books
             // Arrange
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
             var book = Domain.Models.Books.Book.Create("Sample Book", "1st", Guid.NewGuid(), "2025", "1234567890", Guid.NewGuid()).Value;
-            _unitOfWork.Setup(x => x.BookRepository.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(book);
+            _unitOfWork.Setup(x => x.BookRepository.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(book);
             var bookId = book.Id;
             var command = new UpdateBookCommand
             {
@@ -50,7 +50,7 @@ namespace Application.UnitTests.Books
         public async Task NonExistentBookShouldReturnNotFound()
         {
             // Arrange
-            _unitOfWork.Setup(x => x.BookRepository.GetByIdAsync(It.IsAny<Guid>()))
+            _unitOfWork.Setup(x => x.BookRepository.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None))
                 .ReturnsAsync(null as Domain.Models.Books.Book);
             var command = new UpdateBookCommand
             {

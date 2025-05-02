@@ -22,7 +22,7 @@ namespace Application.UnitTests.Books
         {
             // Arrange
             var command = new DeleteAuthorCommand(Guid.NewGuid());
-            _unitOfWorkMock.Setup(x => x.AuthorRepository.GetByIdAsync(command.bookId))
+            _unitOfWorkMock.Setup(x => x.AuthorRepository.GetByIdAsync(command.bookId, CancellationToken.None))
                 .ReturnsAsync((Domain.Models.Books.Author?)null);
 
             // Act
@@ -41,7 +41,7 @@ namespace Application.UnitTests.Books
             var author = Domain.Models.Books.Author.Create("John", "Doe", "").Value;
             var command = new DeleteAuthorCommand(author.Id);
 
-            _unitOfWorkMock.Setup(x => x.AuthorRepository.GetByIdAsync(command.bookId))
+            _unitOfWorkMock.Setup(x => x.AuthorRepository.GetByIdAsync(command.bookId, CancellationToken.None))
                 .ReturnsAsync(author);
             _unitOfWorkMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(0);
@@ -62,7 +62,7 @@ namespace Application.UnitTests.Books
             var author = Domain.Models.Books.Author.Create("John", "Doe", "").Value;
             var command = new DeleteAuthorCommand(author.Id);
 
-            _unitOfWorkMock.Setup(x => x.AuthorRepository.GetByIdAsync(command.bookId))
+            _unitOfWorkMock.Setup(x => x.AuthorRepository.GetByIdAsync(command.bookId, CancellationToken.None))
                 .ReturnsAsync(author);
             _unitOfWorkMock.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()))
                 .ReturnsAsync(1);
