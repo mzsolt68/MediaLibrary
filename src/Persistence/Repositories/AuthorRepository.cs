@@ -36,16 +36,17 @@ namespace Persistence.Repositories
         /// Retrieves all books associated with the specified author.
         /// </summary>
         /// <param name="authorId">The unique identifier of the author whose books are to be retrieved.</param>
+        /// <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
         /// <returns>
         /// A task representing the asynchronous operation, containing a read-only collection of books.
         /// </returns>
-        public async Task<IReadOnlyCollection<Book>> GetBooksAsync(Guid authorId)
+        public async Task<IReadOnlyCollection<Book>> GetBooksAsync(Guid authorId, CancellationToken cancellationToken = default)
         {
             return await _context.AuthorsOfBooks
                 .Where(ab => ab.AuthorID == authorId)
                 .Select(ab => ab.Book)
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

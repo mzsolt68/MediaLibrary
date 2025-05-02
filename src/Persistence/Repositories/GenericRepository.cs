@@ -45,22 +45,35 @@ namespace Persistence.Repositories
         /// Retrieves all entities from the database asynchronously based on a predicate.  
         /// </summary>  
         /// <param name="predicate">A predicate to filter the entities.</param>  
+        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
         /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>  
-        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync();
+            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
         }
+
+        /// <summary>  
+        /// Retrieves all entities from the database asynchronously based on a predicate.  
+        /// </summary>  
+        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
+        /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>  
+        public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
+        }
+
 
         /// <summary>
         /// Retrieves an entity by its unique identifier asynchronously.
         /// </summary>
         /// <param name="id">The unique identifier of the entity.</param>
+        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
         /// <returns>A task representing the asynchronous operation, containing the entity if found, or null otherwise.</returns>
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Set<T>()
                 .AsNoTracking()
-                .FirstOrDefaultAsync(entity => EF.Property<Guid>(entity, "Id") == id);
+                .FirstOrDefaultAsync(entity => EF.Property<Guid>(entity, "Id") == id, cancellationToken);
         }
 
         /// <summary>
