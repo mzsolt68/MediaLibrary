@@ -22,7 +22,7 @@ namespace Application.UnitTests.Books
         {
             // Arrange
             var bookFormat = BookFormat.Create("Hardcover").Value;
-            _unitOfWork.Setup(x => x.BookFormatRepository.GetByIdAsync(bookFormat.Id)).ReturnsAsync(bookFormat);
+            _unitOfWork.Setup(x => x.BookFormatRepository.GetByIdAsync(bookFormat.Id, CancellationToken.None)).ReturnsAsync(bookFormat);
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var command = new UpdateBookFormatCommand(bookFormat.Id, "Paperback");
@@ -39,7 +39,7 @@ namespace Application.UnitTests.Books
         public async Task NonExistentBookFormatShouldReturnNotFound()
         {
             // Arrange
-            _unitOfWork.Setup(x => x.BookFormatRepository.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as BookFormat);
+            _unitOfWork.Setup(x => x.BookFormatRepository.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(null as BookFormat);
 
             var command = new UpdateBookFormatCommand(Guid.NewGuid(), "Paperback");
 

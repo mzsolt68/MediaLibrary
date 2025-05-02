@@ -12,15 +12,24 @@ namespace Application.Abstractions.Data
         /// Retrieves an entity by its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the entity.</param>
+        /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the entity if found, or null otherwise.</returns>
-        Task<T?> GetByIdAsync(Guid id);
+        Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves all entities.
         /// </summary>
         /// <param name="predicate">A predicate to filter the entities.</param>
+        /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of entities.</returns>
-        Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+        Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all entities.
+        /// </summary>
+        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of entities.</returns>
+        Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a new entity to the repository.

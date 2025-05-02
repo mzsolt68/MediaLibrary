@@ -24,7 +24,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genre = Genre.Create("Test Genre", "Test Type").Value;
-            _genreRepository.Setup(x => x.GetByIdAsync(genre.Id)).ReturnsAsync(genre);
+            _genreRepository.Setup(x => x.GetByIdAsync(genre.Id, CancellationToken.None)).ReturnsAsync(genre);
 
             var query = new GetGenreByIdQuery { GenreId = genre.Id };
             var handler = new GetGenreByIdQueryHandler(_unitOfWork.Object);
@@ -45,7 +45,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var genreId = Guid.NewGuid();
-            _genreRepository.Setup(x => x.GetByIdAsync(genreId)).ReturnsAsync((Genre?)null);
+            _genreRepository.Setup(x => x.GetByIdAsync(genreId, CancellationToken.None)).ReturnsAsync((Genre?)null);
 
             var query = new GetGenreByIdQuery{ GenreId = genreId };
             var handler = new GetGenreByIdQueryHandler(_unitOfWork.Object);

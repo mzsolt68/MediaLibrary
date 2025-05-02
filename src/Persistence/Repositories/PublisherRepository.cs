@@ -36,16 +36,17 @@ namespace Persistence.Repositories
         /// Retrieves all books associated with the specified publisher.
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be retrieved.</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation.</param>
         /// <returns>
         /// A <see cref="Task"/> representing the asynchronous operation, 
         /// with a result of a read-only collection of <see cref="Book"/> entities.
         /// </returns>
-        public async Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId)
+        public async Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId, CancellationToken cancellationToken = default)
         {
             return await _context.Books
                 .AsNoTracking()
                 .Where(book => book.PublisherID == publisherId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Application.UnitTests.Books
         {
             // Arrange
             var publisher = Publisher.Create("Sample Publisher").Value;
-            _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(publisher.Id)).ReturnsAsync(publisher);
-            _unitOfWork.Setup(x => x.BookRepository.GetAllAsync(It.IsAny<Expression<Func<Book, bool>>>()))
+            _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(publisher.Id, CancellationToken.None)).ReturnsAsync(publisher);
+            _unitOfWork.Setup(x => x.BookRepository.GetAllAsync(It.IsAny<Expression<Func<Book, bool>>>(), CancellationToken.None))
                 .ReturnsAsync(new List<Book>());
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
@@ -44,7 +44,7 @@ namespace Application.UnitTests.Books
         public async Task NonExistentPublisherShouldReturnNotFound()
         {
             // Arrange
-            _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Publisher);
+            _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(null as Publisher);
 
             var command = new DeletePublisherCommand(Guid.NewGuid());
 
@@ -63,8 +63,8 @@ namespace Application.UnitTests.Books
         {
             // Arrange
             var publisher = Publisher.Create("Sample Publisher").Value;
-            _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(publisher.Id)).ReturnsAsync(publisher);
-            _unitOfWork.Setup(x => x.BookRepository.GetAllAsync(It.IsAny<Expression<Func<Book, bool>>>()))
+            _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(publisher.Id, CancellationToken.None)).ReturnsAsync(publisher);
+            _unitOfWork.Setup(x => x.BookRepository.GetAllAsync(It.IsAny<Expression<Func<Book, bool>>>(), CancellationToken.None))
                 .ReturnsAsync(new List<Book>());
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(0);
 

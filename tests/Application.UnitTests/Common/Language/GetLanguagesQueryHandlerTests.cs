@@ -29,7 +29,7 @@ namespace Application.UnitTests.Common
                 Language.Create("English").Value,
                 Language.Create("Spanish").Value
             };
-            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>())).ReturnsAsync(languages);
+            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>(), CancellationToken.None)).ReturnsAsync(languages);
 
             // Provide a valid predicate for the query
             Expression<Func<Language, bool>> predicate = language => true; 
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoLanguagesExist()
         {
             // Arrange
-            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>())).ReturnsAsync(new List<Language>());
+            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>(), CancellationToken.None)).ReturnsAsync(new List<Language>());
 
             // Provide a valid predicate for the query
             Expression<Func<Language, bool>> predicate = language => true;

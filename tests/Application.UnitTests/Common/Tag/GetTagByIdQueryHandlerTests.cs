@@ -24,7 +24,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tag = Tag.Create("Horror").Value;
-            _tagRepository.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
+            _tagRepository.Setup(x => x.GetByIdAsync(tag.Id, CancellationToken.None)).ReturnsAsync(tag);
 
             var query = new GetTagByIdQuery(tag.Id);
             var handler = new GetTagByIdQueryHandler(_unitOfWork.Object);
@@ -44,7 +44,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagId = Guid.NewGuid();
-            _tagRepository.Setup(x => x.GetByIdAsync(tagId)).ReturnsAsync((Tag?)null);
+            _tagRepository.Setup(x => x.GetByIdAsync(tagId, CancellationToken.None)).ReturnsAsync((Tag?)null);
 
             var query = new GetTagByIdQuery(tagId);
             var handler = new GetTagByIdQueryHandler(_unitOfWork.Object);

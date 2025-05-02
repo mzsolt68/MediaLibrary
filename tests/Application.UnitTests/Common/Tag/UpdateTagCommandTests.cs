@@ -27,7 +27,7 @@ namespace Application.UnitTests.Common
             var tag = Tag.Create("Old Name").Value;
             var command = new UpdateTagCommand(tag.Id, "New Name");
             var handler = new UpdateTagCommandHandler(_context.Object);
-            _tags.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
+            _tags.Setup(x => x.GetByIdAsync(tag.Id, CancellationToken.None)).ReturnsAsync(tag);
             _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
@@ -43,7 +43,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagId = Guid.NewGuid();
-            _tags.Setup(x => x.GetByIdAsync(tagId)).ReturnsAsync((Tag?)null);
+            _tags.Setup(x => x.GetByIdAsync(tagId, CancellationToken.None)).ReturnsAsync((Tag?)null);
 
             var command = new UpdateTagCommand(tagId, "New Name");
             var handler = new UpdateTagCommandHandler(_context.Object);
@@ -62,7 +62,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tag = Tag.Create("Old Name").Value;
-            _tags.Setup(x => x.GetByIdAsync(tag.Id)).ReturnsAsync(tag);
+            _tags.Setup(x => x.GetByIdAsync(tag.Id, CancellationToken.None)).ReturnsAsync(tag);
 
             var command = new UpdateTagCommand(tag.Id, string.Empty);
             var handler = new UpdateTagCommandHandler(_context.Object);

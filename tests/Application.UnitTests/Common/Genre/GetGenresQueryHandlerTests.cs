@@ -29,7 +29,7 @@ namespace Application.UnitTests.Common
                 Genre.Create("Genre1", "Type1").Value,
                 Genre.Create("Genre2", "Type2").Value
             };
-            _genreRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Genre, bool>>>())).ReturnsAsync(genres);
+            _genreRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Genre, bool>>>(), CancellationToken.None)).ReturnsAsync(genres);
 
             // Provide a valid predicate for the query
             Expression<Func<Genre, bool>> predicate = genre => true; 
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoGenresExist()
         {
             // Arrange
-            _genreRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Genre, bool>>>())).ReturnsAsync(new List<Genre>());
+            _genreRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Genre, bool>>>(), CancellationToken.None)).ReturnsAsync(new List<Genre>());
 
             // Provide a valid predicate for the query
             Expression<Func<Genre, bool>> predicate = genre => true; 

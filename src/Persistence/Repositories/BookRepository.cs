@@ -56,11 +56,12 @@ namespace Persistence.Repositories
         /// Retrieves a book with all its associated data (authors, formats, tags) asynchronously.
         /// </summary>
         /// <param name="bookId">The unique identifier of the book.</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation if needed.</param>
         /// <returns>
         /// A task representing the asynchronous operation, containing the book with its full data if found,
         /// or null otherwise.
         /// </returns>
-        public async Task<Book?> GetBookWithFullDataAsync(Guid bookId)
+        public async Task<Book?> GetBookWithFullDataAsync(Guid bookId, CancellationToken cancellationToken = default)
         {
             return await _context.Books
                 .AsNoTracking()
@@ -70,7 +71,7 @@ namespace Persistence.Repositories
                     .ThenInclude(fb => fb.Format)
                 .Include(b => b.Tags)
                     .ThenInclude(tb => tb.Tag)
-                .FirstOrDefaultAsync(b => b.Id == bookId);
+                .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken: cancellationToken);
         }
     }
 }

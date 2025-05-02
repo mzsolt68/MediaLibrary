@@ -17,9 +17,10 @@ namespace Application.Abstractions.Data
         /// Retrieves all books associated with the specified publisher.
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be retrieved.</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains a read-only collection of books.
         /// </returns>
-        Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId);
+        Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId, CancellationToken cancellationToken = default);
     }
 }

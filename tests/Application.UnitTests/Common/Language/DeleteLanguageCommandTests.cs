@@ -32,7 +32,7 @@ namespace Application.UnitTests.Common
             // Arrange
             var language = Language.Create("English").Value;
             var command = new DeleteLanguageCommand(language.Id);
-            _languages.Setup(x => x.GetByIdAsync(language.Id)).ReturnsAsync(language);
+            _languages.Setup(x => x.GetByIdAsync(language.Id, CancellationToken.None)).ReturnsAsync(language);
             _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
@@ -52,7 +52,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageId = Guid.Empty;
-            _languages.Setup(x => x.GetByIdAsync(languageId)).ReturnsAsync((Language)null);
+            _languages.Setup(x => x.GetByIdAsync(languageId, CancellationToken.None)).ReturnsAsync((Language)null);
             var command = new DeleteLanguageCommand(languageId);
 
             // Act
