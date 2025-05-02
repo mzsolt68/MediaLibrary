@@ -11,11 +11,12 @@ namespace Application.Abstractions.Data
         /// Retrieves a book with its full associated data, including authors, formats, and tags.
         /// </summary>
         /// <param name="bookId">The unique identifier of the book.</param>
+        /// <param name="cancellationToken">Cancellation token to cancel the operation if needed.</param>
         /// <returns>
         /// A task that represents the asynchronous operation. 
         /// The task result contains the book with its full data if found, or null otherwise.
         /// </returns>
-        Task<Book?> GetBookWithFullDataAsync(Guid bookId);
+        Task<Book?> GetBookWithFullDataAsync(Guid bookId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes all authors associated with a specific book.
