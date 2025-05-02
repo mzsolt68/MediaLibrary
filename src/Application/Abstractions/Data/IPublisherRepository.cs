@@ -20,6 +20,6 @@ namespace Application.Abstractions.Data
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains a read-only collection of books.
         /// </returns>
-        Task<IReadOnlyCollection<Book>> GetBooks(Guid publisherId);
+        Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId);
     }
 }

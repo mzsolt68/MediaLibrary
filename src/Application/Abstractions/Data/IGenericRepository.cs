@@ -26,18 +26,18 @@ namespace Application.Abstractions.Data
         /// Adds a new entity to the repository.
         /// </summary>
         /// <param name="entity">The entity to add.</param>
-        void AddAsync(T entity);
+        void Add(T entity);
 
         /// <summary>
         /// Updates an existing entity in the repository.
         /// </summary>
         /// <param name="entity">The entity to update.</param>
-        void UpdateAsync(T entity);
+        void Update(T entity);
 
         /// <summary>
         /// Deletes an entity from the repository.
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
-        void DeleteAsync(T entity);
+        void Delete(T entity);
     }
 }
