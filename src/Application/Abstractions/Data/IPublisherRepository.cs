@@ -11,8 +11,7 @@ namespace Application.Abstractions.Data
         /// Deletes all books associated with the specified publisher.
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be deleted.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task DeleteBooks(Guid publisherId);
+        void DeleteBooks(Guid publisherId);
 
         /// <summary>
         /// Retrieves all books associated with the specified publisher.

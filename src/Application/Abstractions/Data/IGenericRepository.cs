@@ -26,21 +26,18 @@ namespace Application.Abstractions.Data
         /// Adds a new entity to the repository.
         /// </summary>
         /// <param name="entity">The entity to add.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the added entity.</returns>
-        Task<T> AddAsync(T entity);
+        void AddAsync(T entity);
 
         /// <summary>
         /// Updates an existing entity in the repository.
         /// </summary>
         /// <param name="entity">The entity to update.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task UpdateAsync(T entity);
+        void UpdateAsync(T entity);
 
         /// <summary>
         /// Deletes an entity from the repository.
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task DeleteAsync(T entity);
+        void DeleteAsync(T entity);
     }
 }
