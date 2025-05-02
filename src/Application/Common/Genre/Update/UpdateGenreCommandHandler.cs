@@ -35,7 +35,7 @@ namespace Application.Common
             }
 
             // Update the genre in the repository.
-            await context.GenreRepository.UpdateAsync(genre);
+            context.GenreRepository.Update(genre);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

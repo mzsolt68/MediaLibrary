@@ -43,7 +43,11 @@ namespace Application.Books.Publisher.Delete
             publisher.SetActiveState(false);
 
             // Delete all books associated with the publisher
-            await _unitOfWork.PublisherRepository.DeleteBooks(request.PublisherId);
+            var books = await _unitOfWork.BookRepository.GetAllAsync(book => book.PublisherID == request.PublisherId);
+            if (books != null && books.Count > 0)
+            {
+                _unitOfWork.PublisherRepository.DeleteBooks(books);
+            }
 
             // Save changes to the database
             int result = await _unitOfWork.SaveChangesAsync(cancellationToken);

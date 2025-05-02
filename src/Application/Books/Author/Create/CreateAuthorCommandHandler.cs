@@ -31,7 +31,7 @@ namespace Application.Books
             }
 
             // Add the Author to the repository
-            await context.AuthorRepository.AddAsync(authorResult.Value);
+            context.AuthorRepository.Add(authorResult.Value);
 
             // Save changes
             int result = await context.SaveChangesAsync(cancellationToken);

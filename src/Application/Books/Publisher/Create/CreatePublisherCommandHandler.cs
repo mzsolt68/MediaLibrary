@@ -41,7 +41,7 @@ namespace Application.Books
             }
 
             // Add the Publisher to the repository
-            await _unitOfWork.PublisherRepository.AddAsync(publisherResult.Value);
+            _unitOfWork.PublisherRepository.Add(publisherResult.Value);
 
             // Save changes
             int result = await _unitOfWork.SaveChangesAsync(cancellationToken);

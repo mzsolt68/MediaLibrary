@@ -29,12 +29,10 @@ namespace Application.Books
             }
 
             // Delete all books associated with the author.
-            await context.AuthorRepository.DeleteBooks(author.Id);
+            context.AuthorRepository.DeleteBooks(author.Id);
 
             // Mark the author as inactive.
             author.SetActiveState(false);
-
-            // TODO: Check if the author is used in any book.
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

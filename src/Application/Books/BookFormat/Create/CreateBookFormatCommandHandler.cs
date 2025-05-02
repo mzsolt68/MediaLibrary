@@ -42,7 +42,7 @@ namespace Application.Books
             }
 
             // Add the new book format to the repository.
-            await _unitOfWork.BookFormatRepository.AddAsync(bookFormatResult.Value);
+            _unitOfWork.BookFormatRepository.Add(bookFormatResult.Value);
 
             // Save changes to the database.
             int result = await _unitOfWork.SaveChangesAsync(cancellationToken);

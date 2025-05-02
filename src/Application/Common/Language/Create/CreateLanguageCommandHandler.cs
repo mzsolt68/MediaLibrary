@@ -30,7 +30,7 @@ namespace Application.Common
             }
 
             // Add the created language to the repository.
-            await context.LanguageRepository.AddAsync(languageResult.Value);
+            context.LanguageRepository.Add(languageResult.Value);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);
