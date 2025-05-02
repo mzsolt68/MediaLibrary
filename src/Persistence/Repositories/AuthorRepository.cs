@@ -24,7 +24,7 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="authorId">The unique identifier of the author whose books are to be deleted.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task DeleteBooks(Guid authorId)
+        public void DeleteBooks(Guid authorId)
         {
             var authorBooks = _context.AuthorsOfBooks
                 .Where(ab => ab.AuthorID == authorId);
@@ -39,7 +39,7 @@ namespace Persistence.Repositories
         /// <returns>
         /// A task representing the asynchronous operation, containing a read-only collection of books.
         /// </returns>
-        public async Task<IReadOnlyCollection<Book>> GetBooks(Guid authorId)
+        public async Task<IReadOnlyCollection<Book>> GetBooksAsync(Guid authorId)
         {
             return await _context.AuthorsOfBooks
                 .Where(ab => ab.AuthorID == authorId)

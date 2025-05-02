@@ -24,12 +24,8 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be deleted.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task DeleteBooks(Guid publisherId)
+        public void DeleteBooks(IEnumerable<Book> books)
         {
-            var books = await _context.Books
-                .Where(book => book.PublisherID == publisherId)
-                .ToListAsync();
-
             if (books.Any())
             {
                 _context.Books.RemoveRange(books);
@@ -44,7 +40,7 @@ namespace Persistence.Repositories
         /// A <see cref="Task"/> representing the asynchronous operation, 
         /// with a result of a read-only collection of <see cref="Book"/> entities.
         /// </returns>
-        public async Task<IReadOnlyCollection<Book>> GetBooks(Guid publisherId)
+        public async Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId)
         {
             return await _context.Books
                 .AsNoTracking()

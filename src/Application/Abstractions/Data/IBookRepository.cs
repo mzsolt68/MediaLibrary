@@ -21,21 +21,18 @@ namespace Application.Abstractions.Data
         /// Deletes all authors associated with a specific book.
         /// </summary>
         /// <param name="bookId">The unique identifier of the book.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task DeleteBookAuthorsAsync(Guid bookId);
+        void DeleteBookAuthors(Guid bookId);
 
         /// <summary>
         /// Deletes all formats associated with a specific book.
         /// </summary>
         /// <param name="bookId">The unique identifier of the book.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task DeleteBookFormatsAsync(Guid bookId);
+        void DeleteBookFormats(Guid bookId);
 
         /// <summary>
         /// Deletes all tags associated with a specific book.
         /// </summary>
         /// <param name="bookId">The unique identifier of the book.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task DeleteBookTagsAsync(Guid bookId);
+        void DeleteBookTags(Guid bookId);
     }
 }

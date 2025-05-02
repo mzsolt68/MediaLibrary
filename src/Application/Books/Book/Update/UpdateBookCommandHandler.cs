@@ -47,7 +47,7 @@ namespace Application.Books
             }
 
             // Update the book in the repository.
-            await context.BookRepository.UpdateAsync(book);
+            context.BookRepository.Update(book);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

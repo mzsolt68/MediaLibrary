@@ -11,8 +11,7 @@ namespace Application.Abstractions.Data
         /// Deletes all books associated with the specified publisher.
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be deleted.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        Task DeleteBooks(Guid publisherId);
+        void DeleteBooks(IEnumerable<Book> books);
 
         /// <summary>
         /// Retrieves all books associated with the specified publisher.
@@ -21,6 +20,6 @@ namespace Application.Abstractions.Data
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains a read-only collection of books.
         /// </returns>
-        Task<IReadOnlyCollection<Book>> GetBooks(Guid publisherId);
+        Task<IReadOnlyCollection<Book>> GetPublishersBooksAsync(Guid publisherId);
     }
 }

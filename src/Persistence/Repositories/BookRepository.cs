@@ -24,7 +24,7 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="BookId">The unique identifier of the book.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task DeleteBookAuthorsAsync(Guid BookId)
+        public void DeleteBookAuthors(Guid BookId)
         {
             var authorsToRemove = _context.AuthorsOfBooks.Where(ab => ab.BookID == BookId);
             _context.AuthorsOfBooks.RemoveRange(authorsToRemove);
@@ -35,7 +35,7 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="BookId">The unique identifier of the book.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task DeleteBookFormatsAsync(Guid BookId)
+        public void DeleteBookFormats(Guid BookId)
         {
             var formatsToRemove = _context.FormatsOfBooks.Where(fb => fb.BookID == BookId);
             _context.FormatsOfBooks.RemoveRange(formatsToRemove);
@@ -46,7 +46,7 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="BookId">The unique identifier of the book.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task DeleteBookTagsAsync(Guid BookId)
+        public void DeleteBookTags(Guid BookId)
         {
             var tagsToRemove = _context.TagsOfBooks.Where(tb => tb.BookID == BookId);
             _context.TagsOfBooks.RemoveRange(tagsToRemove);

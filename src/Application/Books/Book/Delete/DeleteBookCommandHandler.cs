@@ -29,9 +29,9 @@ namespace Application.Books
             }
 
             // Delete associated authors, formats, and tags of the book.
-            await context.BookRepository.DeleteBookAuthorsAsync(book.Id);
-            await context.BookRepository.DeleteBookFormatsAsync(book.Id);
-            await context.BookRepository.DeleteBookTagsAsync(book.Id);
+            context.BookRepository.DeleteBookAuthors(book.Id);
+            context.BookRepository.DeleteBookFormats(book.Id);
+            context.BookRepository.DeleteBookTags(book.Id);
 
             // Mark the book as inactive.
             book.SetActiveState(false);

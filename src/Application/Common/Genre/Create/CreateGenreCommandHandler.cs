@@ -30,7 +30,7 @@ namespace Application.Common
             }
 
             // Add the created genre to the repository.
-            await context.GenreRepository.AddAsync(genreResult.Value);
+            context.GenreRepository.Add(genreResult.Value);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

@@ -30,7 +30,7 @@ namespace Application.Common
             }
 
             // Add the created tag to the repository.
-            await context.TagRepository.AddAsync(tagResult.Value);
+            context.TagRepository.Add(tagResult.Value);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

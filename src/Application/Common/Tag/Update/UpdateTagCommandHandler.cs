@@ -34,6 +34,8 @@ namespace Application.Common
                 // Return failure if the update operation fails.
                 return Result.Failure(updateResult.Error);
             }
+            // Mark the tag as modified in the context.
+            context.TagRepository.Update(tag);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

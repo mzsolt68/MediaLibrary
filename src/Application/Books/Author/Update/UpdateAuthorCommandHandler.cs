@@ -39,7 +39,14 @@ namespace Application.Books
             }
 
             // Update the author's details
-            author.Update(request.FirstName, request.LastName, request.MiddleName);
+            var updateResult = author.Update(request.FirstName, request.LastName, request.MiddleName);
+            if(updateResult.IsFailure)
+            {
+                // Return failure if the update operation fails
+                return Result.Failure(updateResult.Error);
+            }
+            // Update the author in the repository
+            _context.AuthorRepository.Update(author);
 
             // Save changes to the database
             var result = await _context.SaveChangesAsync(cancellationToken);

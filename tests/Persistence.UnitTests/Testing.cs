@@ -1,9 +1,4 @@
-using Domain.Models.Books;
-using Domain.Models.Common;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
-using Persistence;
 
 namespace Persistence.UnitTests;
 

@@ -50,7 +50,7 @@ namespace Application.Books
             }
 
             // Update the book format in the repository.
-            await _unitOfWork.BookFormatRepository.UpdateAsync(bookFormat);
+            _unitOfWork.BookFormatRepository.Update(bookFormat);
 
             // Save changes to the database.
             int result = await _unitOfWork.SaveChangesAsync(cancellationToken);

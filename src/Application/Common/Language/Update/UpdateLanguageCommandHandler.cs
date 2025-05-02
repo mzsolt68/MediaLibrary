@@ -36,7 +36,7 @@ namespace Application.Common
             }
 
             // Update the language in the repository.
-            await context.LanguageRepository.UpdateAsync(language);
+            context.LanguageRepository.Update(language);
 
             // Save changes to the database.
             int result = await context.SaveChangesAsync(cancellationToken);

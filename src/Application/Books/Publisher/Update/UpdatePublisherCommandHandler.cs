@@ -50,7 +50,7 @@ namespace Application.Books
             }
 
             // Update the publisher in the repository.
-            await _unitOfWork.PublisherRepository.UpdateAsync(publisher);
+            _unitOfWork.PublisherRepository.Update(publisher);
 
             // Save changes to the database.
             int result = await _unitOfWork.SaveChangesAsync(cancellationToken);
