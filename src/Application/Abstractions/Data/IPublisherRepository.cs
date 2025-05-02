@@ -11,7 +11,7 @@ namespace Application.Abstractions.Data
         /// Deletes all books associated with the specified publisher.
         /// </summary>
         /// <param name="publisherId">The unique identifier of the publisher whose books are to be deleted.</param>
-        void DeleteBooks(Guid publisherId);
+        void DeleteBooks(IEnumerable<Book> books);
 
         /// <summary>
         /// Retrieves all books associated with the specified publisher.
