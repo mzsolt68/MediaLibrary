@@ -26,10 +26,9 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="entity">The entity to add.</param>
         /// <returns>A task representing the asynchronous operation, containing the added entity.</returns>
-        public async Task<T> AddAsync(T entity)
+        public void Add(T entity)
         {
-            await _context.AddAsync(entity);
-            return entity;
+            _context.AddAsync(entity);
         }
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task DeleteAsync(T entity)
+        public void Delete(T entity)
         {
             _context.Set<T>().Remove(entity);
         }
@@ -69,7 +68,7 @@ namespace Persistence.Repositories
         /// </summary>
         /// <param name="entity">The entity to update.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        public async Task UpdateAsync(T entity)
+        public void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }
