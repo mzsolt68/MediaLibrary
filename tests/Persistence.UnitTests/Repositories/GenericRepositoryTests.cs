@@ -62,7 +62,7 @@ public class GenericRepositoryTests : Testing
         var tag = Tag.Create("NewTag").Value;
         
         // Act
-        await repository.AddAsync(tag);
+        repository.Add(tag);
         
         // Assert
         var entry = dbContext.Entry(tag);
@@ -85,7 +85,7 @@ public class GenericRepositoryTests : Testing
         
         // Act
         tag.Update("UpdatedName");
-        repository.UpdateAsync(tag);
+        repository.Update(tag);
         
         // Assert
         var entry = dbContext.Entry(tag);
@@ -104,7 +104,7 @@ public class GenericRepositoryTests : Testing
         dbContext.SaveChanges();
         
         // Act
-        repository.DeleteAsync(tag);
+        repository.Delete(tag);
         
         // Assert
         var entry = dbContext.Entry(tag);

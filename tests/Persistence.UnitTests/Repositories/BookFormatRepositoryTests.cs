@@ -16,7 +16,7 @@ public class BookFormatRepositoryTests : Testing
         var bookFormat = BookFormat.Create("Paperback").Value;
         
         // Act
-        await repository.AddAsync(bookFormat);
+        repository.Add(bookFormat);
         await dbContext.SaveChangesAsync();
         
         // Assert
@@ -42,7 +42,7 @@ public class BookFormatRepositoryTests : Testing
         // Act
         foreach (var format in formats)
         {
-            await repository.AddAsync(format);
+            repository.Add(format);
         }
         await dbContext.SaveChangesAsync();
         

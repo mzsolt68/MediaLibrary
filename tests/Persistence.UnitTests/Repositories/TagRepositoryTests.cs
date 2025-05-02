@@ -16,7 +16,7 @@ public class TagRepositoryTests : Testing
         var tag = Tag.Create("Fantasy").Value;
         
         // Act
-        await repository.AddAsync(tag);
+        repository.Add(tag);
         await dbContext.SaveChangesAsync();
         
         // Assert
@@ -42,7 +42,7 @@ public class TagRepositoryTests : Testing
         // Act
         foreach (var tag in tags)
         {
-            await repository.AddAsync(tag);
+            repository.Add(tag);
         }
         await dbContext.SaveChangesAsync();
 

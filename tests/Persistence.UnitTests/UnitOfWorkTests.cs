@@ -32,7 +32,7 @@ public class UnitOfWorkTests : Testing
         var unitOfWork = new UnitOfWork(dbContext);
         
         var tag = Tag.Create("Test Tag").Value;
-        await unitOfWork.TagRepository.AddAsync(tag);
+        unitOfWork.TagRepository.Add(tag);
         
         // Act
         var result = await unitOfWork.SaveChangesAsync();
@@ -56,8 +56,8 @@ public class UnitOfWorkTests : Testing
         var tag = Tag.Create("Fantasy").Value;
         var bookFormat = BookFormat.Create("Paperback").Value;      
         // Act
-        await unitOfWork.TagRepository.AddAsync(tag);
-        await unitOfWork.BookFormatRepository.AddAsync(bookFormat);
+        unitOfWork.TagRepository.Add(tag);
+        unitOfWork.BookFormatRepository.Add(bookFormat);
         var result = await unitOfWork.SaveChangesAsync();
         
         // Assert
