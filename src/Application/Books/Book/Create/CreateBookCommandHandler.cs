@@ -40,7 +40,8 @@ namespace Application.Books
             // Add authors to the book.
             foreach (var authorID in request.AuthorIDs)
             {
-                var authorBook = book.Value.AddAuthor(authorID);
+                var author = await context.AuthorRepository.GetByIdAsync(authorID);
+                var authorBook = book.Value.AddAuthor(author);
                 if (authorBook.IsFailure)
                 {
                     return Result.Failure<Guid>(authorBook.Error);
@@ -50,7 +51,8 @@ namespace Application.Books
             // Add formats to the book.
             foreach (var formatID in request.FormatIDs)
             {
-                var formatBook = book.Value.AddFormat(formatID);
+                var format = await context.BookFormatRepository.GetByIdAsync(formatID);
+                var formatBook = book.Value.AddFormat(format);
                 if (formatBook.IsFailure)
                 {
                     return Result.Failure<Guid>(formatBook.Error);
@@ -60,7 +62,8 @@ namespace Application.Books
             // Add tags to the book.
             foreach (var tagID in request.TagIDs)
             {
-                var tagBook = book.Value.AddTag(tagID);
+                var tag = await context.TagRepository.GetByIdAsync(tagID);
+                var tagBook = book.Value.AddTag(tag);
                 if (tagBook.IsFailure)
                 {
                     return Result.Failure<Guid>(tagBook.Error);
