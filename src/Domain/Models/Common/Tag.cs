@@ -19,7 +19,7 @@ namespace Domain.Models.Common
         /// <param name="id"></param>
         private Tag(Guid id) : base(id) { }
 
-        private HashSet<TagBook> _booksOfTag;
+        private readonly HashSet<Book> _booksOfTag;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Tag"/> class with the specified identifier and tag name.
@@ -29,7 +29,7 @@ namespace Domain.Models.Common
         private Tag(Guid id, string tagName) : base(id)
         {
             TagName = tagName;
-            _booksOfTag = new HashSet<TagBook>();
+            _booksOfTag = [];
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Domain.Models.Common
         /// <summary>
         /// Gets the collection of books associated with the tag.
         /// </summary>
-        public virtual ICollection<TagBook> BooksOfTag => _booksOfTag.ToList();
+        public virtual ICollection<Book> BooksOfTag => [.. _booksOfTag];
 
         /// <summary>
         /// Creates a new instance of the <see cref="Tag"/> class.
@@ -58,8 +58,10 @@ namespace Domain.Models.Common
             {
                 return Result.Failure<Tag>(new Error("TagName.Missing", "Tag name is missing", ErrorType.Validation));
             }
-            var tag = new Tag(Guid.NewGuid(), tagName);
-            tag.IsActive = true;
+            var tag = new Tag(Guid.NewGuid(), tagName)
+            {
+                IsActive = true
+            };
             return Result.Success(tag);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Shouldly;
 using Domain.Models.Books;
 using SharedKernel;
+using Domain.Models.Common;
 
 namespace Domain.UnitTests.Books
 {
@@ -80,46 +81,19 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var authorID = Guid.NewGuid();
+            var author = Author.Create("Author Last Name", "Author First Name", "Author Middle Name");
             // Act
-            var authorBook = book.AddAuthor(authorID);
+            var authorBook = book.AddAuthor(author.Value);
             // Assert
             authorBook.ShouldNotBeNull();
             authorBook.IsSuccess.ShouldBeTrue();
             authorBook.IsFailure.ShouldBeFalse();
             authorBook.Value.BookID.ShouldBe(book.Id);
-            authorBook.Value.AuthorID.ShouldBe(authorID);
+            authorBook.Value.AuthorID.ShouldBe(author.Value.Id);
             authorBook.Value.IsActive.ShouldBeTrue();
             authorBook.Value.CreatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             authorBook.Value.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             authorBook.Value.Id.ShouldNotBe(Guid.Empty);
-        }
-
-        /// <summary>
-        /// Empty author ID should return a failure when adding.
-        /// <see cref="Book.AddAuthor(Guid)"/>
-        /// </summary>
-        [Fact]
-        public void EmptyAuthorIDShouldReturnFailureWhenAdding()
-        {
-            // Arrange
-            var bookTitle = "Book Title";
-            var edition = "1st";
-            var publisherID = Guid.NewGuid();
-            var publishYear = "2021";
-            var isbn = "978-3-16-148410-0";
-            var languageID = Guid.NewGuid();
-            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var authorID = Guid.Empty;
-            // Act
-            var authorBook = book.AddAuthor(authorID);
-            // Assert
-            authorBook.ShouldNotBeNull();
-            authorBook.IsFailure.ShouldBeTrue();
-            authorBook.IsSuccess.ShouldBeFalse();
-            authorBook.Error.Code.ShouldBe("AuthorID.Empty");
-            authorBook.Error.Message.ShouldBe("AuthorID is required.");
-            authorBook.Error.Type.ShouldBe(ErrorType.Validation);
         }
 
         /// <summary>
@@ -137,42 +111,15 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var authorID = Guid.NewGuid();
-            var authorBook = book.AddAuthor(authorID).Value;
+            var author = Author.Create("Author Last Name", "Author First Name", "Author Middle Name").Value;
+            _ = book.AddAuthor(author).Value;
             // Act
-            var result = book.RemoveAuthor(authorID);
+            var result = book.RemoveAuthor(author);
             // Assert
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Value.ShouldBe(authorBook);
-        }
-
-        /// <summary>
-        /// Empty author ID should return a failure when removing.
-        /// <see cref="Book.RemoveAuthor(Guid)"/>
-        /// </summary>  
-        [Fact]
-        public void EmptyAuthorIDShouldReturnFailureWhenRemoving()
-        {
-            // Arrange
-            var bookTitle = "Book Title";
-            var edition = "1st";
-            var publisherID = Guid.NewGuid();
-            var publishYear = "2021";
-            var isbn = "978-3-16-148410-0";
-            var languageID = Guid.NewGuid();
-            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var authorID = Guid.Empty;
-            // Act
-            var result = book.RemoveAuthor(authorID);
-            // Assert
-            result.ShouldNotBeNull();
-            result.IsFailure.ShouldBeTrue();
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.Code.ShouldBe("Author.Empty");
-            result.Error.Message.ShouldBe("Author cannot be empty.");
-            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Value.ShouldBe(author);
         }
 
         /// <summary>
@@ -190,10 +137,10 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var authorID = Guid.NewGuid();
-            book.AddAuthor(authorID);
+            var author = Author.Create("Author Last Name", "Author First Name", "Author Middle Name").Value;
+            book.AddAuthor(author);
             // Act
-            var result = book.AddAuthor(authorID);
+            var result = book.AddAuthor(author);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeTrue();
@@ -208,7 +155,7 @@ namespace Domain.UnitTests.Books
         /// <see cref="Book.RemoveAuthor(Guid)"/>
         /// </summary>  
         [Fact]
-        public void NotAddedAuthorIDShouldReturnFailureWhenRemoving()
+        public void NotAddedAuthorShouldReturnFailureWhenRemoving()
         {
             // Arrange
             var bookTitle = "Book Title";
@@ -218,9 +165,9 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var authorID = Guid.NewGuid();
+            var author = Author.Create("Author Last Name", "Author First Name", "Author Middle Name").Value;
             // Act
-            var result = book.RemoveAuthor(authorID);
+            var result = book.RemoveAuthor(author);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeTrue();
@@ -245,46 +192,19 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var formatID = Guid.NewGuid();
+            var format = BookFormat.Create("Format Name").Value;
             // Act
-            var formatBook = book.AddFormat(formatID);
+            var formatBook = book.AddFormat(format);
             // Assert
             formatBook.ShouldNotBeNull();
             formatBook.IsSuccess.ShouldBeTrue();
             formatBook.IsFailure.ShouldBeFalse();
             formatBook.Value.BookID.ShouldBe(book.Id);
-            formatBook.Value.FormatID.ShouldBe(formatID);
+            formatBook.Value.FormatID.ShouldBe(format.Id);
             formatBook.Value.IsActive.ShouldBeTrue();
             formatBook.Value.CreatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             formatBook.Value.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             formatBook.Value.Id.ShouldNotBe(Guid.Empty);
-        }
-
-        /// <summary>
-        /// Empty format ID should return a failure when adding.
-        /// <see cref="Book.AddFormat(Guid)"/>
-        /// </summary>
-        [Fact]
-        public void EmptyFormatIDShouldReturnFailureWhenAdding()
-        {
-            // Arrange
-            var bookTitle = "Book Title";
-            var edition = "1st";
-            var publisherID = Guid.NewGuid();
-            var publishYear = "2021";
-            var isbn = "978-3-16-148410-0";
-            var languageID = Guid.NewGuid();
-            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var formatID = Guid.Empty;
-            // Act
-            var formatBook = book.AddFormat(formatID);
-            // Assert
-            formatBook.ShouldNotBeNull();
-            formatBook.IsFailure.ShouldBeTrue();
-            formatBook.IsSuccess.ShouldBeFalse();
-            formatBook.Error.Code.ShouldBe("FormatID.Missing");
-            formatBook.Error.Message.ShouldBe("FormatID is required.");
-            formatBook.Error.Type.ShouldBe(ErrorType.Validation);
         }
 
         /// <summary>
@@ -302,10 +222,10 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var formatID = Guid.NewGuid();
-            book.AddFormat(formatID);
+            var format = BookFormat.Create("Format Name").Value;
+            book.AddFormat(format);
             // Act
-            var result = book.AddFormat(formatID);
+            var result = book.AddFormat(format);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeTrue();
@@ -330,42 +250,15 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var formatID = Guid.NewGuid();
-            var formatBook = book.AddFormat(formatID).Value;
+            var format = BookFormat.Create("Format Name").Value;
+            _ = book.AddFormat(format).Value;
             // Act
-            var result = book.RemoveFormat(formatID);
+            var result = book.RemoveFormat(format);
             // Assert
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Value.ShouldBe(formatBook);
-        }
-
-        /// <summary>
-        /// Empty format ID should return a failure when removing.
-        /// <see cref="Book.RemoveFormat(Guid)"/>
-        /// </summary>
-        [Fact]
-        public void EmptyFormatIDShouldReturnFailureWhenRemoving()
-        {
-            // Arrange
-            var bookTitle = "Book Title";
-            var edition = "1st";
-            var publisherID = Guid.NewGuid();
-            var publishYear = "2021";
-            var isbn = "978-3-16-148410-0";
-            var languageID = Guid.NewGuid();
-            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var formatID = Guid.Empty;
-            // Act
-            var result = book.RemoveFormat(formatID);
-            // Assert
-            result.ShouldNotBeNull();
-            result.IsFailure.ShouldBeTrue();
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.Code.ShouldBe("FormatID.Missing");
-            result.Error.Message.ShouldBe("FormatID is required");
-            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Value.ShouldBe(format);
         }
 
         /// <summary>
@@ -383,9 +276,9 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var formatID = Guid.NewGuid();
+            var format = BookFormat.Create("Format Name").Value;
             // Act
-            var result = book.RemoveFormat(formatID);
+            var result = book.RemoveFormat(format);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeTrue();
@@ -410,7 +303,7 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var tag = Guid.NewGuid();
+            var tag = Tag.Create("Tag Name").Value;
             // Act
             var result = book.AddTag(tag);
             // Assert
@@ -418,38 +311,11 @@ namespace Domain.UnitTests.Books
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
             result.Value.BookID.ShouldBe(book.Id);
-            result.Value.TagID.ShouldBe(tag);
+            result.Value.TagID.ShouldBe(tag.Id);
             result.Value.IsActive.ShouldBeTrue();
             result.Value.CreatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             result.Value.UpdatedAt.ShouldBeLessThanOrEqualTo(DateTime.UtcNow);
             result.Value.Id.ShouldNotBe(Guid.Empty);
-        }
-
-        /// <summary>
-        /// Empty tag should return a failure when adding.
-        /// <see cref="Book.AddTag(Guid)"/>
-        /// </summary>
-        [Fact]
-        public void EmptyTagShouldReturnFailureWhenAdding()
-        {
-            // Arrange
-            var bookTitle = "Book Title";
-            var edition = "1st";
-            var publisherID = Guid.NewGuid();
-            var publishYear = "2021";
-            var isbn = "978-3-16-148410-0";
-            var languageID = Guid.NewGuid();
-            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var tag = Guid.Empty;
-            // Act
-            var result = book.AddTag(tag);
-            // Assert
-            result.ShouldNotBeNull();
-            result.IsFailure.ShouldBeTrue();
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.Code.ShouldBe("TagID.Missing");
-            result.Error.Message.ShouldBe("TagID is required");
-            result.Error.Type.ShouldBe(ErrorType.Validation);
         }
 
         /// <summary>
@@ -467,7 +333,7 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var tag = Guid.NewGuid();
+            var tag = Tag.Create("Tag Name").Value;
             book.AddTag(tag);
             // Act
             var result = book.AddTag(tag);
@@ -495,42 +361,15 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var tag = Guid.NewGuid();
-            var tagBook = book.AddTag(tag).Value;
+            var tag = Tag.Create("Tag Name").Value;
+            _ = book.AddTag(tag).Value;
             // Act
             var result = book.RemoveTag(tag);
             // Assert
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Value.ShouldBe(tagBook);
-        }
-
-        /// <summary>
-        /// Empty tag should return a failure when removing.
-        /// <see cref="Book.RemoveTag(Guid)"/>
-        /// </summary>
-        [Fact]
-        public void EmptyTagShouldReturnFailureWhenRemoving()
-        {
-            // Arrange
-            var bookTitle = "Book Title";
-            var edition = "1st";
-            var publisherID = Guid.NewGuid();
-            var publishYear = "2021";
-            var isbn = "978-3-16-148410-0";
-            var languageID = Guid.NewGuid();
-            var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var tag = Guid.Empty;
-            // Act
-            var result = book.RemoveTag(tag);
-            // Assert
-            result.ShouldNotBeNull();
-            result.IsFailure.ShouldBeTrue();
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.Code.ShouldBe("TagID.Missing");
-            result.Error.Message.ShouldBe("TagID is required");
-            result.Error.Type.ShouldBe(ErrorType.Validation);
+            result.Value.ShouldBe(tag);
         }
 
         /// <summary>
@@ -548,7 +387,7 @@ namespace Domain.UnitTests.Books
             var isbn = "978-3-16-148410-0";
             var languageID = Guid.NewGuid();
             var book = Book.Create(bookTitle, edition, publisherID, publishYear, isbn, languageID).Value;
-            var tag = Guid.NewGuid();
+            var tag = Tag.Create("Tag Name").Value;
             // Act
             var result = book.RemoveTag(tag);
             // Assert

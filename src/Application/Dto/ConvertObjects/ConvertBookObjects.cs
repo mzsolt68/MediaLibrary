@@ -31,7 +31,7 @@ namespace Application.Dto.ConvertObjects
             return new BookAuthorDetailsDTO()
             {
                 Author = author.AsAuthorDTO(),
-                Books = author.Books.Select(b => b.Book.AsBookDTO(false)).ToList()
+                Books = author.Books.Select(b => b.AsBookDTO(false)).ToList()
             };
         }
 
@@ -50,8 +50,8 @@ namespace Application.Dto.ConvertObjects
                 PublisYear = book.PublishYear,
                 Language = book.Language.AsLanguageDTO(),
                 Publisher = book.Publisher.AsPublisherDTO(),
-                Formats = book.Formats.Select(f => f.Format.AsBookFormatDTO()).ToList(),
-                Tags = book.Tags.Select(t => t.Tag.AsTagDTO()).ToList()
+                Formats = book.Formats.Select(f => f.AsBookFormatDTO()).ToList(),
+                Tags = book.Tags.Select(t => t.AsTagDTO()).ToList()
             };
         }
 
@@ -103,7 +103,7 @@ namespace Application.Dto.ConvertObjects
             {
                 BookID = book.Id,
                 BookTitle = book.BookTitle,
-                Authors = includeAuthor ? book.Authors.Select(a => a.Author.AsAuthorDTO()).ToList() : []
+                Authors = includeAuthor ? book.Authors.Select(a => a.AsAuthorDTO()).ToList() : []
             };
         }
     }

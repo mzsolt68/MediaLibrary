@@ -66,11 +66,8 @@ namespace Persistence.Repositories
             return await _context.Books
                 .AsNoTracking()
                 .Include(b => b.Authors)
-                    .ThenInclude(ab => ab.Author)
                 .Include(b => b.Formats)
-                    .ThenInclude(fb => fb.Format)
                 .Include(b => b.Tags)
-                    .ThenInclude(tb => tb.Tag)
                 .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken: cancellationToken);
         }
     }

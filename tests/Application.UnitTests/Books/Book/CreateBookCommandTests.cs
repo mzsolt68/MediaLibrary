@@ -1,5 +1,7 @@
 using Application.Abstractions.Data;
 using Application.Books;
+using Domain.Models.Books;
+using Domain.Models.Common;
 using Moq;
 using Shouldly;
 
@@ -8,11 +10,20 @@ namespace Application.UnitTests.Books
     public class CreateBookCommandHandlerTests
     {
         private readonly Mock<IUnitOfWork> _unitOfWork;
+        private readonly Author _author = Author.Create("LastName", "FirstName", "").Value;
+        private readonly BookFormat _bookFormat = BookFormat.Create("Hardcover").Value;
+        private readonly Tag _tag = Tag.Create("TagName").Value;
 
         public CreateBookCommandHandlerTests()
         {
             _unitOfWork = new Mock<IUnitOfWork>();
             _unitOfWork.Setup(x => x.BookRepository).Returns(new Mock<IBookRepository>().Object);
+            _unitOfWork.Setup(x => x.AuthorRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(_author);
+            _unitOfWork.Setup(x => x.BookFormatRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(_bookFormat);
+            _unitOfWork.Setup(x => x.TagRepository.GetByIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(_tag);
         }
 
         [Fact]
@@ -27,9 +38,9 @@ namespace Application.UnitTests.Books
                 PublishYear = "2025",
                 ISBN = "1234567890",
                 LanguageID = Guid.NewGuid(),
-                AuthorIDs = new List<Guid> { Guid.NewGuid() },
-                FormatIDs = new List<Guid> { Guid.NewGuid() },
-                TagIDs = new List<Guid> { Guid.NewGuid() }
+                AuthorIDs = new List<Guid> { _author.Id },
+                FormatIDs = new List<Guid> { _bookFormat.Id },
+                TagIDs = new List<Guid> { _tag.Id }
             };
 
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
