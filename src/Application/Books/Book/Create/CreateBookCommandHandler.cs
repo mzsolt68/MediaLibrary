@@ -41,10 +41,17 @@ namespace Application.Books
             foreach (var authorID in request.AuthorIDs)
             {
                 var author = await context.AuthorRepository.GetByIdAsync(authorID);
-                var authorBook = book.Value.AddAuthor(author);
-                if (authorBook.IsFailure)
+                if (author is not null)
                 {
-                    return Result.Failure<Guid>(authorBook.Error);
+                    var authorBook = book.Value.AddAuthor(author);
+                    if (authorBook.IsFailure)
+                    {
+                        return Result.Failure<Guid>(authorBook.Error);
+                    }
+                }
+                else
+                {
+                    return Result.Failure<Guid>(new Error("Author.NotFound", $"Author with ID {authorID} not found.", ErrorType.NotFound));
                 }
             }
 
@@ -52,10 +59,17 @@ namespace Application.Books
             foreach (var formatID in request.FormatIDs)
             {
                 var format = await context.BookFormatRepository.GetByIdAsync(formatID);
-                var formatBook = book.Value.AddFormat(format);
-                if (formatBook.IsFailure)
+                if (format is not null)
                 {
-                    return Result.Failure<Guid>(formatBook.Error);
+                    var formatBook = book.Value.AddFormat(format);
+                    if (formatBook.IsFailure)
+                    {
+                        return Result.Failure<Guid>(formatBook.Error);
+                    }
+                }
+                else
+                {
+                    return Result.Failure<Guid>(new Error("Format.NotFound", $"Format with ID {formatID} not found.", ErrorType.NotFound));
                 }
             }
 
@@ -63,10 +77,17 @@ namespace Application.Books
             foreach (var tagID in request.TagIDs)
             {
                 var tag = await context.TagRepository.GetByIdAsync(tagID);
-                var tagBook = book.Value.AddTag(tag);
-                if (tagBook.IsFailure)
+                if (tag is not null)
                 {
-                    return Result.Failure<Guid>(tagBook.Error);
+                    var tagBook = book.Value.AddTag(tag);
+                    if (tagBook.IsFailure)
+                    {
+                        return Result.Failure<Guid>(tagBook.Error);
+                    }
+                }
+                else
+                {
+                    return Result.Failure<Guid>(new Error("Tag.NotFound", $"Tag with ID {tagID} not found.", ErrorType.NotFound));
                 }
             }
 
