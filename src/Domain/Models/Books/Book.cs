@@ -19,9 +19,9 @@ namespace Domain.Models.Books
         /// <param name="id"></param>
         private Book(Guid id) : base(id) { }
 
-        private HashSet<AuthorBook> _authors;
-        private HashSet<FormatBook> _formats;
-        private HashSet<TagBook> _tags;
+        private readonly HashSet<Author> _authors;
+        private readonly HashSet<BookFormat> _formats;
+        private readonly HashSet<Tag> _tags;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Book"/> class.
@@ -41,9 +41,9 @@ namespace Domain.Models.Books
             PublishYear = publishYear;
             ISBN = isbn;
             LanguageID = languageID;
-            _authors = new HashSet<AuthorBook>();
-            _formats = new HashSet<FormatBook>();
-            _tags = new HashSet<TagBook>();
+            _authors = [];
+            _formats = [];
+            _tags = [];
         }
 
         /// <summary>
@@ -96,17 +96,17 @@ namespace Domain.Models.Books
         /// <summary>
         /// Gets the collection of authors associated with the book.
         /// </summary>
-        public virtual ICollection<AuthorBook> Authors => _authors.ToList();
+        public virtual ICollection<Author> Authors => [.. _authors];
 
         /// <summary>
         /// Gets the collection of formats associated with the book.
         /// </summary>
-        public virtual ICollection<FormatBook> Formats => _formats.ToList();
+        public virtual ICollection<BookFormat> Formats => [.. _formats];
 
         /// <summary>
         /// Gets the collection of tags associated with the book.
         /// </summary>
-        public virtual ICollection<TagBook> Tags => _tags.ToList();
+        public virtual ICollection<Tag> Tags => [.. _tags];
 
         /// <summary>
         /// Creates a new instance of the <see cref="Book"/> class.
@@ -124,8 +124,10 @@ namespace Domain.Models.Books
             {
                 return Result.Failure<Book>(new Error("BookTitle.Empty", "BookTitle cannot be empty.", ErrorType.Validation));
             }
-            var book = new Book(Guid.NewGuid(), bookTitle, edition, publisherID, publishYear, isbn, languageID);
-            book.IsActive = true;
+            var book = new Book(Guid.NewGuid(), bookTitle, edition, publisherID, publishYear, isbn, languageID)
+            {
+                IsActive = true
+            };
             return Result.Success(book);
         }
 
@@ -158,121 +160,97 @@ namespace Domain.Models.Books
         /// <summary>
         /// Adds an author to the book.
         /// </summary>
-        /// <param name="authorID">The unique identifier of the author to add.</param>
+        /// <param name="author">The author to add.</param>
         /// <returns>A <see cref="Result{TValue}"/> containing the created <see cref="AuthorBook"/> instance if successful, or an error if validation fails.</returns>
-        public Result<AuthorBook> AddAuthor(Guid authorID)
+        public Result<AuthorBook> AddAuthor(Author author)
         {
-            if (authorID == Guid.Empty)
-            {
-                return Result.Failure<AuthorBook>(new Error("AuthorID.Empty", "AuthorID is required.", ErrorType.Validation));
-            }
-            if (_authors.Any(ab => ab.AuthorID == authorID))
+            if (_authors.Any(ab => ab.Id == author.Id))
             {
                 return Result.Failure<AuthorBook>(new Error("Author.AlreadyAdded", "Author is already added to the book", ErrorType.Failure));
             }
-            var authorBook = AuthorBook.Create(authorID, Id);
-            _authors.Add(authorBook.Value);
+            var authorBook = AuthorBook.Create(author.Id, Id);
+            _authors.Add(author);
             return Result.Success(authorBook.Value);
         }
 
         /// <summary>
         /// Removes an author from the book.
         /// </summary>
-        /// <param name="authorID">The unique identifier of the author to remove.</param>
-        /// <returns>A <see cref="Result{TValue}"/> containing the removed <see cref="AuthorBook"/> instance if successful, or an error if validation fails.</returns>
-        public Result<AuthorBook> RemoveAuthor(Guid authorID)
+        /// <param name="author">The author to remove.</param>
+        /// <returns>A <see cref="Result{TValue}"/> containing the removed <see cref="Author"/> instance if successful, or an error if validation fails.</returns>
+        public Result<Author> RemoveAuthor(Author author)
         {
-            if (authorID == Guid.Empty)
+            var authorToRemove = _authors.SingleOrDefault(ab => ab.Id == author.Id);
+            if (authorToRemove == null)
             {
-                return Result.Failure<AuthorBook>(new Error("Author.Empty", "Author cannot be empty.", ErrorType.Validation));
+                return Result.Failure<Author>(new Error("Author.NotFound", "Author is not added to the book", ErrorType.NotFound));
             }
-            var authorBook = _authors.SingleOrDefault(ab => ab.AuthorID == authorID);
-            if (authorBook == null)
-            {
-                return Result.Failure<AuthorBook>(new Error("Author.NotFound", "Author is not added to the book", ErrorType.NotFound));
-            }
-            _authors.Remove(authorBook);
-            return Result.Success(authorBook);
+            _authors.Remove(authorToRemove);
+            return Result.Success(authorToRemove);
         }
 
         /// <summary>
         /// Adds a format to the book.
         /// </summary>
-        /// <param name="formatID">The unique identifier of the format to add.</param>
+        /// <param name="format">The format to add.</param>
         /// <returns>A <see cref="Result{TValue}"/> containing the created <see cref="FormatBook"/> instance if successful, or an error if validation fails.</returns>
-        public Result<FormatBook> AddFormat(Guid formatID)
+        public Result<FormatBook> AddFormat(BookFormat format)
         {
-            if (formatID == Guid.Empty)
-            {
-                return Result.Failure<FormatBook>(new Error("FormatID.Missing", "FormatID is required.", ErrorType.Validation));
-            }
-            if (_formats.Any(fb => fb.FormatID == formatID))
+            if (_formats.Any(fb => fb.Id == format.Id))
             {
                 return Result.Failure<FormatBook>(new Error("Format.AlreadyAdded", "Format is already added to the book", ErrorType.Failure));
             }
-            var formatBook = FormatBook.Create(formatID, Id);
-            _formats.Add(formatBook.Value);
+            var formatBook = FormatBook.Create(format.Id, Id);
+            _formats.Add(format);
             return Result.Success(formatBook.Value);
         }
 
         /// <summary>
         /// Removes a format from the book.
         /// </summary>
-        /// <param name="formatID">The unique identifier of the format to remove.</param>
-        /// <returns>A <see cref="Result{TValue}"/> containing the removed <see cref="FormatBook"/> instance if successful, or an error if validation fails.</returns>
-        public Result<FormatBook> RemoveFormat(Guid formatID)
+        /// <param name="format">The format to remove.</param>
+        /// <returns>A <see cref="Result{TValue}"/> containing the removed <see cref="BookFormat"/> instance if successful, or an error if validation fails.</returns>
+        public Result<BookFormat> RemoveFormat(BookFormat format)
         {
-            if (formatID == Guid.Empty)
+            var formatToRemove = _formats.SingleOrDefault(fb => fb.Id == format.Id);
+            if (formatToRemove == null)
             {
-                return Result.Failure<FormatBook>(new Error("FormatID.Missing", "FormatID is required", ErrorType.Validation));
+                return Result.Failure<BookFormat>(new Error("Format.NotFound", "Format is not added to the book", ErrorType.NotFound));
             }
-            var formatBook = _formats.SingleOrDefault(fb => fb.FormatID == formatID);
-            if (formatBook == null)
-            {
-                return Result.Failure<FormatBook>(new Error("Format.NotFound", "Format is not added to the book", ErrorType.NotFound));
-            }
-            _formats.Remove(formatBook);
-            return Result.Success(formatBook);
+            _formats.Remove(formatToRemove);
+            return Result.Success(formatToRemove);
         }
 
         /// <summary>
         /// Adds a tag to the book.
         /// </summary>
-        /// <param name="tagID">The unique identifier of the tag to add.</param>
+        /// <param name="tag">The tag to add.</param>
         /// <returns>A <see cref="Result{TValue}"/> containing the created <see cref="TagBook"/> instance if successful, or an error if validation fails.</returns>
-        public Result<TagBook> AddTag(Guid tagID)
+        public Result<TagBook> AddTag(Tag tag)
         {
-            if (tagID == Guid.Empty)
-            {
-                return Result.Failure<TagBook>(new Error("TagID.Missing", "TagID is required", ErrorType.Validation));
-            }
-            if (_tags.Any(tb => tb.TagID == tagID))
+            if (_tags.Any(tb => tb.Id == tag.Id))
             {
                 return Result.Failure<TagBook>(new Error("Tag.AlreadyAdded", "Tag is already added to the book", ErrorType.Failure));
             }
-            var tagBook = TagBook.Create(Id, tagID);
-            _tags.Add(tagBook.Value);
+            var tagBook = TagBook.Create(Id, tag.Id);
+            _tags.Add(tag);
             return Result.Success(tagBook.Value);
         }
 
         /// <summary>
         /// Removes a tag from the book.
         /// </summary>
-        /// <param name="tagID">The unique identifier of the tag to remove.</param>
-        /// <returns>A <see cref="Result{TValue}"/> containing the removed <see cref="TagBook"/> instance if successful, or an error if validation fails.</returns>
-        public Result<TagBook> RemoveTag(Guid tagID)
+        /// <param name="tag">The tag to remove.</param>
+        /// <returns>A <see cref="Result{TValue}"/> containing the removed <see cref="Tag"/> instance if successful, or an error if validation fails.</returns>
+        public Result<Tag> RemoveTag(Tag tag)
         {
-            if (tagID == Guid.Empty)
+            var tagToRemove = _tags.SingleOrDefault(tb => tb.Id == tag.Id);
+            if (tagToRemove == null)
             {
-                return Result.Failure<TagBook>(new Error("TagID.Missing", "TagID is required", ErrorType.Validation));
+                return Result.Failure<Tag>(new Error("Tag.NotFound", "Tag is not added to the book", ErrorType.NotFound));
             }
-            var tagBook = _tags.SingleOrDefault(tb => tb.TagID == tagID);
-            if (tagBook == null)
-            {
-                return Result.Failure<TagBook>(new Error("Tag.NotFound", "Tag is not added to the book", ErrorType.NotFound));
-            }
-            _tags.Remove(tagBook);
-            return Result.Success(tagBook);
+            _tags.Remove(tagToRemove);
+            return Result.Success(tagToRemove);
         }
     }
 }
