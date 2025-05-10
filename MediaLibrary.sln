@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediaLibrary.Repositories", "NediaLibrary.Repositories\MediaLibrary.Repositories.csproj", "{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9AE0C502-A848-479E-A0A2-76BB69DB3662}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6FE13FD7-F70F-49DD-BB1A-FB56B7FD2122}"
@@ -29,10 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A80C44B-D294-4B8C-A11F-DE23425CD4AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A12435A8-F83B-433D-B369-9AE3E99F1542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A12435A8-F83B-433D-B369-9AE3E99F1542}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A12435A8-F83B-433D-B369-9AE3E99F1542}.Release|Any CPU.ActiveCfg = Release|Any CPU
