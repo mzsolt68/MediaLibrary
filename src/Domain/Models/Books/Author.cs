@@ -18,7 +18,7 @@ namespace Domain.Models.Books
         /// <param name="id"></param>
         private Author(Guid id) : base(id) {}
 
-        private HashSet<AuthorBook> _books;
+        private HashSet<Book> _books;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Author"/> class.
@@ -32,7 +32,7 @@ namespace Domain.Models.Books
             AuthorLastName = lastName;
             AuthorFirstName = firstName;
             AuthorMiddleName = middleName;
-            _books = new HashSet<AuthorBook>();
+            _books = new HashSet<Book>();
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Domain.Models.Books
         /// <summary>
         /// Gets the collection of books associated with the author.
         /// </summary>
-        public virtual ICollection<AuthorBook> Books => _books.ToList();
+        public virtual ICollection<Book> Books => _books.ToList();
 
         /// <summary>
         /// Creates a new instance of the <see cref="Author"/> class.

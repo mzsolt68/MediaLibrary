@@ -31,7 +31,7 @@ namespace Application.Dto.ConvertObjects
             return new BookAuthorDetailsDTO()
             {
                 Author = author.AsAuthorDTO(),
-                Books = author.Books.Select(b => b.Book.AsBookDTO(false)).ToList()
+                Books = author.Books.Select(b => b.AsBookDTO(false)).ToList()
             };
         }
 
