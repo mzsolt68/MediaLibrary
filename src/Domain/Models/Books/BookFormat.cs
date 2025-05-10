@@ -18,7 +18,7 @@ namespace Domain.Models.Books
         /// <param name="id"></param>
         private BookFormat(Guid id) : base(id) {}
 
-        private HashSet<FormatBook> bookFormats;
+        private HashSet<Book> _bookFormats;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BookFormat"/> class.
@@ -28,7 +28,7 @@ namespace Domain.Models.Books
         private BookFormat(Guid guid, string bookFormatName) : base(guid)
         {
             BookFormatName = bookFormatName;
-            bookFormats = new HashSet<FormatBook>();
+            _bookFormats = new HashSet<Book>();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Domain.Models.Books
         /// <summary>
         /// Gets the collection of books associated with this format.
         /// </summary>
-        public virtual ICollection<FormatBook> BooksInFormat => bookFormats.ToList();
+        public virtual ICollection<Book> BooksInFormat => _bookFormats.ToList();
 
         /// <summary>
         /// Creates a new instance of the <see cref="BookFormat"/> class.
