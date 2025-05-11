@@ -19,7 +19,7 @@ namespace Domain.Models.Audio
         /// <param name="id"></param>
         private Song(Guid id) : base(id) { }
 
-        private HashSet<PerformerSong> _performers;
+        private HashSet<SongPerformer> _performers;
         private HashSet<AlbumSong> _albums;
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Domain.Models.Audio
             SongLyric = songLyric;
             GenreID = genreID;
             LanguageID = languageID;
-            _performers = new HashSet<PerformerSong>();
+            _performers = new HashSet<SongPerformer>();
             _albums = new HashSet<AlbumSong>();
         }
 
@@ -79,7 +79,7 @@ namespace Domain.Models.Audio
         /// <summary>
         /// Gets the collection of performers associated with the song.
         /// </summary>
-        public virtual ICollection<PerformerSong> Performers => _performers.ToList();
+        public virtual ICollection<SongPerformer> Performers => _performers.ToList();
 
         /// <summary>
         /// Gets the collection of albums associated with the song.
@@ -174,41 +174,33 @@ namespace Domain.Models.Audio
         /// <summary>
         /// Adds a performer to the song.
         /// </summary>
-        /// <param name="performerID">The unique identifier of the performer.</param>
+        /// <param name="performer">The performer to be add.</param>
         /// <returns>A <see cref="Result{TValue}"/> containing the added performer or an error.</returns>
-        public Result<PerformerSong> AddPerformer(Guid performerID)
+        public Result<PerformerSong> AddPerformer(SongPerformer performer)
         {
-            if (performerID == Guid.Empty)
-            {
-                return Result.Failure<PerformerSong>(new Error("Performer.Missing", "Performer is missing", ErrorType.Validation));
-            }
-            if (Performers.Any(p => p.PerformerID == performerID))
+            if (Performers.Any(p => p.Id == performer.Id))
             {
                 return Result.Failure<PerformerSong>(new Error("Performer.Exists", "Performer already added to song.", ErrorType.Failure));
             }
-            var performerSong = PerformerSong.Create(performerID, Id);
-            _performers.Add(performerSong.Value);
+            var performerSong = PerformerSong.Create(performer.Id, Id);
+            _performers.Add(performer);
             return Result.Success(performerSong.Value);
         }
 
         /// <summary>
         /// Removes a performer from the song.
         /// </summary>
-        /// <param name="performerID">The unique identifier of the performer.</param>
+        /// <param name="performer">The unique identifier of the performer.</param>
         /// <returns>A <see cref="Result{TValue}"/> containing the removed performer or an error.</returns>
-        public Result<PerformerSong> RemovePerformer(Guid performerID)
+        public Result<SongPerformer> RemovePerformer(SongPerformer performer)
         {
-            if (performerID == Guid.Empty)
+            var performerToRemove = Performers.FirstOrDefault(p => p.Id == performer.Id);
+            if (performerToRemove == null)
             {
-                return Result.Failure<PerformerSong>(new Error("Performer.Missing", "Performer is missing", ErrorType.Validation));
+                return Result.Failure<SongPerformer>(new Error("Performer.NotFound", "Performer not found in song.", ErrorType.NotFound));
             }
-            var performerSong = Performers.FirstOrDefault(p => p.PerformerID == performerID);
-            if (performerSong == null)
-            {
-                return Result.Failure<PerformerSong>(new Error("Performer.NotFound", "Performer not found in song.", ErrorType.NotFound));
-            }
-            _performers.Remove(performerSong);
-            return Result.Success(performerSong);
+            _performers.Remove(performerToRemove);
+            return Result.Success(performerToRemove);
         }
     }
 }
