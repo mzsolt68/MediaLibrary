@@ -117,18 +117,18 @@ namespace Domain.UnitTests.Audio
         {
             // Arrange
             var song = Song.Create("Test song", "Test lyric", Guid.NewGuid(), Guid.NewGuid());
-            var performerID = Guid.NewGuid();
+            var performer = SongPerformer.Create("SongPerformer");
             // Act
-            var result = song.Value.AddPerformer(performerID);
+            var result = song.Value.AddPerformer(performer.Value);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeFalse();
             result.IsSuccess.ShouldBeTrue();
             result.Value.ShouldNotBeNull();
-            result.Value.PerformerID.ShouldBe(performerID);
+            result.Value.PerformerID.ShouldBe(performer.Value.Id);
             result.Value.SongID.ShouldBe(song.Value.Id);
             song.Value.Performers.Count.ShouldNotBe(0);
-            song.Value.Performers.ShouldContain(result.Value);
+            song.Value.Performers.ShouldContain(performer.Value);
         }
 
         /// <summary>
@@ -136,23 +136,22 @@ namespace Domain.UnitTests.Audio
         /// <see cref="Song.RemovePerformer(Guid)"/>
         /// </summary>
         [Fact]
-        public void RemovePerformerShouldReturnPerformerSong()
+        public void RemovePerformerShouldReturnSongPerformer()
         {
             // Arrange
             var song = Song.Create("Test song", "Test lyric", Guid.NewGuid(), Guid.NewGuid());
-            var performerID = Guid.NewGuid();
-            song.Value.AddPerformer(performerID);
+            var performer = SongPerformer.Create("SongPerformer");
+            song.Value.AddPerformer(performer.Value);
             // Act
-            var result = song.Value.RemovePerformer(performerID);
+            var result = song.Value.RemovePerformer(performer.Value);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeFalse();
             result.IsSuccess.ShouldBeTrue();
             result.Value.ShouldNotBeNull();
-            result.Value.PerformerID.ShouldBe(performerID);
-            result.Value.SongID.ShouldBe(song.Value.Id);
+            result.Value.Id.ShouldBe(performer.Value.Id);
             song.Value.Performers.Count.ShouldBe(0);
-            song.Value.Performers.ShouldNotContain(result.Value);
+            song.Value.Performers.ShouldNotContain(performer.Value);
         }
 
         /// <summary>
@@ -164,10 +163,10 @@ namespace Domain.UnitTests.Audio
         {
             // Arrange
             var song = Song.Create("Test song", "Test lyric", Guid.NewGuid(), Guid.NewGuid());
-            var performerID = Guid.NewGuid();
-            song.Value.AddPerformer(performerID);
+            var performer = SongPerformer.Create("SongPerformer");
+            song.Value.AddPerformer(performer.Value);
             // Act
-            var result = song.Value.AddPerformer(performerID);
+            var result = song.Value.AddPerformer(performer.Value);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeTrue();
@@ -175,27 +174,6 @@ namespace Domain.UnitTests.Audio
             result.Error.Type.ShouldBe(ErrorType.Failure);
             result.Error.Code.ShouldBe("Performer.Exists");
             result.Error.Message.ShouldBe("Performer already added to song.");
-        }
-
-        /// <summary>
-        /// Empty performer ID should return error when adding performer.
-        /// <see cref="Song.AddPerformer(Guid)"/>"
-        /// </summary>
-        [Fact]
-        public void EmptyPerformerIDShouldReturnErrorWhenAddingPerformer()
-        {
-            // Arrange
-            var song = Song.Create("Test song", "Test lyric", Guid.NewGuid(), Guid.NewGuid());
-            var performerID = Guid.Empty;
-            // Act
-            var result = song.Value.AddPerformer(performerID);
-            // Assert
-            result.ShouldNotBeNull();
-            result.IsFailure.ShouldBeTrue();
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.Type.ShouldBe(ErrorType.Validation);
-            result.Error.Code.ShouldBe("Performer.Missing");
-            result.Error.Message.ShouldBe("Performer is missing");
         }
 
         /// <summary>
@@ -207,9 +185,9 @@ namespace Domain.UnitTests.Audio
         {
             // Arrange
             var song = Song.Create("Test song", "Test lyric", Guid.NewGuid(), Guid.NewGuid());
-            var performerID = Guid.NewGuid();
+            var performer = SongPerformer.Create("SongPerformer");
             // Act
-            var result = song.Value.RemovePerformer(performerID);
+            var result = song.Value.RemovePerformer(performer.Value);
             // Assert
             result.ShouldNotBeNull();
             result.IsFailure.ShouldBeTrue();
@@ -217,27 +195,6 @@ namespace Domain.UnitTests.Audio
             result.Error.Type.ShouldBe(ErrorType.NotFound);
             result.Error.Code.ShouldBe("Performer.NotFound");
             result.Error.Message.ShouldBe("Performer not found in song.");
-        }
-
-        /// <summary>
-        /// Empty performer ID should return error when removing performer.
-        /// <see cref="Song.RemovePerformer(Guid)"/>"
-        /// </summary>
-        [Fact]
-        public void EmptyPerformerIDShouldReturnErrorWhenRemovingPerformer()
-        {
-            // Arrange
-            var song = Song.Create("Test song", "Test lyric", Guid.NewGuid(), Guid.NewGuid());
-            var performerID = Guid.Empty;
-            // Act
-            var result = song.Value.RemovePerformer(performerID);
-            // Assert
-            result.ShouldNotBeNull();
-            result.IsFailure.ShouldBeTrue();
-            result.IsSuccess.ShouldBeFalse();
-            result.Error.Type.ShouldBe(ErrorType.Validation);
-            result.Error.Code.ShouldBe("Performer.Missing");
-            result.Error.Message.ShouldBe("Performer is missing");
         }
 
         /// <summary>

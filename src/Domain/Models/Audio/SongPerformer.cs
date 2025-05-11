@@ -18,7 +18,7 @@ namespace Domain.Models.Audio
         /// <param name="id"></param>
         private SongPerformer(Guid id) : base(id) { }
 
-        private HashSet<PerformerSong> _songs;
+        private HashSet<Song> _songs;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SongPerformer"/> class.
@@ -28,7 +28,7 @@ namespace Domain.Models.Audio
         private SongPerformer(Guid id, string performerName) : base(id)
         {
             PerformerName = performerName;
-            _songs = new HashSet<PerformerSong>();
+            _songs = new HashSet<Song>();
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Domain.Models.Audio
         /// Gets the collection of songs associated with the performer.
         /// </summary>
         [Display(Name = "Dalok")]
-        public virtual ICollection<PerformerSong> Songs => _songs.ToList();
+        public virtual ICollection<Song> Songs => _songs.ToList();
 
         /// <summary>
         /// Creates a new instance of the <see cref="SongPerformer"/> class.
