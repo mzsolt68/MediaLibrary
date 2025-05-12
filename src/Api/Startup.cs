@@ -1,10 +1,7 @@
-using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-namespace MediaLibrary.Api
+namespace Api
 {
     public class Startup
     {
@@ -15,6 +12,13 @@ namespace MediaLibrary.Api
 
             // Register MediatR and Application assembly
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Load("Application")));
+
+            // Register Swagger services
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -22,6 +26,13 @@ namespace MediaLibrary.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                // Enable Swagger in development
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+                });
             }
 
             app.UseRouting();
