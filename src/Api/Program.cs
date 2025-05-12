@@ -1,7 +1,7 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
-// Create an instance of the Startup class
-var startup = new Api.Startup();
+// Pass the configuration to the Startup constructor
+var startup = new Api.Startup(builder.Configuration);
 
 // Call ConfigureServices to register services
 startup.ConfigureServices(builder.Services);

@@ -1,10 +1,17 @@
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Persistence;
 
 namespace Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
@@ -19,6 +26,9 @@ namespace Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
+
+            // Register services for the Persistence layer
+            services.AddPersistenceServices(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
