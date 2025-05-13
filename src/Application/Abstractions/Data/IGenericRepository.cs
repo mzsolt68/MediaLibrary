@@ -1,5 +1,4 @@
-﻿using Application.Dto;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Application.Abstractions.Data
 {
@@ -20,10 +19,10 @@ namespace Application.Abstractions.Data
         /// <summary>
         /// Retrieves all entities.
         /// </summary>
-        /// <param name="searchParams">A parameter list to filter the entities.</param>
+        /// <param name="predicate">A predicate to filter the entities.</param>
         /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of entities.</returns>
-        Task<IReadOnlyList<T>> GetAllAsync(SearchParamsDTO searchParams, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves all entities.

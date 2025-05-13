@@ -1,5 +1,4 @@
 ﻿using Application.Abstractions.Data;
-using Application.Dto;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -45,14 +44,12 @@ namespace Persistence.Repositories
         /// <summary>  
         /// Retrieves all entities from the database asynchronously based on a predicate.  
         /// </summary>  
-        /// <param name="searchParams">A parameter list to filter the entities.</param>  
+        /// <param name="predicate">A predicate to filter the entities.</param>  
         /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
         /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>  
-        public async Task<IReadOnlyList<T>> GetAllAsync(SearchParamsDTO searchParams, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            //return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
-            // TODO: Implement filtering logic based on searchParams
-            return null;
+            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
         }
 
         /// <summary>  
