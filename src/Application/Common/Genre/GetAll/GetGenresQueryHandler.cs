@@ -4,6 +4,10 @@ using SharedKernel;
 using Application.Abstractions.Data;
 using Application.Dto.ConvertObjects;
 using Domain.Models.Common;
+using System.Linq.Expressions;
+using Application.Dto;
+using SharedKernel.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Common
 {
@@ -24,9 +28,19 @@ namespace Application.Common
         /// </returns>
         public async Task<Result<List<GenreDTO>>> Handle(GetGenresQuery<Genre> request, CancellationToken cancellationToken)
         {
-            // Retrieve all genres from the repository.
-            var genres = await context.GenreRepository.GetAllAsync(request.Predicate);
+            IQueryable<Genre> genresQuery;
+            int skip = (request.SearchParams.PageNumber - 1) * request.SearchParams.PageSize;
 
+            if (request.SearchParams.SearchParams.Count == 0)
+            {
+                genresQuery = context.GenreRepository.GetAll();
+            }
+            else
+            {
+                genresQuery = context.GenreRepository.GetAll(CreateFilter(request.SearchParams));
+            }
+
+            IReadOnlyList<Genre>? genres = await genresQuery.Skip(skip).Take(request.SearchParams.PageSize).ToListAsync(cancellationToken);
             // Check if genres are null or empty and return a failure result if so.
             if (genres == null || !genres.Any())
             {
@@ -38,6 +52,32 @@ namespace Application.Common
 
             // Return a success result with the list of genre DTOs.
             return Result.Success(genreDtos);
+        }
+
+        private static Expression<Func<Genre, bool>> CreateFilter(SearchParamsDTO searchParams)
+        {
+            Expression<Func<Genre, bool>> predicate = genre => genre.IsActive;
+            foreach (var filter in searchParams.SearchParams)
+            {
+                Expression<Func<Genre, bool>> filterExpr = filter.MatchType switch
+                {
+                    SearchType.Contains => genre =>
+                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
+                            .Contains(filter.Value),
+                    SearchType.Exact => genre =>
+                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
+                            == filter.Value,
+                    SearchType.StartsWith => genre =>
+                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
+                            .StartsWith(filter.Value),
+                    SearchType.EndsWith => genre =>
+                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
+                            .EndsWith(filter.Value),
+                    _ => genre => true
+                };
+                predicate = predicate.AndAlso(filterExpr);
+            }
+            return predicate;
         }
     }
 }
