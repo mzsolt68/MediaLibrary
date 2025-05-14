@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
+using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
 namespace Application.Books.Publisher.Delete
@@ -43,7 +44,7 @@ namespace Application.Books.Publisher.Delete
             publisher.SetActiveState(false);
 
             // Delete all books associated with the publisher
-            var books = await _unitOfWork.BookRepository.GetAllAsync(book => book.PublisherID == request.PublisherId);
+            var books = await _unitOfWork.BookRepository.GetAll(book => book.PublisherID == request.PublisherId).ToListAsync(cancellationToken);
             if (books != null && books.Count > 0)
             {
                 _unitOfWork.PublisherRepository.DeleteBooks(books);
