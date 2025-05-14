@@ -45,21 +45,19 @@ namespace Persistence.Repositories
         /// Retrieves all entities from the database asynchronously based on a predicate.  
         /// </summary>  
         /// <param name="predicate">A predicate to filter the entities.</param>  
-        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
-        /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>  
-        public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+        /// <returns>A query object with filter for further processing.</returns>  
+        public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+            return _context.Set<T>().AsNoTracking().Where(predicate);
         }
 
         /// <summary>  
         /// Retrieves all entities from the database asynchronously based on a predicate.  
         /// </summary>  
-        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
-        /// <returns>A task representing the asynchronous operation, containing a read-only list of entities.</returns>  
-        public async Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default)
+        /// <returns>A query object for further processing.</returns>  
+        public IQueryable<T> GetAll()
         {
-            return await _context.Set<T>().AsNoTracking().ToListAsync(cancellationToken);
+            return _context.Set<T>().AsNoTracking();
         }
 
 

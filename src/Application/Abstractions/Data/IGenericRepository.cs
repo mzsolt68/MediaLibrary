@@ -20,16 +20,14 @@ namespace Application.Abstractions.Data
         /// Retrieves all entities.
         /// </summary>
         /// <param name="predicate">A predicate to filter the entities.</param>
-        /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of entities.</returns>
-        Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+        /// <returns>A query object with filter for further processing.</returns>
+        IQueryable<T> GetAll(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Retrieves all entities.
         /// </summary>
-        /// <param name="cancellationToken"> A cancellation token to cancel the operation.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains a read-only list of entities.</returns>
-        Task<IReadOnlyList<T>> GetAllAsync(CancellationToken cancellationToken = default);
+        /// <returns>A query object for further processing.</returns>
+        IQueryable<T> GetAll();
 
         /// <summary>
         /// Adds a new entity to the repository.
