@@ -55,7 +55,7 @@ namespace Application.Common
             return Result.Success(languageDtos);
         }
 
-        private Expression<Func<Language, bool>> CreateFilter(SearchParamsDTO searchParams)
+        private static Expression<Func<Language, bool>> CreateFilter(SearchParamsDTO searchParams)
         {
             Expression<Func<Language, bool>> predicate = genre => genre.IsActive;
             foreach (var filter in searchParams.SearchParams)
