@@ -7,5 +7,5 @@ namespace Application.Common
     /// <summary>
     /// Represents a query to retrieve all available languages.
     /// </summary>
-    public sealed record GetLanguagesQuery<T>(SearchParamsDTO SearchParams) : IQuery<List<LanguageDTO>>;
+    public sealed record GetLanguagesQuery(SearchParamsDTO SearchParams) : IQuery<List<LanguageDTO>>;
 }

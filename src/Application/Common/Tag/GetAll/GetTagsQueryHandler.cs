@@ -14,7 +14,7 @@ namespace Application.Common
     /// <summary>
     /// Handles the query to retrieve all tags.
     /// </summary>
-    public sealed class GetTagsQueryHandler(IUnitOfWork context) : IQueryHandler<GetTagsQuery<Tag>, List<TagDTO>>
+    public sealed class GetTagsQueryHandler(IUnitOfWork context) : IQueryHandler<GetTagsQuery, List<TagDTO>>
     {
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Application.Common
         /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{TValue}"/> 
         /// with a list of <see cref="TagDTO"/> if successful, or an error if no tags are found.
         /// </returns>
-        public async Task<Result<List<TagDTO>>> Handle(GetTagsQuery<Tag> request, CancellationToken cancellationToken)
+        public async Task<Result<List<TagDTO>>> Handle(GetTagsQuery request, CancellationToken cancellationToken)
         {
             IQueryable<Tag> tagsQuery;
             int skip = (request.SearchParams.PageNumber - 1) * request.SearchParams.PageSize;

@@ -15,7 +15,7 @@ namespace Application.Common
     /// Handles the query to retrieve all languages.
     /// </summary>
     /// <param name="context">The unit of work providing access to repositories.</param>
-    public sealed class GetLanguagesQueryHandler(IUnitOfWork context) : IQueryHandler<GetLanguagesQuery<Language>, List<LanguageDTO>>
+    public sealed class GetLanguagesQueryHandler(IUnitOfWork context) : IQueryHandler<GetLanguagesQuery, List<LanguageDTO>>
     {
         /// <summary>
         /// Handles the query to retrieve all languages.
@@ -26,7 +26,7 @@ namespace Application.Common
         /// A task that represents the asynchronous operation. The task result contains a <see cref="Result{TValue}"/> 
         /// with a list of <see cref="LanguageDTO"/> if successful, or an error if no languages are found.
         /// </returns>
-        public async Task<Result<List<LanguageDTO>>> Handle(GetLanguagesQuery<Language> request, CancellationToken cancellationToken)
+        public async Task<Result<List<LanguageDTO>>> Handle(GetLanguagesQuery request, CancellationToken cancellationToken)
         {
             IQueryable<Language> languagesQuery;
             int skip = (request.SearchParams.PageNumber - 1) * request.SearchParams.PageNumber;

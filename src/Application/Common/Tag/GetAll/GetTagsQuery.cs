@@ -7,5 +7,5 @@ namespace Application.Common
     /// <summary>
     /// Represents a query to retrieve all tags.
     /// </summary>
-    public sealed record GetTagsQuery<T>(SearchParamsDTO SearchParams) : IQuery<List<TagDTO>>;
+    public sealed record GetTagsQuery(SearchParamsDTO SearchParams) : IQuery<List<TagDTO>>;
 }
