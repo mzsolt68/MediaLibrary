@@ -47,7 +47,7 @@ public class TagRepositoryTests : Testing
         await dbContext.SaveChangesAsync();
 
         // Assert
-        var allTags = await repository.GetAllAsync(_ => true);
+        var allTags = repository.GetAll(_ => true);
         allTags.Count().ShouldBe(3);
     }
     

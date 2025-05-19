@@ -1,10 +1,13 @@
 using Application.Abstractions.Data;
 using Application.Common;
+using Application.Dto;
 using Application.Dto.Common;
 using Domain.Models.Common;
 using Moq;
 using Shouldly;
 using System.Linq.Expressions;
+using MockQueryable;
+using SharedKernel;
 
 namespace Application.UnitTests.Common
 {
@@ -12,6 +15,12 @@ namespace Application.UnitTests.Common
     {
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly Mock<IGenreRepository> _genreRepository;
+        private readonly SearchParamsDTO _searchParams = new SearchParamsDTO
+        {
+            PageNumber = 1,
+            PageSize = 10,
+            SearchParams = []
+        };
 
         public GetGenresQueryHandlerTests()
         {
@@ -21,19 +30,18 @@ namespace Application.UnitTests.Common
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnListOfGenreDTOs_WhenGenresExist()
+        public async Task Handle_ShouldReturnListOfGenreDTOs_WhenGenresExist_NoSearchParams()
         {
             // Arrange
             var genres = new List<Genre>
             {
                 Genre.Create("Genre1", "Type1").Value,
                 Genre.Create("Genre2", "Type2").Value
-            };
-            _genreRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Genre, bool>>>(), CancellationToken.None)).ReturnsAsync(genres);
+            }.BuildMock();
 
-            // Provide a valid predicate for the query
-            Expression<Func<Genre, bool>> predicate = genre => true; 
-            var query = new GetGenresQuery<Genre>(predicate);
+            _genreRepository.Setup(x => x.GetAll()).Returns(genres);
+
+            var query = new GetGenresQuery() { SearchParams = _searchParams};
             var handler = new GetGenresQueryHandler(_unitOfWork.Object);
 
             // Act
@@ -43,7 +51,6 @@ namespace Application.UnitTests.Common
             result.IsSuccess.ShouldBeTrue();
             result.Value.ShouldNotBeNull();
             result.Value.Count.ShouldBe(2);
-            result.Value.GetType().ShouldBe(typeof(List<GenreDTO>));
             result.Value[0].GenreName.ShouldBe("Genre1");
             result.Value[1].GenreName.ShouldBe("Genre2");
         }
@@ -51,12 +58,11 @@ namespace Application.UnitTests.Common
         [Fact]
         public async Task Handle_ShouldReturnFailure_WhenNoGenresExist()
         {
+            var emptyGenres = new List<Genre>().AsQueryable().BuildMock();
             // Arrange
-            _genreRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Genre, bool>>>(), CancellationToken.None)).ReturnsAsync(new List<Genre>());
+            _genreRepository.Setup(x => x.GetAll()).Returns(emptyGenres);
 
-            // Provide a valid predicate for the query
-            Expression<Func<Genre, bool>> predicate = genre => true; 
-            var query = new GetGenresQuery<Genre>(predicate);
+            var query = new GetGenresQuery() { SearchParams = _searchParams };
             var handler = new GetGenresQueryHandler(_unitOfWork.Object);
 
             // Act

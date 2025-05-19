@@ -1,7 +1,9 @@
 using Application.Abstractions.Data;
 using Application.Common;
+using Application.Dto;
 using Application.Dto.Common;
 using Domain.Models.Common;
+using MockQueryable;
 using Moq;
 using Shouldly;
 using System.Linq.Expressions;
@@ -12,6 +14,12 @@ namespace Application.UnitTests.Common
     {
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly Mock<ILanguageRepository> _languageRepository;
+        private readonly SearchParamsDTO _searchParams = new SearchParamsDTO
+        {
+            PageNumber = 1,
+            PageSize = 10,
+            SearchParams = []
+        };
 
         public GetLanguagesQueryHandlerTests()
         {
@@ -28,12 +36,10 @@ namespace Application.UnitTests.Common
             {
                 Language.Create("English").Value,
                 Language.Create("Spanish").Value
-            };
-            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>(), CancellationToken.None)).ReturnsAsync(languages);
+            }.BuildMock();
+            _languageRepository.Setup(x => x.GetAll()).Returns(languages);
 
-            // Provide a valid predicate for the query
-            Expression<Func<Language, bool>> predicate = language => true; 
-            var query = new GetLanguagesQuery<Language>(predicate);
+            var query = new GetLanguagesQuery(_searchParams);
             var handler = new GetLanguagesQueryHandler(_unitOfWork.Object);
 
             // Act
@@ -52,11 +58,10 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoLanguagesExist()
         {
             // Arrange
-            _languageRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Language, bool>>>(), CancellationToken.None)).ReturnsAsync(new List<Language>());
+            var emptyLanguages = new List<Language>().BuildMock();
+            _languageRepository.Setup(x => x.GetAll()).Returns(emptyLanguages);
 
-            // Provide a valid predicate for the query
-            Expression<Func<Language, bool>> predicate = language => true;
-            var query = new GetLanguagesQuery<Language>(predicate);
+            var query = new GetLanguagesQuery(_searchParams);
             var handler = new GetLanguagesQueryHandler(_unitOfWork.Object);
 
             // Act

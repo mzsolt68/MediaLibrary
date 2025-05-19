@@ -56,28 +56,33 @@ namespace Application.Common
 
         private static Expression<Func<Genre, bool>> CreateFilter(SearchParamsDTO searchParams)
         {
-            Expression<Func<Genre, bool>> predicate = genre => genre.IsActive;
-            foreach (var filter in searchParams.SearchParams)
+            var parameter = Expression.Parameter(typeof(Genre), "genre");
+            Expression body = Expression.Equal(
+                Expression.Property(parameter, nameof(Genre.IsActive)),
+                Expression.Constant(true)
+            );
+
+            foreach(var filter in searchParams.SearchParams)
             {
-                Expression<Func<Genre, bool>> filterExpr = filter.MatchType switch
+                var propertyInfo = typeof(Genre).GetProperty(filter.PropertyName);
+                if (propertyInfo == null || propertyInfo.PropertyType != typeof(string))
+                    continue;
+
+                var property = Expression.Property(parameter, filter.PropertyName);
+                var value = Expression.Constant(filter.Value, typeof(string));
+
+                Expression filterExpr = filter.MatchType switch
                 {
-                    SearchType.Contains => genre =>
-                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .Contains(filter.Value),
-                    SearchType.Exact => genre =>
-                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            == filter.Value,
-                    SearchType.StartsWith => genre =>
-                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .StartsWith(filter.Value),
-                    SearchType.EndsWith => genre =>
-                        (genre.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .EndsWith(filter.Value),
-                    _ => genre => true
+                    SearchType.Contains => Expression.Call(property, nameof(string.Contains), null, value),
+                    SearchType.Exact => Expression.Equal(property, value),
+                    SearchType.StartsWith => Expression.Call(property, nameof(string.StartsWith), null, value),
+                    SearchType.EndsWith => Expression.Call(property, nameof(string.EndsWith), null, value),
+                    _ => Expression.Constant(true)
                 };
-                predicate = predicate.AndAlso(filterExpr);
+                body = Expression.AndAlso(body, filterExpr);
             }
-            return predicate;
+
+            return Expression.Lambda<Func<Genre, bool>>(body,parameter);
         }
     }
 }

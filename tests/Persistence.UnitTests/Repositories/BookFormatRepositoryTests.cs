@@ -47,7 +47,7 @@ public class BookFormatRepositoryTests : Testing
         await dbContext.SaveChangesAsync();
         
         // Assert
-        var allFormats = await repository.GetAllAsync(_ => true);
+        var allFormats = repository.GetAll(_ => true);
         allFormats.Count().ShouldBe(3);
     }
 }
