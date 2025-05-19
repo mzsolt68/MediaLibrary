@@ -27,7 +27,7 @@ public class GenericRepositoryTests : Testing
         await dbContext.SaveChangesAsync();
         
         // Act
-        var result = await repository.GetAllAsync(_ => true);
+        var result = repository.GetAll(_ => true);
         
         // Assert
         result.Count().ShouldBe(3);

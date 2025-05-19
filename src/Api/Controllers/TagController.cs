@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common;
 using SharedKernel;
+using Application.Dto;
 
 namespace Api.Controllers
 {
@@ -20,6 +21,18 @@ namespace Api.Controllers
         public async Task<IActionResult> GetTagById(Guid id)
         {
             var query = new GetTagByIdQuery(id);
+            var result = await _mediator.Send(query);
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
+        [HttpPost("list")]
+        public async Task<IActionResult> GetTags([FromBody] SearchParamsDTO searchParams)
+        {
+            if(searchParams is null)
+            {
+                return BadRequest();
+            }
+            var query = new GetTagsQuery(searchParams);
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }

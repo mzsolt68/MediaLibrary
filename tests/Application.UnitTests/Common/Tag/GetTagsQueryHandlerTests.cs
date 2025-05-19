@@ -1,7 +1,9 @@
 using Application.Abstractions.Data;
 using Application.Common;
+using Application.Dto;
 using Application.Dto.Common;
 using Domain.Models.Common;
+using MockQueryable;
 using Moq;
 using Shouldly;
 using System.Linq.Expressions;
@@ -12,6 +14,12 @@ namespace Application.UnitTests.Common
     {
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly Mock<ITagRepository> _tagRepository;
+        private readonly SearchParamsDTO _searchParams = new SearchParamsDTO
+        {
+            PageNumber = 1,
+            PageSize = 10,
+            SearchParams = []
+        };
 
         public GetTagsQueryHandlerTests()
         {
@@ -28,12 +36,10 @@ namespace Application.UnitTests.Common
                 {
                     Tag.Create("Horror").Value,
                     Tag.Create("Comedy").Value
-                };
-            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>(), CancellationToken.None)).ReturnsAsync(tags);
+                }.BuildMock();
+            _tagRepository.Setup(x => x.GetAll()).Returns(tags);
 
-            // Provide a valid predicate for the query
-            Expression<Func<Tag, bool>> predicate = tag => true;
-            var query = new GetTagsQuery<Tag>(predicate);
+            var query = new GetTagsQuery(_searchParams);
             var handler = new GetTagsQueryHandler(_unitOfWork.Object);
 
             // Act
@@ -52,11 +58,10 @@ namespace Application.UnitTests.Common
         public async Task Handle_ShouldReturnFailure_WhenNoTagsExist()
         {
             // Arrange
-            _tagRepository.Setup(x => x.GetAllAsync(It.IsAny<Expression<Func<Tag, bool>>>(), CancellationToken.None)).ReturnsAsync(new List<Tag>());
+            var emptyTags = new List<Tag>().BuildMock();
+            _tagRepository.Setup(x => x.GetAll()).Returns(emptyTags);
 
-            // Provide a valid predicate for the query
-            Expression<Func<Tag, bool>> predicate = tag => true;
-            var query = new GetTagsQuery<Tag>(predicate); // Updated to pass the required parameter
+            var query = new GetTagsQuery(_searchParams);
             var handler = new GetTagsQueryHandler(_unitOfWork.Object);
 
             // Act
