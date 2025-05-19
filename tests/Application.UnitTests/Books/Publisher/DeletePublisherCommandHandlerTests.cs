@@ -5,6 +5,7 @@ using Moq;
 using SharedKernel;
 using Shouldly;
 using System.Linq.Expressions;
+using MockQueryable;
 
 namespace Application.UnitTests.Books
 {
@@ -25,7 +26,7 @@ namespace Application.UnitTests.Books
             var publisher = Publisher.Create("Sample Publisher").Value;
             _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(publisher.Id, CancellationToken.None)).ReturnsAsync(publisher);
             _unitOfWork.Setup(x => x.BookRepository.GetAll(It.IsAny<Expression<Func<Book, bool>>>()))
-                .Returns(new List<Book>().AsQueryable);
+                .Returns(new List<Book>().BuildMock());
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             var command = new DeletePublisherCommand(publisher.Id);
@@ -65,7 +66,7 @@ namespace Application.UnitTests.Books
             var publisher = Publisher.Create("Sample Publisher").Value;
             _unitOfWork.Setup(x => x.PublisherRepository.GetByIdAsync(publisher.Id, CancellationToken.None)).ReturnsAsync(publisher);
             _unitOfWork.Setup(x => x.BookRepository.GetAll(It.IsAny<Expression<Func<Book, bool>>>()))
-                .Returns(new List<Book>().AsQueryable);
+                .Returns(new List<Book>().BuildMock());
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(0);
 
             var command = new DeletePublisherCommand(publisher.Id);
