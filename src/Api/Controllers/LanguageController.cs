@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common;
 using SharedKernel;
+using Application.Dto;
 
 namespace Api.Controllers
 {
@@ -20,6 +21,18 @@ namespace Api.Controllers
         public async Task<IActionResult> GetLanguageById(Guid id)
         {
             var query = new GetLanguageByIdQuery(id); // Assuming this query exists
+            var result = await _mediator.Send(query);
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
+        [HttpPost("list")]
+        public async Task<IActionResult> GetLanguages([FromBody] SearchParamsDTO searchParams)
+        {
+            if (searchParams == null)
+            {
+                return BadRequest();
+            }
+            var query = new GetLanguagesQuery(searchParams);
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
