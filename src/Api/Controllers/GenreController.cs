@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common;
 using SharedKernel;
+using Application.Dto;
 
 namespace Api.Controllers
 {
@@ -19,7 +20,19 @@ namespace Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetGenreById(Guid id)
         {
-            var query = new GetGenreByIdQuery() { GenreId = id }; // Assuming this query exists
+            var query = new GetGenreByIdQuery() { GenreId = id };
+            var result = await _mediator.Send(query);
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
+        [HttpPost("list")]
+        public async Task<IActionResult> GetGenres([FromBody] SearchParamsDTO searchParams)
+        {
+            if(searchParams is null)
+            {
+                return BadRequest();
+            }
+            var query = new GetGenresQuery() { SearchParams = searchParams };
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
