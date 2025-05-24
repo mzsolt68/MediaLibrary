@@ -10,8 +10,25 @@ using System.Linq.Expressions;
 
 namespace Application.Books
 {
+    /// <summary>
+    /// Handles the query to retrieve a paginated and filtered list of authors from the database.
+    /// </summary>
+    /// <remarks>This query handler processes the <see cref="GetAuthorsQuery"/> to fetch authors based on the
+    /// provided search parameters, including pagination and optional filtering criteria. If no filters are specified,
+    /// all authors are retrieved. The result is returned as a list of <see cref="BookAuthorDTO"/> objects.</remarks>
+    /// <param name="context"></param>
     public sealed class GetAuthorsQueryHandler(IUnitOfWork context) : IQueryHandler<GetAuthorsQuery, List<BookAuthorDTO>>
     {
+        /// <summary>
+        /// Handles the retrieval of authors based on the specified query parameters.
+        /// </summary>
+        /// <remarks>This method retrieves authors from the database based on the provided search
+        /// parameters. If no search parameters are specified, all authors are retrieved. The results are paginated
+        /// based on the page number and page size provided in the query.</remarks>
+        /// <param name="request">The query containing search parameters for filtering and pagination.</param>
+        /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+        /// <returns>A <see cref="Result{T}"/> containing a list of <see cref="BookAuthorDTO"/> objects if authors are found;
+        /// otherwise, a failure result with an appropriate error message.</returns>
         public async Task<Result<List<BookAuthorDTO>>> Handle(GetAuthorsQuery request, CancellationToken cancellationToken)
         {
             IQueryable<Author> authorsQuery;
