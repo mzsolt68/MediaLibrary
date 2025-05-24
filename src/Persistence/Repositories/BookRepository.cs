@@ -68,6 +68,7 @@ namespace Persistence.Repositories
                 .Include(b => b.Authors)
                 .Include(b => b.Formats)
                 .Include(b => b.Tags)
+                .Include(b => b.Language)
                 .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken: cancellationToken);
         }
     }
