@@ -252,5 +252,29 @@ namespace Domain.Models.Books
             _tags.Remove(tagToRemove);
             return Result.Success(tagToRemove);
         }
+
+        /// <summary>
+        /// Sets the current language for the current entity.
+        /// </summary>
+        /// <param name="language">The <see cref="Language"/> object representing the language to set.  This parameter cannot be null.</param>
+        /// <returns>A <see cref="Result"/> indicating the success of the operation.</returns>
+        public Result SetLangugage(Language language)
+        {
+            Language = language;
+            LanguageID = language.Id;
+            return Result.Success();
+        }
+
+        /// <summary>
+        /// Sets the publisher for the current entity and updates the associated publisher ID.
+        /// </summary>
+        /// <param name="publisher">The <see cref="Publisher"/> instance to associate with the current entity. Cannot be <see langword="null"/>.</param>
+        /// <returns>A <see cref="Result"/> indicating the success of the operation.</returns>
+        public Result SetPublisher(Publisher publisher)
+        { 
+            Publisher = publisher;
+            PublisherID = publisher.Id;
+            return Result.Success();
+        }
     }
 }

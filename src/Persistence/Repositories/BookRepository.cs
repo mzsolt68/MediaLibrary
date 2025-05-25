@@ -68,7 +68,16 @@ namespace Persistence.Repositories
                 .Include(b => b.Authors)
                 .Include(b => b.Formats)
                 .Include(b => b.Tags)
+                .Include(b => b.Language)
                 .FirstOrDefaultAsync(b => b.Id == bookId, cancellationToken: cancellationToken);
+        }
+
+        public new async Task<Book?> GetByIdAsync(Guid id, CancellationToken cancellation = default)
+        {
+            return await _context.Books
+                .Include(b => b.Authors)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id, cancellationToken: cancellation);
         }
     }
 }
