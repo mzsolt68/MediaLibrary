@@ -23,7 +23,7 @@ namespace Application.UnitTests.Books
 
         public GetBooksQueryTests()
         {
-            _unitOfWork = new Mock<IUnitOfWork> (); ;
+            _unitOfWork = new Mock<IUnitOfWork> ();
             _bookRepository = new Mock<IBookRepository> ();
             _unitOfWork.Setup(x => x.BookRepository).Returns(_bookRepository.Object);
         }
