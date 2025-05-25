@@ -63,7 +63,7 @@ namespace Application.UnitTests.Books
                 book.AddTag(tag);
             }
             book.AddAuthor(Author.Create("Lastname", "Firstname", "").Value);
-            book.setPublisher(publisher);
+            book.SetPublisher(publisher);
             book.SetLangugage(language);
 
             _bookRepository.Setup(x => x.GetBookWithFullDataAsync(book.Id, CancellationToken.None)).ReturnsAsync(book);
