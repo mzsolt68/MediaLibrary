@@ -22,7 +22,7 @@ namespace Application.UnitTests.Books
         }
 
         [Fact]
-        public async Task Handle_ShouldReturn_Failure_WhenBook_DoenstExists()
+        public async Task Handle_ShouldReturn_Failure_WhenBook_DoesNotExist()
         {
             var bookId = Guid.NewGuid();
             _bookRepository.Setup(b => b.GetBookWithFullDataAsync(bookId, CancellationToken.None)).ReturnsAsync((Book?)null);
