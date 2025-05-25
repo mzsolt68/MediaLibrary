@@ -252,5 +252,19 @@ namespace Domain.Models.Books
             _tags.Remove(tagToRemove);
             return Result.Success(tagToRemove);
         }
+
+        public Result SetLangugage(Language language)
+        {
+            Language = language;
+            LanguageID = language.Id;
+            return Result.Success();
+        }
+
+        public Result setPublisher(Publisher publisher)
+        { 
+            Publisher = publisher;
+            PublisherID = publisher.Id;
+            return Result.Success();
+        }
     }
 }
