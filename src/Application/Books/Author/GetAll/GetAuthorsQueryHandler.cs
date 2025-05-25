@@ -44,16 +44,16 @@ namespace Application.Books
             }
 
             IReadOnlyList<Author>? authors = await authorsQuery.Skip(skip).Take(request.SearchParams.PageSize).ToListAsync(cancellationToken);
-            // Check if genres are null or empty and return a failure result if so.
+            // Check if authors are null or empty and return a failure result if so.
             if (authors == null || !authors.Any())
             {
                 return Result.Failure<List<BookAuthorDTO>>(new Error("Authors.NotFound", "No authors found in the database.", ErrorType.NotFound));
             }
 
-            // Map the genres to their DTO representations.
+            // Map the authors to their DTO representations.
             var authorDtos = authors.Select(auhtor => auhtor.AsAuthorDTO()).ToList();
 
-            // Return a success result with the list of genre DTOs.
+            // Return a success result with the list of author DTOs.
             return Result.Success(authorDtos);
 
         }
