@@ -4,10 +4,10 @@ using Application.Common;
 using SharedKernel;
 using Application.Dto;
 
-namespace Api.Controllers
+namespace Api.Controllers.Common
 {
     [ApiController]
-    [Route("api/genres")]
+    [Route("api/common/genres")]
     public class GenreController : ControllerBase
     {
         private readonly IMediator _mediator;

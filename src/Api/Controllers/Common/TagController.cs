@@ -4,58 +4,58 @@ using Application.Common;
 using SharedKernel;
 using Application.Dto;
 
-namespace Api.Controllers
+namespace Api.Controllers.Common
 {
     [ApiController]
-    [Route("api/languages")]
-    public class LanguageController : ControllerBase
+    [Route("api/common/tags")]
+    public class TagController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public LanguageController(IMediator mediator)
+        public TagController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetLanguageById(Guid id)
+        public async Task<IActionResult> GetTagById(Guid id)
         {
-            var query = new GetLanguageByIdQuery(id); // Assuming this query exists
+            var query = new GetTagByIdQuery(id);
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
 
         [HttpPost("list")]
-        public async Task<IActionResult> GetLanguages([FromBody] SearchParamsDTO searchParams)
+        public async Task<IActionResult> GetTags([FromBody] SearchParamsDTO searchParams)
         {
-            if (searchParams == null)
+            if(searchParams is null)
             {
                 return BadRequest();
             }
-            var query = new GetLanguagesQuery(searchParams);
+            var query = new GetTagsQuery(searchParams);
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLanguage([FromBody] CreateLanguageCommand command)
+        public async Task<IActionResult> CreateTag([FromBody] CreateTagCommand command)
         {
             var result = await _mediator.Send(command);
-            return result.IsSuccess ? CreatedAtAction(nameof(GetLanguageById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
+            return result.IsSuccess ? CreatedAtAction(nameof(GetTagById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateLanguage(Guid id, [FromBody] UpdateLanguageCommand command)
+        public async Task<IActionResult> UpdateTag(Guid id, [FromBody] UpdateTagCommand command)
         {
-            if (id != command.LanguageId) return BadRequest("ID mismatch");
+            if (id != command.TagId) return BadRequest("ID mismatch");
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteLanguage(Guid id)
+        public async Task<IActionResult> DeleteTag(Guid id)
         {
-            var command = new DeleteLanguageCommand(id); // Assuming this command exists
+            var command = new DeleteTagCommand(id);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }
