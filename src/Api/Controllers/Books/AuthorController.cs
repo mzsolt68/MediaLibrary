@@ -27,6 +27,14 @@ namespace Api.Controllers.Books
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
 
+        [HttpGet("{id:guid}/books")]
+        public async Task<IActionResult> GetBooksOfAuthor(Guid id)
+        {
+            var query = new GetBooksOfAuthorQuery(id);
+            var result = await _mediator.Send(query);
+            return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
+        }
+
         [HttpPost("list")]
         public async Task<IActionResult> GetAuthors([FromBody]SearchParamsDTO searchParams)
         {
