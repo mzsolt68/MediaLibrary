@@ -83,5 +83,10 @@ namespace Persistence.Repositories
         {
             _context.Entry(entity).State = EntityState.Modified;
         }
+
+        public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
+        }
     }
 }

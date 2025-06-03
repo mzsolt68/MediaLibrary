@@ -46,5 +46,7 @@ namespace Application.Abstractions.Data
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
         void Delete(T entity);
+
+        Task<bool> Exists(Expression<Func<T, bool>> predicate);
     }
 }
