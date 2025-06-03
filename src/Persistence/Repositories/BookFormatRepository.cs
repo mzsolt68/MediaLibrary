@@ -34,6 +34,7 @@ namespace Persistence.Repositories
             return await _context.Books
                 .Include(b => b.Authors)
                 .Where(b => b.Formats.Any(f => f.Id == bookFormatId))
+                .AsNoTracking()
                 .ToListAsync();
         }
     }
