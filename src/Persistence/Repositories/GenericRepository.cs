@@ -84,6 +84,13 @@ namespace Persistence.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
+        /// <summary>
+        /// Determines whether any entities in the database match the specified condition.
+        /// </summary>
+        /// <remarks>This method asynchronously evaluates the condition against the entities in the
+        /// database. It is useful for checking the existence of records without retrieving them.</remarks>
+        /// <param name="predicate">An expression that defines the condition to test against the entities.</param>
+        /// <returns><see langword="true"/> if any entities satisfy the specified condition; otherwise, <see langword="false"/>.</returns>
         public async Task<bool> Exists(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().AnyAsync(predicate);
