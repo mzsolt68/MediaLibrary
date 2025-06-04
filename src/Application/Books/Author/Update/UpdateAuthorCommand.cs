@@ -9,7 +9,5 @@ namespace Application.Books
     /// <param name="FirstName">The updated first name of the author.</param>
     /// <param name="LastName">The updated last name of the author.</param>
     /// <param name="MiddleName">The updated middle name of the author.</param>
-    public sealed record UpdateAuthorCommand(Guid AuthorId, string FirstName, string LastName, string MiddleName) : ICommand
-    {
-    }
+    public sealed record UpdateAuthorCommand(Guid AuthorId, string FirstName, string LastName, string MiddleName) : ICommand;
 }

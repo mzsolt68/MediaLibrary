@@ -23,12 +23,12 @@ namespace Application.Books
         {
             // Create a new book instance.
             var book = Book.Create(
-                request.BookTitle,
-                request.Edition,
-                request.PublisherID,
-                request.PublishYear,
-                request.ISBN,
-                request.LanguageID
+                request.BookDTO.BookTitle,
+                request.BookDTO.Edition,
+                request.BookDTO.PublisherID,
+                request.BookDTO.PublishYear,
+                request.BookDTO.ISBN,
+                request.BookDTO.LanguageID
             );
 
             // Return failure if book creation fails.
@@ -38,7 +38,7 @@ namespace Application.Books
             }
 
             // Add authors to the book.
-            foreach (var authorID in request.AuthorIDs)
+            foreach (var authorID in request.BookDTO.AuthorIDs)
             {
                 var author = await context.AuthorRepository.GetByIdAsync(authorID);
                 if (author is not null)
@@ -56,7 +56,7 @@ namespace Application.Books
             }
 
             // Add formats to the book.
-            foreach (var formatID in request.FormatIDs)
+            foreach (var formatID in request.BookDTO.FormatIDs)
             {
                 var format = await context.BookFormatRepository.GetByIdAsync(formatID);
                 if (format is not null)
@@ -74,7 +74,7 @@ namespace Application.Books
             }
 
             // Add tags to the book.
-            foreach (var tagID in request.TagIDs)
+            foreach (var tagID in request.BookDTO.TagIDs)
             {
                 var tag = await context.TagRepository.GetByIdAsync(tagID);
                 if (tag is not null)

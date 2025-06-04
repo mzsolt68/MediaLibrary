@@ -32,12 +32,12 @@ namespace Application.Books
 
             // Attempt to update the book's details.
             var updateResult = book.Update(
-                request.BookTitle,
-                request.Edition,
-                request.PublisherID,
-                request.PublishYear,
-                request.ISBN,
-                request.LanguageID
+                request.BookDTO.BookTitle,
+                request.BookDTO.Edition,
+                request.BookDTO.PublisherID,
+                request.BookDTO.PublishYear,
+                request.BookDTO.ISBN,
+                request.BookDTO.LanguageID
             );
 
             // Return failure if the update operation fails.

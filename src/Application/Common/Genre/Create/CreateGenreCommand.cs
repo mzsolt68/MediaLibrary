@@ -3,18 +3,9 @@
 namespace Application.Common
 {
     /// <summary>
-    /// Represents a command to create a new genre.
+    /// Represents a command to create a new genre with the specified name and type.
     /// </summary>
-    public sealed class CreateGenreCommand : ICommand<Guid>
-    {
-        /// <summary>
-        /// Gets or sets the name of the genre.
-        /// </summary>
-        public string GenreName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the genre.
-        /// </summary>
-        public string GenreType { get; set; }
-    }
+    /// <param name="GenreName">The name of the genre to create. This value cannot be null or empty.</param>
+    /// <param name="GenreType">The type of the genre to create. This value cannot be null or empty.</param>
+    public sealed record CreateGenreCommand(string GenreName, string GenreType) : ICommand<Guid>;
 }

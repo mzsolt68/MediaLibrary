@@ -3,13 +3,8 @@
 namespace Application.Common
 {
     /// <summary>
-    /// Represents a command to create a new tag.
+    /// Represents a command to create a new tag with the specified name.
     /// </summary>
-    public sealed class CreateTagCommand : ICommand<Guid>
-    {
-        /// <summary>
-        /// Gets or sets the name of the tag to be created.
-        /// </summary>
-        public string TagName { get; set; }
-    }
+    /// <param name="TagName">The name of the tag to be created. Must not be null or empty.</param>
+    public sealed record CreateTagCommand(string TagName) : ICommand<Guid>;
 }
