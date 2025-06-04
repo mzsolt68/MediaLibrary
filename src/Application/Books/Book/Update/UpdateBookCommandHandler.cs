@@ -22,7 +22,7 @@ namespace Application.Books
         public async Task<Result> Handle(UpdateBookCommand request, CancellationToken cancellationToken)
         {
             // Retrieve the book by its ID.
-            var book = await context.BookRepository.GetByIdAsync(request.BookID);
+            var book = await context.BookRepository.GetByIdAsync(request.BookDTO.BookID);
 
             // Return failure if the book is not found.
             if (book == null)
