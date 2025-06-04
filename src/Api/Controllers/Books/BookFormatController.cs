@@ -2,7 +2,6 @@
 using Application.Dto;
 using Application.Dto.Books;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.Books
