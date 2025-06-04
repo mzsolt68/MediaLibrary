@@ -32,7 +32,7 @@ namespace Application.Books
         public async Task<Result> Handle(UpdateBookFormatCommand request, CancellationToken cancellationToken)
         {
             // Retrieve the book format by its ID.
-            var bookFormat = await _unitOfWork.BookFormatRepository.GetByIdAsync(request.BookFormatId);
+            var bookFormat = await _unitOfWork.BookFormatRepository.GetByIdAsync(request.BookFormatId, cancellationToken);
 
             // Return failure if the book format is not found.
             if (bookFormat == null)
