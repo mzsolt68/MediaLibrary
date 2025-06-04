@@ -6,7 +6,5 @@ namespace Application.Common
     /// Represents a command to delete a language.
     /// </summary>
     /// <param name="LanguageId">The unique identifier of the language to be deleted.</param>
-    public sealed record DeleteLanguageCommand(Guid LanguageId) : ICommand
-    {
-    }
+    public sealed record DeleteLanguageCommand(Guid LanguageId) : ICommand;
 }

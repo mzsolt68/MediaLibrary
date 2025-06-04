@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Books;
+using Application.Dto.Books;
 using Domain.Models.Books;
 using Moq;
 using Shouldly;
@@ -24,7 +25,7 @@ namespace Application.UnitTests.Books
             var book = Domain.Models.Books.Book.Create("Sample Book", "1st", Guid.NewGuid(), "2025", "1234567890", Guid.NewGuid()).Value;
             _unitOfWork.Setup(x => x.BookRepository.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None)).ReturnsAsync(book);
             var bookId = book.Id;
-            var command = new UpdateBookCommand
+            var updateBook = new UpdateBookDTO
             {
                 BookID = bookId,
                 BookTitle = "Updated Book",
@@ -37,6 +38,7 @@ namespace Application.UnitTests.Books
                 FormatIDs = new List<Guid> { Guid.NewGuid() },
                 TagIDs = new List<Guid> { Guid.NewGuid() }
             };
+            var command = new UpdateBookCommand(updateBook);
 
             // Act
             var handler = new UpdateBookCommandHandler(_unitOfWork.Object);
@@ -52,7 +54,7 @@ namespace Application.UnitTests.Books
             // Arrange
             _unitOfWork.Setup(x => x.BookRepository.GetByIdAsync(It.IsAny<Guid>(), CancellationToken.None))
                 .ReturnsAsync(null as Domain.Models.Books.Book);
-            var command = new UpdateBookCommand
+            var updateBook = new UpdateBookDTO
             {
                 BookID = Guid.NewGuid(),
                 BookTitle = "Updated Book",
@@ -65,6 +67,7 @@ namespace Application.UnitTests.Books
                 FormatIDs = new List<Guid> { Guid.NewGuid() },
                 TagIDs = new List<Guid> { Guid.NewGuid() }
             };
+            var command = new UpdateBookCommand(updateBook);
             // Act
             var handler = new UpdateBookCommandHandler(_unitOfWork.Object);
             var result = await handler.Handle(command, CancellationToken.None);

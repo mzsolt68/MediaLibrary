@@ -39,7 +39,7 @@ namespace Application.Books
             }
 
             // Update the author's details
-            var updateResult = author.Update(request.FirstName, request.LastName, request.MiddleName);
+            var updateResult = author.Update(request.LastName, request.FirstName, request.MiddleName);
             if(updateResult.IsFailure)
             {
                 // Return failure if the update operation fails

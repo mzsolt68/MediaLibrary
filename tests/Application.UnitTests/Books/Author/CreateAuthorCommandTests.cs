@@ -21,12 +21,7 @@ namespace Application.UnitTests.Books
         public async Task ProperParametersShouldCreateNewAuthor()
         {
             // Arrange
-            var command = new CreateAuthorCommand
-            {
-                LastName = "Doe",
-                FirstName = "John",
-                MiddleName = "A"
-            };
+            var command = new CreateAuthorCommand("John", "Doe", "A");
 
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
@@ -43,12 +38,7 @@ namespace Application.UnitTests.Books
         public async Task MissingLastNameShouldReturnFailure()
         {
             // Arrange
-            var command = new CreateAuthorCommand
-            {
-                LastName = string.Empty, // Invalid
-                FirstName = "John",
-                MiddleName = "A"
-            };
+            var command = new CreateAuthorCommand("John", string.Empty, "A");
 
             // Act
             var handler = new CreateAuthorCommandHandler(_unitOfWork.Object);

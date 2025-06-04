@@ -33,11 +33,7 @@ namespace Application.UnitTests.Common
                 .ReturnsAsync(1);
             var genreName = "Test Genre";
             var genreType = "Test Type";
-            var command = new CreateGenreCommand
-            {
-                GenreName = genreName,
-                GenreType = genreType
-            };
+            var command = new CreateGenreCommand(genreName, genreType);
             // Act
             var handler = new CreateGenreCommandHandler(_context.Object);
             var result = await handler.Handle(command, CancellationToken.None);
@@ -56,11 +52,7 @@ namespace Application.UnitTests.Common
             // Arrange
             var genreName = string.Empty;
             var genreType = "Test Type";
-            var command = new CreateGenreCommand
-            {
-                GenreName = genreName,
-                GenreType = genreType
-            };
+            var command = new CreateGenreCommand(genreName, genreType);
             // Act
             var handler = new CreateGenreCommandHandler(_context.Object);
             var result = await handler.Handle(command, CancellationToken.None);
@@ -80,11 +72,7 @@ namespace Application.UnitTests.Common
             // Arrange
             var genreName = "Test Genre";
             var genreType = string.Empty;
-            var command = new CreateGenreCommand
-            {
-                GenreName = genreName,
-                GenreType = genreType
-            };
+            var command = new CreateGenreCommand(genreName, genreType);
             // Act
             var handler = new CreateGenreCommandHandler(_context.Object);
             var result = await handler.Handle(command, CancellationToken.None);

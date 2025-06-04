@@ -1,5 +1,6 @@
 using Application.Abstractions.Data;
 using Application.Books;
+using Application.Dto.Books;
 using Domain.Models.Books;
 using Domain.Models.Common;
 using Moq;
@@ -29,8 +30,7 @@ namespace Application.UnitTests.Books
         [Fact]
         public async Task ProperParametersShouldCreateNewBook()
         {
-            // Arrange
-            var command = new CreateBookCommand
+            var book = new CreateBookDTO()
             {
                 BookTitle = "Sample Book",
                 Edition = "1st",
@@ -42,6 +42,8 @@ namespace Application.UnitTests.Books
                 FormatIDs = new List<Guid> { _bookFormat.Id },
                 TagIDs = new List<Guid> { _tag.Id }
             };
+            // Arrange
+            var command = new CreateBookCommand(book);
 
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
@@ -57,8 +59,7 @@ namespace Application.UnitTests.Books
         [Fact]
         public async Task MissingBookTitleShouldReturnFailure()
         {
-            // Arrange
-            var command = new CreateBookCommand
+            var book = new CreateBookDTO()
             {
                 BookTitle = "",
                 Edition = "1st",
@@ -66,10 +67,12 @@ namespace Application.UnitTests.Books
                 PublishYear = "2025",
                 ISBN = "1234567890",
                 LanguageID = Guid.NewGuid(),
-                AuthorIDs = new List<Guid> { Guid.NewGuid() },
-                FormatIDs = new List<Guid> { Guid.NewGuid() },
-                TagIDs = new List<Guid> { Guid.NewGuid() }
+                AuthorIDs = new List<Guid> { _author.Id },
+                FormatIDs = new List<Guid> { _bookFormat.Id },
+                TagIDs = new List<Guid> { _tag.Id }
             };
+            // Arrange
+            var command = new CreateBookCommand(book);
             _unitOfWork.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(0);
             // Act
             var handler = new CreateBookCommandHandler(_unitOfWork.Object);

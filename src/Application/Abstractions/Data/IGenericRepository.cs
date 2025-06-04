@@ -46,5 +46,14 @@ namespace Application.Abstractions.Data
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
         void Delete(T entity);
+
+        /// <summary>
+        /// Determines whether any entities in the data source satisfy the specified condition.
+        /// </summary>
+        /// <param name="predicate">An expression that defines the condition to test against the entities.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains  <see langword="true"/> if any
+        /// entities satisfy the condition specified by <paramref name="predicate"/>;  otherwise, <see
+        /// langword="false"/>.</returns>
+        Task<bool> Exists(Expression<Func<T, bool>> predicate);
     }
 }

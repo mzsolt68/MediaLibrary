@@ -30,10 +30,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagName = "Horror";
-            var command = new CreateTagCommand
-            {
-                TagName = tagName
-            };
+            var command = new CreateTagCommand(tagName);
             _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
@@ -54,10 +51,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var tagName = string.Empty; // Invalid name
-            var command = new CreateTagCommand
-            {
-                TagName = tagName
-            };
+            var command = new CreateTagCommand(tagName);
 
             // Act
             var handler = new CreateTagCommandHandler(_context.Object);

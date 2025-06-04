@@ -30,10 +30,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageName = "English";
-            var command = new CreateLanguageCommand
-            {
-                LanguageName = languageName
-            };
+            var command = new CreateLanguageCommand(languageName);
             _context.Setup(x => x.SaveChangesAsync(It.IsAny<CancellationToken>())).ReturnsAsync(1);
 
             // Act
@@ -54,10 +51,7 @@ namespace Application.UnitTests.Common
         {
             // Arrange
             var languageName = string.Empty; // Invalid name
-            var command = new CreateLanguageCommand
-            {
-                LanguageName = languageName
-            };
+            var command = new CreateLanguageCommand(languageName);
 
             // Act
             var handler = new CreateLanguageCommandHandler(_context.Object);
