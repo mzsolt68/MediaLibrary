@@ -41,7 +41,7 @@ namespace Application.UnitTests.Common
 
             _genreRepository.Setup(x => x.GetAll()).Returns(genres);
 
-            var query = new GetGenresQuery() { SearchParams = _searchParams};
+            var query = new GetGenresQuery(_searchParams);
             var handler = new GetGenresQueryHandler(_unitOfWork.Object);
 
             // Act
@@ -62,7 +62,7 @@ namespace Application.UnitTests.Common
             // Arrange
             _genreRepository.Setup(x => x.GetAll()).Returns(emptyGenres);
 
-            var query = new GetGenresQuery() { SearchParams = _searchParams };
+            var query = new GetGenresQuery(_searchParams);
             var handler = new GetGenresQueryHandler(_unitOfWork.Object);
 
             // Act
