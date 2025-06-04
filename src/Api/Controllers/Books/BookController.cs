@@ -1,5 +1,6 @@
 ﻿using Application.Books;
 using Application.Dto;
+using Application.Dto.Books;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,12 +53,9 @@ namespace Api.Controllers.Books
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateBook(Guid id, [FromBody] UpdateBookCommand command)
+        public async Task<IActionResult> UpdateBook(Guid id, [FromBody] UpdateBookDTO updateBook)
         {
-            if (id != command.BookID)
-            {
-                return BadRequest("ID mismatch");
-            }
+            var command = new UpdateBookCommand(updateBook);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }

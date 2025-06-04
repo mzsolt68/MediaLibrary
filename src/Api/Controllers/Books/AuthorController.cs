@@ -1,6 +1,7 @@
 ﻿using Application.Books;
 using Application.Common;
 using Application.Dto;
+using Application.Dto.Books;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,19 +49,17 @@ namespace Api.Controllers.Books
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAuthor([FromBody] CreateAuthorCommand command)
+        public async Task<IActionResult> CreateAuthor([FromBody] BookAuthorDTO author)
         {
+            var command = new CreateAuthorCommand(author.FirstName, author.LastName, author.MiddleName);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetAuthorById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateAuthor(Guid id, [FromBody]UpdateAuthorCommand command)
+        [HttpPut]
+        public async Task<IActionResult> UpdateAuthor([FromBody]BookAuthorDTO author)
         {
-            if(id != command.AuthorId)
-            {  
-                return BadRequest("ID mismatch"); 
-            }
+            var command = new UpdateAuthorCommand(author.AuthorID, author.FirstName, author.LastName, author.MiddleName);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }

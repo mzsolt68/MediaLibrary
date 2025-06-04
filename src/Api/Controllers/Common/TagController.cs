@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Common;
 using SharedKernel;
 using Application.Dto;
+using Application.Dto.Common;
 
 namespace Api.Controllers.Common
 {
@@ -38,16 +39,17 @@ namespace Api.Controllers.Common
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTag([FromBody] CreateTagCommand command)
+        public async Task<IActionResult> CreateTag([FromBody] TagDTO tag)
         {
+            var command = new CreateTagCommand(tag.TagName);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetTagById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateTag(Guid id, [FromBody] UpdateTagCommand command)
+        [HttpPut]
+        public async Task<IActionResult> UpdateTag([FromBody] TagDTO tag)
         {
-            if (id != command.TagId) return BadRequest("ID mismatch");
+            var command = new UpdateTagCommand(tag.TagID, tag.TagName);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }

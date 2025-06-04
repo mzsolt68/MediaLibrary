@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Common;
 using SharedKernel;
 using Application.Dto;
+using Application.Dto.Common;
 
 namespace Api.Controllers.Common
 {
@@ -20,7 +21,7 @@ namespace Api.Controllers.Common
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetGenreById(Guid id)
         {
-            var query = new GetGenreByIdQuery() { GenreId = id };
+            var query = new GetGenreByIdQuery(id);
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
@@ -32,22 +33,23 @@ namespace Api.Controllers.Common
             {
                 return BadRequest();
             }
-            var query = new GetGenresQuery() { SearchParams = searchParams };
+            var query = new GetGenresQuery(searchParams);
             var result = await _mediator.Send(query);
             return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Error);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGenre([FromBody] CreateGenreCommand command)
+        public async Task<IActionResult> CreateGenre([FromBody] GenreDTO genre)
         {
+            var command = new CreateGenreCommand(genre.GenreName, genre.GenreType);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetGenreById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateGenre(Guid id, [FromBody] UpdateGenreCommand command)
+        [HttpPut]
+        public async Task<IActionResult> UpdateGenre([FromBody] GenreDTO genre)
         {
-            if (id != command.GenreId) return BadRequest("ID mismatch");
+            var command = new UpdateGenreCommand(genre.GenreID, genre.GenreName, genre.GenreType);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Common;
 using SharedKernel;
 using Application.Dto;
+using Application.Dto.Common;
 
 namespace Api.Controllers.Common
 {
@@ -38,16 +39,17 @@ namespace Api.Controllers.Common
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLanguage([FromBody] CreateLanguageCommand command)
+        public async Task<IActionResult> CreateLanguage([FromBody] LanguageDTO language)
         {
+            var command = new CreateLanguageCommand(language.LanguageName);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetLanguageById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateLanguage(Guid id, [FromBody] UpdateLanguageCommand command)
+        [HttpPut]
+        public async Task<IActionResult> UpdateLanguage([FromBody] LanguageDTO language)
         {
-            if (id != command.LanguageId) return BadRequest("ID mismatch");
+            var command = new UpdateLanguageCommand(language.LanguageID, language.LanguageName);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? NoContent() : BadRequest(result.Error);
         }
