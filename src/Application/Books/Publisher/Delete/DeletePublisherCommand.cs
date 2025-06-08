@@ -1,6 +1,6 @@
 using Application.Abstractions.Messaging;
 
-namespace Application.Books.Publisher.Delete
+namespace Application.Books
 {
     /// <summary>
     /// Represents a command to delete a publisher.

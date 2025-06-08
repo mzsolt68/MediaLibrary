@@ -3,7 +3,7 @@ using Application.Abstractions.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
 
-namespace Application.Books.Publisher.Delete
+namespace Application.Books
 {
     /// <summary>
     /// Handles the deletion of a publisher and its associated books.
