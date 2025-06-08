@@ -39,9 +39,9 @@ namespace Api.Controllers.Common
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateTag([FromBody] TagDTO tag)
+        public async Task<IActionResult> CreateTag([FromBody] string tag)
         {
-            var command = new CreateTagCommand(tag.TagName);
+            var command = new CreateTagCommand(tag);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetTagById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }

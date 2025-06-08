@@ -1,17 +1,11 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
-using Application.Dto;
 using Application.Dto.Books;
 using Application.Dto.ConvertObjects;
+using Application.Extensions;
 using Domain.Models.Books;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Books
 {
@@ -45,7 +39,7 @@ namespace Application.Books
             }
             else
             {
-                formatsQuery = context.BookFormatRepository.GetAll(CreateFilter(request.SearchParams));
+                formatsQuery = context.BookFormatRepository.GetAll(ExpressionBuilder.CreateFilter<BookFormat>(request.SearchParams));
             }
 
             IReadOnlyList<BookFormat>? formats = await formatsQuery.Skip(skip).Take(request.SearchParams.PageSize).ToListAsync(cancellationToken);
@@ -57,39 +51,6 @@ namespace Application.Books
             var formatDtos = formats.Select(format => format.AsBookFormatDTO()).ToList();
 
             return Result.Success(formatDtos);
-
         }
-
-        private static Expression<Func<BookFormat, bool>> CreateFilter(SearchParamsDTO searchParams)
-        {
-            var parameter = Expression.Parameter(typeof(BookFormat), "bookformatName");
-            Expression body = Expression.Equal(
-                Expression.Property(parameter, nameof(BookFormat.IsActive)),
-                Expression.Constant(true)
-            );
-
-            foreach (var filter in searchParams.SearchParams)
-            {
-                var propertyInfo = typeof(BookFormat).GetProperty(filter.PropertyName);
-                if (propertyInfo == null || propertyInfo.PropertyType != typeof(string))
-                    continue;
-
-                var property = Expression.Property(parameter, filter.PropertyName);
-                var value = Expression.Constant(filter.Value, typeof(string));
-
-                Expression filterExpr = filter.MatchType switch
-                {
-                    SearchType.Contains => Expression.Call(property, nameof(string.Contains), null, value),
-                    SearchType.Exact => Expression.Equal(property, value),
-                    SearchType.StartsWith => Expression.Call(property, nameof(string.StartsWith), null, value),
-                    SearchType.EndsWith => Expression.Call(property, nameof(string.EndsWith), null, value),
-                    _ => Expression.Constant(true)
-                };
-                body = Expression.AndAlso(body, filterExpr);
-            }
-
-            return Expression.Lambda<Func<BookFormat, bool>>(body, parameter);
-        }
-
     }
 }

@@ -1,13 +1,11 @@
 using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
-using Application.Dto;
 using Application.Dto.Common;
 using Application.Dto.ConvertObjects;
+using Application.Extensions;
 using Domain.Models.Common;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
-using SharedKernel.Extensions;
-using System.Linq.Expressions;
 
 namespace Application.Common
 {
@@ -37,7 +35,7 @@ namespace Application.Common
             }
             else
             {
-                tagsQuery = context.TagRepository.GetAll(CreateFilter(request.SearchParams));
+                tagsQuery = context.TagRepository.GetAll(ExpressionBuilder.CreateFilter<Tag>(request.SearchParams));
             }
 
             IReadOnlyList<Tag> tags = await tagsQuery.Skip(skip).Take(request.SearchParams.PageSize).ToListAsync(cancellationToken);
@@ -50,32 +48,5 @@ namespace Application.Common
             var tagDtos = tags.Select(tag => tag.AsTagDTO()).ToList();
             return Result.Success(tagDtos);
         }
-
-        private static Expression<Func<Tag, bool>> CreateFilter(SearchParamsDTO searchParams)
-        {
-            Expression<Func<Tag, bool>> predicate = genre => genre.IsActive;
-            foreach (var filter in searchParams.SearchParams)
-            {
-                Expression<Func<Tag, bool>> filterExpr = filter.MatchType switch
-                {
-                    SearchType.Contains => tag =>
-                        (tag.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .Contains(filter.Value),
-                    SearchType.Exact => tag =>
-                        (tag.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            == filter.Value,
-                    SearchType.StartsWith => tag =>
-                        (tag.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .StartsWith(filter.Value),
-                    SearchType.EndsWith => tag =>
-                        (tag.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .EndsWith(filter.Value),
-                    _ => tag => true
-                };
-                predicate = predicate.AndAlso(filterExpr);
-            }
-            return predicate;
-        }
-
     }
 }
