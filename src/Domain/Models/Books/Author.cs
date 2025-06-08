@@ -16,7 +16,10 @@ namespace Domain.Models.Books
         /// It is used for EF Core only.
         /// </summary>
         /// <param name="id"></param>
-        private Author(Guid id) : base(id) {}
+        private Author(Guid id) : base(id)
+        {
+            _books = [];
+        }
 
         private HashSet<Book> _books;
 
@@ -32,7 +35,7 @@ namespace Domain.Models.Books
             AuthorLastName = lastName;
             AuthorFirstName = firstName;
             AuthorMiddleName = middleName;
-            _books = new HashSet<Book>();
+            _books = [];
         }
 
         /// <summary>
