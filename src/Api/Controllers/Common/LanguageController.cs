@@ -39,9 +39,9 @@ namespace Api.Controllers.Common
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateLanguage([FromBody] LanguageDTO language)
+        public async Task<IActionResult> CreateLanguage([FromBody] string language)
         {
-            var command = new CreateLanguageCommand(language.LanguageName);
+            var command = new CreateLanguageCommand(language);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetLanguageById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }

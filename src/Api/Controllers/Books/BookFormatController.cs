@@ -46,9 +46,9 @@ namespace Api.Controllers.Books
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBookFormat([FromBody] BookFormatDTO bookFormat)
+        public async Task<IActionResult> CreateBookFormat([FromBody] string bookFormat)
         {
-            var command = new CreateBookFormatCommand(bookFormat.FormatName);
+            var command = new CreateBookFormatCommand(bookFormat);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetBookFormatById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }

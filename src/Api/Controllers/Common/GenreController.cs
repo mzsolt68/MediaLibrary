@@ -39,7 +39,7 @@ namespace Api.Controllers.Common
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGenre([FromBody] GenreDTO genre)
+        public async Task<IActionResult> CreateGenre([FromBody] CreateGenreDTO genre)
         {
             var command = new CreateGenreCommand(genre.GenreName, genre.GenreType);
             var result = await _mediator.Send(command);

@@ -46,8 +46,9 @@ namespace Api.Controllers.Books
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBook([FromBody] CreateBookCommand command)
+        public async Task<IActionResult> CreateBook([FromBody] CreateBookDTO book)
         {
+            var command = new CreateBookCommand(book);
             var result = await _mediator.Send(command);
             return result.IsSuccess ? CreatedAtAction(nameof(GetBookById), new { id = result.Value }, result.Value) : BadRequest(result.Error);
         }

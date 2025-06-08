@@ -49,7 +49,7 @@ namespace Api.Controllers.Books
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAuthor([FromBody] BookAuthorDTO author)
+        public async Task<IActionResult> CreateAuthor([FromBody] CreateAuthorDTO author)
         {
             var command = new CreateAuthorCommand(author.FirstName, author.LastName, author.MiddleName);
             var result = await _mediator.Send(command);
