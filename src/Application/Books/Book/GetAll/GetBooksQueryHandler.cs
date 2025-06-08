@@ -1,13 +1,11 @@
 ﻿using Application.Abstractions.Data;
 using Application.Abstractions.Messaging;
-using Application.Dto;
 using Application.Dto.Books;
 using Application.Dto.ConvertObjects;
+using Application.Extensions;
 using Domain.Models.Books;
 using Microsoft.EntityFrameworkCore;
 using SharedKernel;
-using SharedKernel.Extensions;
-using System.Linq.Expressions;
 
 namespace Application.Books
 {
@@ -40,7 +38,7 @@ namespace Application.Books
             }
             else
             {
-                booksQuery = context.BookRepository.GetAll(CreateFilter(request.SearchParams)).Include(b => b.Authors);
+                booksQuery = context.BookRepository.GetAll(ExpressionBuilder.CreateFilter<Book>(request.SearchParams)).Include(b => b.Authors);
             }
             IReadOnlyList<Book> books = await booksQuery.Skip(skip).Take(request.SearchParams.PageSize).ToListAsync(cancellationToken);
 
@@ -51,34 +49,6 @@ namespace Application.Books
 
             var bookDtos = books.Select(book => book.AsBookDTO()).ToList();
             return Result.Success(bookDtos);
-
         }
-
-        private static Expression<Func<Book, bool>> CreateFilter(SearchParamsDTO searchParams)
-        {
-            Expression<Func<Book, bool>> predicate = book => book.IsActive;
-            foreach (var filter in searchParams.SearchParams)
-            {
-                Expression<Func<Book, bool>> filterExpr = filter.MatchType switch
-                {
-                    SearchType.Contains => book =>
-                        (book.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .Contains(filter.Value),
-                    SearchType.Exact => book =>
-                        (book.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            == filter.Value,
-                    SearchType.StartsWith => book =>
-                        (book.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .StartsWith(filter.Value),
-                    SearchType.EndsWith => book =>
-                        (book.GetPropertyValue(filter.PropertyName)!.ToString() ?? string.Empty)
-                            .EndsWith(filter.Value),
-                    _ => tag => true
-                };
-                predicate = predicate.AndAlso(filterExpr);
-            }
-            return predicate;
-        }
-
     }
 }
